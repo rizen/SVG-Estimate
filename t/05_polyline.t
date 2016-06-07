@@ -19,7 +19,8 @@ my $polyline = SVG::Estimate::Polyline->new(
     ],
 );
 
-is_deeply [$polyline->draw_start], [5,3], 'polyline start point, dead north';
+is_deeply [$polyline->draw_start], [5,3], 'polyline start point, first point in line definition';
+is_deeply [$polyline->draw_end],   [7,7], 'polyline end point, last line';
 cmp_ok $polyline->shape_length,  '==',  6.000, 'polyline length';
 
 done_testing();
