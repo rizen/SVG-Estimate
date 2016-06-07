@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Polyline';
 my $poly_line = SVG::Estimate::Polyline->new(
     start_x => 0,
     start_y => 0,
-    points  => [
+    points  => [  ##unit staircase
         [5, 3],
         [5, 4],
         [6, 4],
