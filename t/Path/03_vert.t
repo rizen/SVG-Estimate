@@ -3,7 +3,7 @@ use Test::More;
 use lib 'lib', '../../lib';
 
 use_ok 'SVG::Estimate::Path::VerticalLineto';
-my $vlineto = SVG::Estimate::VerticalLineto->new(
+my $vlineto = SVG::Estimate::Path::VerticalLineto->new(
     start_point => [4, 5],
     y => 15,
 );
