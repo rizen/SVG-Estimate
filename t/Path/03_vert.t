@@ -8,7 +8,7 @@ my $vlineto = SVG::Estimate::VerticalLineto->new(
     y => 15,
 );
 
-is_deeply $vlineto->draw_end, [4,15], 'verticallineto end point';
+is_deeply $vlineto->end_point, [4,15], 'verticallineto end point';
 cmp_ok $vlineto->round($vlineto->length),  '==', 10, 'verticallineto length';
 
 done_testing();

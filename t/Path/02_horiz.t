@@ -8,7 +8,7 @@ my $hlineto = SVG::Estimate::HorizontalLineto->new(
     x => 14,
 );
 
-is_deeply $hlineto->draw_end, [14,5], 'horizontallineto end point';
+is_deeply $hlineto->end_point, [14,5], 'horizontallineto end point';
 cmp_ok $hlineto->round($hlineto->length),  '==', 10, 'horizontallineto length';
 
 done_testing();
