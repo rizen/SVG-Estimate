@@ -1,6 +1,7 @@
 use strict;
 use Test::More;
 use Math::Trig;
+use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Ellipse';
 
@@ -17,3 +18,5 @@ is_deeply [$ellipse->draw_start], [3,3.5], 'ellipse start point, dead north';
 cmp_ok $ellipse->shape_length,  '==',  9.690, 'ellipse circumerence';
 cmp_ok $ellipse->travel_length, '==',  4.610, 'ellipse travel'; 
 cmp_ok $ellipse->length,        '==', 14.300, 'total ellipse draw and move length';
+
+done_testing();

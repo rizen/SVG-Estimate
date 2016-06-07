@@ -1,10 +1,11 @@
 use strict;
 use Test::More;
 use Math::Trig;
+use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Polygon';
 
-my $poly_gon = SVG::Estimate::Polygon->new(
+my $polygon = SVG::Estimate::Polygon->new(
     start_x => 0,
     start_y => 0,
     points  => [ ##Cross shape with unit steps
@@ -27,3 +28,5 @@ is_deeply [$polygon->draw_start], [2,0], 'polygon start point, dead north';
 cmp_ok $polygon->shape_length,  '==', 12, 'polygon length';
 cmp_ok $polygon->travel_length, '==',  2, 'polygon travel'; 
 cmp_ok $polygon->length,        '==', 14, 'total polygon draw and move length';
+
+done_testing();
