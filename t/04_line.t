@@ -14,7 +14,7 @@ my $line = SVG::Estimate::Line->new(
 );
 
 is_deeply $line->draw_start, [12, 147], 'line start point';
-is_deeply $line->draw_end, [58,226], 'line start point';
+is_deeply $line->draw_end, [58,226], 'line end point';
 cmp_ok $line->round($line->shape_length),  '==', 91.417, 'line length';
 
 done_testing();
