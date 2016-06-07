@@ -15,6 +15,12 @@ sub draw_start {
     return @{ $self->points->[0] };
 }
 
+sub draw_end {
+    my $self = shift;
+    ##Stop drawing at the last point
+    return @{ $self->points->[-1] };
+}
+
 sub shape_length {
     my $self = shift;
     my @points = @{ $self->points };
