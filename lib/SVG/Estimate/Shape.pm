@@ -36,12 +36,12 @@ Where is the cursor (or CNC head) prior to drawing this shape on the x-axis.
 
 =cut
 
-has startx => (
+has start_x => (
     is          => 'ro', 
     required    => 1,
 );
 
-has starty => (
+has start_y => (
     is          => 'ro', 
     required    => 1,
 );
@@ -64,20 +64,20 @@ Must be overridden by subclass. Should return an x and a y value of where the dr
 =cut
 
 sub draw_start {
-    die "override draw_start() in sub class"
+    die "override draw_start() in sub class";
 }
 
 =head2 travel_length ( )
 
-Returns the distance between C<startx>,C<starty> and where the drawing of the shape begins, which the developer must define as C<draw_start()>
+Returns the distance between C<start_x>,C<start_y> and where the drawing of the shape begins, which the developer must define as C<draw_start()>
 
 =cut
 
 sub travel_length { 
     my $self = shift;
     my ($drawx, $drawy) = $self->draw_start;
-    my $a = $drawx - $self->startx;
-    my $b = $drawy - $self->starty;
+    my $a = $drawx - $self->start_x;
+    my $b = $drawy - $self->start_y;
     return sqrt(($a**2)+($b**2)); 
 }
 
@@ -87,8 +87,8 @@ Must be overridden by the subclass. Returns the total length of the vectors in t
 
 =cut
 
-sub { 
-    die "override shape_length() in sub class"
+sub shape_length { 
+    die "override shape_length() in sub class";
 }
 
 =head2 round ( value [, significant ] )
