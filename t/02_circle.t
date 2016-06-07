@@ -16,8 +16,6 @@ my $circle = SVG::Estimate::Circle->new(
 my @draw_start = $circle->draw_start;
 is $draw_start[0], 2, 'circle draw start x';
 is $draw_start[1], 2.5, 'circle draw start y';
-
-cmp_ok $circle->round($circle->travel_length), '==', 3.202, 'circle travel'; 
 cmp_ok $circle->round($circle->shape_length),  '==', 6.283, 'circle circumerence';
 
 done_testing();
