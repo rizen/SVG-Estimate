@@ -13,10 +13,10 @@ my $circle = SVG::Estimate::Circle->new(
     rate    => 250,
 );
 
-is $circle->shape_length, 6.283, 'circle circumerence';
-is $circle->travel_length, 3.606, 'circle travel'; 
-is $circle->length, 9.889, 'total circle draw and move length';
+cmp_ok $circle->shape_length,  '==', 6.283, 'circle circumerence';
+cmp_ok $circle->travel_length, '==', 3.606, 'circle travel'; 
+cmp_ok $circle->length,        '==', 9.889, 'total circle draw and move length';
 
-is $circle->shape_time, 1570.796, 'circle circumference draw time';
-is $circle->travel_time, 901.500, 'circle travel draw time';
-is $circle->time, 2472.296, 'total circle time';
+cmp_ok $circle->shape_time,    '==', 1570.796, 'circle circumference draw time';
+cmp_ok $circle->travel_time,   '==',  901.500, 'circle travel draw time';
+cmp_ok $circle->time,          '==', 2472.296, 'total circle time';
