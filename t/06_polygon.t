@@ -26,7 +26,5 @@ my $polygon = SVG::Estimate::Polygon->new(
 
 is_deeply [$polygon->draw_start], [2,0], 'polygon start point, dead north';
 cmp_ok $polygon->shape_length,  '==', 12, 'polygon length';
-cmp_ok $polygon->travel_length, '==',  2, 'polygon travel'; 
-cmp_ok $polygon->length,        '==', 14, 'total polygon draw and move length';
 
 done_testing();

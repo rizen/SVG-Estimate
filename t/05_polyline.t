@@ -21,7 +21,5 @@ my $polyline = SVG::Estimate::Polyline->new(
 
 is_deeply [$polyline->draw_start], [5,3], 'polyline start point, dead north';
 cmp_ok $polyline->shape_length,  '==',  6.000, 'polyline length';
-cmp_ok $polyline->round($polyline->travel_length), '==',  5.831, 'polyline travel'; 
-cmp_ok $polyline->round($polyline->length),        '==', 11.831, 'total polyline draw and move length';
 
 done_testing();
