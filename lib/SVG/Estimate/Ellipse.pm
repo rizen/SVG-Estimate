@@ -23,7 +23,7 @@ has ry => (
 
 sub draw_start {
     my $self = shift;
-    return ($self->cx, $self->cy + 0.5*$self->ry);
+    return [$self->cx, $self->cy + 0.5*$self->ry];
 }
 
 ##https://www.mathsisfun.com/geometry/ellipse-perimeter.html, Series #2

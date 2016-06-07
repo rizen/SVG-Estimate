@@ -22,7 +22,7 @@ has height => (
 
 sub draw_start {
     my $self = shift;
-    return ($self->x, $self->y);
+    return [$self->x, $self->y];
 }
 
 sub shape_length {

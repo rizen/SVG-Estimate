@@ -6,19 +6,20 @@ use Math::Trig qw/pi/;
 extends 'SVG::Estimate::Shape';
 
 has points => (
-    is => 'ro',
+    is          => 'ro',
+    required    => 1,
 );
 
 sub draw_start {
     my $self = shift;
     ##Start drawing at the first point
-    return @{ $self->points->[0] };
+    return $self->points->[0];
 }
 
 sub draw_end {
     my $self = shift;
     ##Stop drawing at the last point
-    return @{ $self->points->[-1] };
+    return $self->points->[-1];
 }
 
 sub shape_length {

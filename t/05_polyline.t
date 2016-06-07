@@ -6,9 +6,8 @@ use lib 'lib', '../lib';
 use_ok 'SVG::Estimate::Polyline';
 
 my $polyline = SVG::Estimate::Polyline->new(
-    start_x => 0,
-    start_y => 0,
-    points  => [  ##unit staircase
+    start_point => [0,0],
+    points      => [  ##unit staircase
         [5, 3],
         [5, 4],
         [6, 4],
@@ -19,8 +18,8 @@ my $polyline = SVG::Estimate::Polyline->new(
     ],
 );
 
-is_deeply [$polyline->draw_start], [5,3], 'polyline start point, first point in line definition';
-is_deeply [$polyline->draw_end],   [7,7], 'polyline end point, last line';
+is_deeply $polyline->draw_start, [5,3], 'polyline start point, first point in line definition';
+is_deeply $polyline->draw_end,   [7,7], 'polyline end point, last line';
 cmp_ok $polyline->shape_length,  '==',  6.000, 'polyline length';
 
 done_testing();

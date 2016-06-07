@@ -6,8 +6,7 @@ use lib 'lib', '../lib';
 use_ok 'SVG::Estimate::Polygon';
 
 my $polygon = SVG::Estimate::Polygon->new(
-    start_x => 0,
-    start_y => 0,
+    start_point => [0,0],
     points  => [ ##Cross shape with unit steps
         [2, 0],
         [2, 1],
@@ -24,7 +23,7 @@ my $polygon = SVG::Estimate::Polygon->new(
     ],
 );
 
-is_deeply [$polygon->draw_start], [2,0], 'polygon start point, dead north';
+is_deeply $polygon->draw_start, [2,0], 'polygon start point, dead north';
 cmp_ok $polygon->shape_length,  '==', 12, 'polygon length';
 
 done_testing();

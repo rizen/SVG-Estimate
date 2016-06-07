@@ -19,7 +19,7 @@ has r => (
 
 sub draw_start {
     my $self = shift;
-    return ($self->cx, $self->cy + 0.5*$self->r);
+    return [$self->cx, $self->cy + 0.5*$self->r];
 }
 
 sub shape_length {

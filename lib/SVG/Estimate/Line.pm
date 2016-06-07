@@ -22,12 +22,12 @@ has y2 => (
 
 sub draw_start {
     my $self = shift;
-    return ($self->x1, $self->y1);
+    return [$self->x1, $self->y1];
 }
 
 sub draw_end {
     my $self = shift;
-    return ($self->x2, $self->y2);
+    return [$self->x2, $self->y2];
 }
 
 sub shape_length {

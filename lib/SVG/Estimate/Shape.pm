@@ -22,13 +22,9 @@ Constructor.
 
 =over
 
-=item startx
+=item start_point
 
-Where is the cursor (or CNC head) prior to drawing this shape on the x-axis.
-
-=item starty
-
-Where is the cursor (or CNC head) prior to drawing this shape on the x-axis.
+An array ref that describes the position of the cursor (or CNC head) prior to drawing this shape (where it left off from the last object).
 
 =back
 
@@ -36,12 +32,7 @@ Where is the cursor (or CNC head) prior to drawing this shape on the x-axis.
 
 =cut
 
-has start_x => (
-    is          => 'ro', 
-    required    => 1,
-);
-
-has start_y => (
+has start_point => (
     is          => 'ro', 
     required    => 1,
 );
@@ -59,7 +50,7 @@ sub length {
 
 =head2 draw_start ( )
 
-Must be overridden by subclass. Should return an x and a y value of where the drawing will start that can be used by the C<travel_length> method.
+Must be overridden by subclass. Should return an x and a y value as an array ref of where the drawing will start that can be used by the C<travel_length> method.
 
 =cut
 
@@ -80,15 +71,15 @@ sub draw_end {
 
 =head2 travel_length ( )
 
-Returns the distance between C<start_x>,C<start_y> and where the drawing of the shape begins, which the developer must define as C<draw_start()>
+Returns the distance between C<start_point> and where the drawing of the shape begins, which the developer must define as C<draw_start()>
 
 =cut
 
 sub travel_length { 
     my $self = shift;
-    my ($drawx, $drawy) = $self->draw_start;
-    my $a = $drawx - $self->start_x;
-    my $b = $drawy - $self->start_y;
+    my ($drawx, $drawy) = @{$self->draw_start};
+    my $a = $drawx - $self->start_point->[0];
+    my $b = $drawy - $self->start_point->[1];
     return sqrt(($a**2)+($b**2)); 
 }
 
