@@ -73,7 +73,7 @@ Returns the distance between C<startx>,C<starty> and where the drawing of the sh
 
 =cut
 
-sub { 
+sub travel_length { 
     my $self = shift;
     my ($drawx, $drawy) = $self->draw_start;
     my $a = $drawx - $self->startx;
@@ -91,5 +91,15 @@ sub {
     die "override shape_length() in sub class"
 }
 
+=head2 round ( value [, significant ] )
+
+Rounds to the nearest 1000th of a unit unless you specify a different significant digit.
+
+=cut
+
+sub round {
+    my ($self, $value, $significant) = @_;
+    return sprintf '%.'.($significant || 3).'f', $value;
+}
 
 1;
