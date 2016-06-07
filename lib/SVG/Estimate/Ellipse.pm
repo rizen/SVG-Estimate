@@ -26,6 +26,8 @@ sub draw_start {
     return ($self->cx, $self->cy + 0.5*$self->ry);
 }
 
+##https://www.mathsisfun.com/geometry/ellipse-perimeter.html, Series #2
+
 sub shape_length {
     my $self = shift;
     my $h = ($self->rx - $self->ry)**2 / ($self->rx + $self->ry) **2;
