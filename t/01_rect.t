@@ -25,5 +25,8 @@ is $rect->shape_length, 3368, 'rectangle length';
 
 is $rect->round($rect->length), 3648.179, 'rectangle total length';
 
+is_deeply [$rect->draw_end], [0,310], 'rectangle end is the same as the start';
+
+
 done_testing();
 

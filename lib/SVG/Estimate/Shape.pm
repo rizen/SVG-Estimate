@@ -67,6 +67,17 @@ sub draw_start {
     die "override draw_start() in sub class";
 }
 
+=head2 draw_end ( )
+
+Returns the same as C<draw_start()>. Override this if you have an open ended shape like a line.
+
+=cut
+
+sub draw_end {
+    my $self = shift;
+    return $self->draw_start;
+}
+
 =head2 travel_length ( )
 
 Returns the distance between C<start_x>,C<start_y> and where the drawing of the shape begins, which the developer must define as C<draw_start()>
