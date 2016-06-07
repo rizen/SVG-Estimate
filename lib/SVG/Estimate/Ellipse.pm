@@ -17,7 +17,7 @@ has rx => (
     is => 'ro',
 );
 
-has rx => (
+has ry => (
     is => 'ro',
 );
 
@@ -31,7 +31,7 @@ sub draw_start {
 sub shape_length {
     my $self = shift;
     my $h = ($self->rx - $self->ry)**2 / ($self->rx + $self->ry) **2;
-    my $len = 2 * pi * ( 1 + $h/4 + ($h**2)/64 + ($h**3)/256 + ($h**4 * (25/16384)));
+    my $len = pi * ( $self->rx + $self->ry ) * ( 1 + $h/4 + ($h**2)/64 + ($h**3)/256 + ($h**4 * (25/16384)));
     return $len;
 }
 
