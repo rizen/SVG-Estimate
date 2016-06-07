@@ -34,3 +34,5 @@ sub shape_length {
     my $len = 2 * pi * ( 1 + $h/4 + ($h**2)/64 + ($h**3)/256 + ($h**4 * (25/16384)));
     return $len;
 }
+
+1;
