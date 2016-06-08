@@ -5,9 +5,9 @@ use lib 'lib', '../../lib', '../lib';
 use_ok 'SVG::Estimate::Path::CubicBezier';
 my $cubic = SVG::Estimate::Path::CubicBezier->new(
     start_point    => [120, 160],
-    point          => [220, 40],
-    control_point1 => [35, 200],
-    control_point2 => [220, 260],
+    end            => [220, 40],
+    control1       => [35, 200],
+    control2       => [220, 260],
 );
 isa_ok $cubic, 'SVG::Estimate::Path::CubicBezier';
 

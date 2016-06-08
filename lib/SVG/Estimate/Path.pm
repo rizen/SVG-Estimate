@@ -5,12 +5,13 @@ use Image::SVG::Path qw/extract_path_info/;
 use SVG::Estimate::Path::Moveto;
 use SVG::Estimate::Path::Lineto;
 use SVG::Estimate::Path::CubicBezier;
-use SVG::Estimate::Path::Closepath;
 use SVG::Estimate::Path::QuadraticBezier;
 use SVG::Estimate::Path::HorizontalLineTo;
 use SVG::Estimate::Path::VerticalLineTo;
 use SVG::Estimate::Path::Arc;
 use List::Util qw/sum/;
+use Clone qw/clone/;
+use Carp qw/croak/;
 
 extends 'SVG::Estimate::Shape';
 
@@ -25,16 +26,31 @@ sub BUILDARGS {
     my @path_info = extract_path_info($args->{d}, { absolute => 1, no_shortcuts=> 1, });
     my @commands = ();
 
+    my $first_flag = 1;
+    my $first;
+    my $cursor  = [0, 0];  ##Updated after every command
     foreach my $subpath (@path_info) {
+        ##On the first command, set the start point to the moveto destination, otherwise the travel length gets counted twice.
+        $subpath->{start_point} = clone $cursor;
         my $command = $subpath->{type} eq 'moveto'             ? SVG::Estimate::Path::Moveto->new($subpath)
                     : $subpath->{type} eq 'line-to'            ? SVG::Estimate::Path::Lineto->new($subpath)
                     : $subpath->{type} eq 'cubic-bezier'       ? SVG::Estimate::Path::CubicBezier->new($subpath)
-                    : $subpath->{type} eq 'closepath'          ? SVG::Estimate::Path::Closepath->new($subpath)
                     : $subpath->{type} eq 'quadratic-bezier'   ? SVG::Estimate::Path::QuadraticBezier->new($subpath)
                     : $subpath->{type} eq 'horizontal-line-to' ? SVG::Estimate::Path::HorizontalLineTo->new($subpath)
                     : $subpath->{type} eq 'vertical-line-to'   ? SVG::Estimate::Path::VerticalLineTo->new($subpath)
                     : $subpath->{type} eq 'arc'                ? SVG::Estimate::Path::Arc->new($subpath)
-                    ;
+                    : $subpath->{type} eq 'closepath'          ? '' #Placeholder so we don't fall through
+                    : croak "Unknown subpath type ".$subpath->{type}."\n" ;  ##Something bad happened
+        if ($subpath->{type} eq 'closepath') {
+            $subpath->{point} = clone $first->point;
+            $command = SVG::Estimate::Path::Lineto->new($subpath);
+        }
+        $cursor = clone $command->end_point;
+        if ($first_flag) {
+            $first_flag = 0;
+            $first = $command; ##According to SVG, this will be a Moveto.
+        }
+        push @commands, $command;
     }
 
     $args->{commands} = \@commands;
@@ -43,7 +59,17 @@ sub BUILDARGS {
 
 sub shape_length {
     my $self = shift;
-    return sum { $_->shape_length } @{ $self->commands };
+    my $length = sum map { $_->length()+0 } @{ $self->commands };
+    return $length;
+}
+
+sub travel_length {
+    return 0;
+}
+
+sub draw_start {
+    my $self = shift;
+    return $self->commands->[0]->point;
 }
 
 1;

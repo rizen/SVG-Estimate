@@ -6,6 +6,7 @@ use Math::Trig qw/pi acos deg2rad rad2deg/;
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
 with 'SVG::Estimate::Role::SegmentLength';
+with 'SVG::Estimate::Role::EndToPoint';
 
 has rx => (
     is          => 'ro',

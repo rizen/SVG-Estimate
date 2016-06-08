@@ -10,7 +10,7 @@ my $arc = SVG::Estimate::Path::Arc->new(
     x_axis_rotation => 0,
     sweep_flag      => 0,
     large_arc_flag  => 0,
-    point           => [5, 7],
+    end             => [5, 7],
 );
 isa_ok $arc, 'SVG::Estimate::Path::Arc';
 
