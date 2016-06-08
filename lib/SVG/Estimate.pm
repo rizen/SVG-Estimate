@@ -11,7 +11,7 @@ use SVG::Estimate::Circle;
 use SVG::Estimate::Ellipse;
 use SVG::Estimate::Polyline;
 use SVG::Estimate::Polygon;
-#use SVG::Estimate::Path;
+use SVG::Estimate::Path;
 
 with 'SVG::Estimate::Role::Round';
 
@@ -59,7 +59,7 @@ sub sum {
         if ($keys[0] ~~ [qw(g svg)]) {
             $self->sum($element->{$keys[0]});
         }
-        elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline)]) {
+        elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
             $shape_count++;
             my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
             my $shape = $class->new($self->parse_params($element->{$keys[0]}));
