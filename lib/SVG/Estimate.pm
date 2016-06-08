@@ -14,6 +14,7 @@ use SVG::Estimate::Polygon;
 use SVG::Estimate::Path;
 
 with 'SVG::Estimate::Role::Round';
+with 'SVG::Estimate::Role::Dpi';
 
 has file_path => (
     is          => 'ro',
@@ -21,6 +22,16 @@ has file_path => (
 );
 
 has length => (
+    is      => 'rw',
+    default => sub { 0 },
+);
+
+has travel_length => (
+    is      => 'rw',
+    default => sub { 0 },
+);
+
+has shape_length => (
     is      => 'rw',
     default => sub { 0 },
 );
@@ -53,6 +64,8 @@ sub estimate {
 sub sum {
     my ($self, $elements) = @_;
     my $length = 0;
+    my $shape_length = 0;
+    my $travel_length = 0;
     my $shape_count = 0;
     foreach my $element (@{$elements}) {
         my @keys = keys %{$element};
@@ -63,11 +76,15 @@ sub sum {
             $shape_count++;
             my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
             my $shape = $class->new($self->parse_params($element->{$keys[0]}));
-            $length += $shape->length;
+            $shape_length  += $shape->shape_length;
+            $travel_length += $shape->travel_length;
+            $length        += $shape->length;
             $self->cursor($shape->draw_end);
         }
     }
     $self->length($self->length + $length);
+    $self->shape_length($self->shape_length + $shape_length);
+    $self->travel_length($self->travel_length + $travel_length);
     $self->shape_count($self->shape_count + $shape_count);
 }
 
