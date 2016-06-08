@@ -11,8 +11,8 @@ cmp_ok $onesquare->shape_count, '==', 1, 'one square - shape count';
 
 my $shapes = SVG::Estimate->new( file_path => 'var/shapes.svg' );
 $shapes->estimate;
-cmp_ok $shapes->length, '>', 3800, 'shapes - length';
-cmp_ok $shapes->shape_count, '==', 6, 'shapes - shape count';
+cmp_ok $shapes->length, '>', 5000, 'shapes - length';
+cmp_ok $shapes->shape_count, '==', 7, 'shapes - shape count';
 
 done_testing();
 
