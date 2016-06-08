@@ -1,0 +1,23 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use lib '../lib', 'lib';
+use SVG::Estimate;
+use feature 'say';
+
+unless ($ARGV[0]) {
+    say "Usage: $0 /path/to/file.svg";
+    exit;
+}
+
+unless (-f $ARGV[0]) {
+    say "$ARGV[0] not found";
+    exit;
+}
+
+my $se = SVG::Estimate->new(file_path => $ARGV[0]);
+$se->estimate;
+say $ARGV[0];
+say "\tLength: ".$se->round($se->length,0)."px";
+say "\tShapes: ".$se->shape_count;
