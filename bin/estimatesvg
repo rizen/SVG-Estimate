@@ -26,6 +26,7 @@ if ($csv) {
                   "Total(px)", "Total(in)",
                   "Shape(px)", "Shape(in)",
                   "Travel(px)", "Travel(in)",
+                  "Shapes",
                   ;
 }
 
@@ -42,6 +43,7 @@ foreach my $file (@ARGV) {
                       $se->round($se->length,0), $se->round($se->dpi($se->length)),
                       $se->round($se->shape_length,0), $se->round($se->dpi($se->shape_length)),
                       $se->round($se->travel_length,0), $se->round($se->dpi($se->travel_length)),
+                      $se->shape_count,
                       ;
     }
     else {
