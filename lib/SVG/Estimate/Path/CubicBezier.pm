@@ -4,18 +4,19 @@ use Moo;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
+with 'SVG::Estimate::Role::EndToPoint';
 
 has point => (
     is          => 'ro',
     required    => 1,
 );
 
-has control_point1 => (
+has control1 => (
     is          => 'ro',
     required    => 1,
 );
 
-has control_point2 => (
+has control2 => (
     is          => 'ro',
     required    => 1,
 );
@@ -39,8 +40,8 @@ sub this_point {
     my $self = shift;
     my $t    = shift;
     return [
-        $self->_this_point($t, $self->start_point->[0], $self->control_point1->[0], $self->control_point2->[0], $self->point->[0]),
-        $self->_this_point($t, $self->start_point->[1], $self->control_point1->[1], $self->control_point2->[1], $self->point->[1])
+        $self->_this_point($t, $self->start_point->[0], $self->control1->[0], $self->control2->[0], $self->point->[0]),
+        $self->_this_point($t, $self->start_point->[1], $self->control1->[1], $self->control2->[1], $self->point->[1])
     ];
 }
 

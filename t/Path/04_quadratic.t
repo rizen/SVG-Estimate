@@ -5,8 +5,8 @@ use lib 'lib', '../../lib', '../lib';
 use_ok 'SVG::Estimate::Path::QuadraticBezier';
 my $quad = SVG::Estimate::Path::QuadraticBezier->new(
     start_point   => [1, 1],
-    point         => [6, 6],
-    control_point => [8, 3.5],
+    end           => [6, 6],
+    control       => [8, 3.5],
 );
 isa_ok $quad, 'SVG::Estimate::Path::QuadraticBezier';
 

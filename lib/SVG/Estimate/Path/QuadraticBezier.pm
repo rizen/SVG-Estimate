@@ -3,13 +3,14 @@ package SVG::Estimate::Path::QuadraticBezier;
 use Moo;
 
 extends 'SVG::Estimate::Path::Command';
+with 'SVG::Estimate::Role::EndToPoint';
 
 has point => (
     is          => 'ro',
     required    => 1,
 );
 
-has control_point => (
+has control => (
     is          => 'ro',
     required    => 1,
 );
@@ -22,7 +23,7 @@ sub end_point {
 sub length {
     my $self = shift;
     my $start = $self->start_point;
-    my $control = $self->control_point;
+    my $control = $self->control;
     my $end   = $self->point;
 
     ##http://www.malczak.info/blog/quadratic-bezier-curve-length/
