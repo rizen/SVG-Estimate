@@ -11,7 +11,10 @@ Rounds to the nearest 1000th of a unit unless you specify a different significan
 
 sub round {
     my ($self, $value, $significant) = @_;
-    return sprintf '%.'.($significant || 3).'f', $value;
+    unless (defined $significant) {
+        $significant = 3;
+    }
+    return sprintf '%.'.$significant.'f', $value;
 }
 
 
