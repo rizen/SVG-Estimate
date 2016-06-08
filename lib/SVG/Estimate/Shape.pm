@@ -37,6 +37,8 @@ has start_point => (
     required    => 1,
 );
 
+with 'SVG::Estimate::Role::Round';
+
 =head2 length ( )
 
 Returns the sum of C<travel_length> and C<shape_length>.
@@ -91,17 +93,6 @@ Must be overridden by the subclass. Returns the total length of the vectors in t
 
 sub shape_length { 
     die "override shape_length() in sub class";
-}
-
-=head2 round ( value [, significant ] )
-
-Rounds to the nearest 1000th of a unit unless you specify a different significant digit.
-
-=cut
-
-sub round {
-    my ($self, $value, $significant) = @_;
-    return sprintf '%.'.($significant || 3).'f', $value;
 }
 
 1;

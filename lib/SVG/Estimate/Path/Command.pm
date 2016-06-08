@@ -57,15 +57,10 @@ sub length {
     die "override length() in sub class";
 }
 
-=head2 round ( value [, significant ] )
+with 'SVG::Estimate::Role::Round';
 
-Rounds to the nearest 1000th of a unit unless you specify a different significant digit.
+=head2 line_approximation ()
 
 =cut
-
-sub round {
-    my ($self, $value, $significant) = @_;
-    return sprintf '%.'.($significant || 3).'f', $value;
-}
 
 1;

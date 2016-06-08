@@ -1,6 +1,6 @@
 use strict;
 use Test::More;
-use lib 'lib', '../../lib';
+use lib 'lib', '../../lib', '../lib';
 
 use_ok 'SVG::Estimate::Path::VerticalLineto';
 my $vlineto = SVG::Estimate::Path::VerticalLineto->new(
