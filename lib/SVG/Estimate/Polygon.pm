@@ -10,10 +10,10 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
-    my $points = clone $args->{points};
+    my $points = clone $class->parse_points($args->{points});
     my $start_point = clone $points->[0];
     push @{ $points }, $start_point;
-    $args->{points} = $points;
+    $args->{parsed_points} = $points;
     return $args;
 }
 
