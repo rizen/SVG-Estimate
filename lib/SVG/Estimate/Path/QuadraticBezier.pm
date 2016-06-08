@@ -42,6 +42,7 @@ sub length {
     my $BA   = $B / $SA;
 
     my $length = ( $A32 + $SA*$B*($SABC-$SC) + (4*$C*$A - $B*$B)*log( (2*$SA + $BA + $SABC)/($BA + $SC) ) ) / (4*($A32));
+    return $length;
 }
 
 1;
