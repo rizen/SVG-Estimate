@@ -1,4 +1,4 @@
-package SVG::Estimate::Polygon;
+package SVG::Estimate::Path;
 
 use Moo;
 use Image::SVG::Path qw/extract_path_info/;
