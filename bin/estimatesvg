@@ -5,21 +5,52 @@ use warnings;
 use lib '../lib', 'lib';
 use SVG::Estimate;
 use feature 'say';
+use Getopt::Long;
 
-unless ($ARGV[0]) {
+my $csv;
+my $help;
+
+GetOptions(
+    'h|help' => \$help,
+    'c|csv'  => \$csv,
+);
+
+if ($help) {
     say "Usage: $0 /path/to/file.svg";
     exit;
 }
 
-unless (-f $ARGV[0]) {
-    say "$ARGV[0] not found";
-    exit;
+if ($csv) {
+    ##Horrible, schlocky, approximate CSV generation
+    say join ",", 'File',
+                  "Total(px)", "Total(in)",
+                  "Shape(px)", "Shape(in)",
+                  "Travel(px)", "Travel(in)",
+                  "Shapes",
+                  ;
 }
 
-my $se = SVG::Estimate->new(file_path => $ARGV[0]);
-$se->estimate;
-say $ARGV[0];
-say "\tTotal Length: ".$se->round($se->length,0)."px ". $se->round($se->dpi($se->length))."in";
-say "\tShape Length: ".$se->round($se->shape_length,0)."px ". $se->round($se->dpi($se->shape_length))."in";
-say "\tTravel Length: ".$se->round($se->travel_length,0)."px ". $se->round($se->dpi($se->travel_length))."in";
-say "\tShapes: ".$se->shape_count;
+foreach my $file (@ARGV) {
+    unless (-f $file) {
+        say "$file not found";
+        next;
+    }
+
+    my $se = SVG::Estimate->new(file_path => $file);
+    $se->estimate;
+    if ($csv) {
+        say join ",", $file,
+                      $se->round($se->length,0), $se->round($se->dpi($se->length)),
+                      $se->round($se->shape_length,0), $se->round($se->dpi($se->shape_length)),
+                      $se->round($se->travel_length,0), $se->round($se->dpi($se->travel_length)),
+                      $se->shape_count,
+                      ;
+    }
+    else {
+        say $file;
+        say "\tTotal Length: ".$se->round($se->length,0)."px ". $se->round($se->dpi($se->length))."in";
+        say "\tShape Length: ".$se->round($se->shape_length,0)."px ". $se->round($se->dpi($se->shape_length))."in";
+        say "\tTravel Length: ".$se->round($se->travel_length,0)."px ". $se->round($se->dpi($se->travel_length))."in";
+        say "\tShapes: ".$se->shape_count;
+    }
+}
