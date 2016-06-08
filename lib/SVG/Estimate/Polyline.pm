@@ -2,6 +2,7 @@ package SVG::Estimate::Polyline;
 
 use Moo;
 use Math::Trig qw/pi/;
+use Clone qw/clone/;
 
 extends 'SVG::Estimate::Shape';
 
@@ -13,13 +14,13 @@ has points => (
 sub draw_start {
     my $self = shift;
     ##Start drawing at the first point
-    return $self->points->[0];
+    return clone $self->points->[0];
 }
 
 sub draw_end {
     my $self = shift;
     ##Stop drawing at the last point
-    return $self->points->[-1];
+    return clone $self->points->[-1];
 }
 
 sub shape_length {
