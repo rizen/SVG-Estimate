@@ -11,6 +11,7 @@ use SVG::Estimate::Path::VerticalLineTo;
 use SVG::Estimate::Path::Arc;
 use List::Util qw/sum/;
 use Clone qw/clone/;
+use Carp qw/croak/;
 
 extends 'SVG::Estimate::Shape';
 
@@ -29,6 +30,7 @@ sub BUILDARGS {
     my $first;
     my $cursor  = [0, 0];  ##Updated after every command
     foreach my $subpath (@path_info) {
+        ##On the first command, set the start point to the moveto destination, otherwise the travel length gets counted twice.
         $subpath->{start_point} = clone $cursor;
         my $command = $subpath->{type} eq 'moveto'             ? SVG::Estimate::Path::Moveto->new($subpath)
                     : $subpath->{type} eq 'line-to'            ? SVG::Estimate::Path::Lineto->new($subpath)
@@ -37,8 +39,8 @@ sub BUILDARGS {
                     : $subpath->{type} eq 'horizontal-line-to' ? SVG::Estimate::Path::HorizontalLineTo->new($subpath)
                     : $subpath->{type} eq 'vertical-line-to'   ? SVG::Estimate::Path::VerticalLineTo->new($subpath)
                     : $subpath->{type} eq 'arc'                ? SVG::Estimate::Path::Arc->new($subpath)
-                    : $subpath->{type} eq 'closepath'          ? '' #See below
-                    : '' ;  ##Something bad happened
+                    : $subpath->{type} eq 'closepath'          ? '' #Placeholder so we don't fall through
+                    : croak "Unknown subpath type ".$subpath->{type}."\n" ;  ##Something bad happened
         if ($subpath->{type} eq 'closepath') {
             $subpath->{point} = clone $first->point;
             $command = SVG::Estimate::Path::Lineto->new($subpath);
@@ -59,6 +61,15 @@ sub shape_length {
     my $self = shift;
     my $length = sum map { $_->length()+0 } @{ $self->commands };
     return $length;
+}
+
+sub travel_length {
+    return 0;
+}
+
+sub draw_start {
+    my $self = shift;
+    return $self->commands->[0]->point;
 }
 
 1;
