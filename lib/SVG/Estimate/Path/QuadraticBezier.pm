@@ -25,6 +25,7 @@ sub length {
     my $control = $self->control_point;
     my $end   = $self->point;
 
+    ##http://www.malczak.info/blog/quadratic-bezier-curve-length/
     my $a_x = $start->[0] - 2 * $control->[0] + $end->[0];
     my $a_y = $start->[1] - 2 * $control->[1] + $end->[1];
     my $b_x = 2 * ($end->[0] - $start->[0]);
