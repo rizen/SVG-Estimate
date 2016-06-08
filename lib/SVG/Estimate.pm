@@ -67,19 +67,27 @@ sub sum {
     my $shape_length = 0;
     my $travel_length = 0;
     my $shape_count = 0;
-    foreach my $element (@{$elements}) {
-        my @keys = keys %{$element};
-        if ($keys[0] ~~ [qw(g svg)]) {
-            $self->sum($element->{$keys[0]});
+    if (ref $elements eq 'ARRAY') {
+        foreach my $element (@{$elements}) {
+            my @keys = keys %{$element};
+            if ($keys[0] ~~ [qw(g svg)]) {
+                #warn '__________'.$keys[0];
+                $self->sum($element->{$keys[0]});
+            }
+            elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
+                $shape_count++;
+                my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
+                my $shape = $class->new($self->parse_params($element->{$keys[0]}));
+                $shape_length  += $shape->shape_length;
+                $travel_length += $shape->travel_length;
+                $length        += $shape->length;
+                $self->cursor($shape->draw_end);
+            }
         }
-        elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
-            $shape_count++;
-            my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
-            my $shape = $class->new($self->parse_params($element->{$keys[0]}));
-            $shape_length  += $shape->shape_length;
-            $travel_length += $shape->travel_length;
-            $length        += $shape->length;
-            $self->cursor($shape->draw_end);
+    }
+    elsif (ref $elements eq 'HASH') {
+        foreach my $key (keys $elements) {
+            $self->sum($elements->{$key});
         }
     }
     $self->length($self->length + $length);

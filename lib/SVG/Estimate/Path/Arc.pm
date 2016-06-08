@@ -152,7 +152,7 @@ sub length {
     my $self = shift;
     my $start = $self->this_point(0);
     my $end   = $self->this_point(1);
-    return $self->segment_length(0, 1, $start, $end, 1e-6, 5, 0);
+    return $self->segment_length(0, 1, $start, $end, 1e-4, 5, 0);
 }
 
 1;

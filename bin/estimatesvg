@@ -6,6 +6,7 @@ use lib '../lib', 'lib';
 use SVG::Estimate;
 use feature 'say';
 use Getopt::Long;
+use Time::HiRes qw(tv_interval gettimeofday);
 
 my $csv;
 my $help;
@@ -30,6 +31,8 @@ if ($csv) {
                   ;
 }
 
+my $t0 = [gettimeofday];
+
 foreach my $file (@ARGV) {
     unless (-f $file) {
         say "$file not found";
@@ -53,4 +56,10 @@ foreach my $file (@ARGV) {
         say "\tTravel Length: ".$se->round($se->travel_length,0)."px ". $se->round($se->dpi($se->travel_length))."in";
         say "\tShapes: ".$se->shape_count;
     }
+}
+
+my $elapsed = tv_interval ( $t0 );
+
+unless ($csv) {
+    say "Processed in $elapsed seconds.";
 }
