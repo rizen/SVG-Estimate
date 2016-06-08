@@ -5,6 +5,7 @@ use Math::Trig qw/pi/;
 use Clone qw/clone/;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::Pythagorean';
 
 has points => (
     is          => 'ro',
@@ -50,9 +51,7 @@ sub shape_length {
     my $length = 0;
     ##Iterate over the points and find the delta between them
     foreach my $point (@points) {
-        my $dx = $point->[0] - $start->[0];
-        my $dy = $point->[1] - $start->[1];
-        $length += sqrt ($dx**2 + $dy**2);
+        $length += $self->pythagorean($start, $point);
         $start = $point;
     }
     return $length;

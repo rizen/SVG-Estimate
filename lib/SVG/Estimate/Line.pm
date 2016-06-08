@@ -3,6 +3,7 @@ package SVG::Estimate::Line;
 use Moo;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::Pythagorean';
 
 has x1 => (
     is => 'ro',
@@ -32,9 +33,7 @@ sub draw_end {
 
 sub shape_length {
     my $self = shift;
-    my $a = $self->x2 - $self->x1;
-    my $b = $self->y2 - $self->y1;
-    return sqrt(($a**2)+($b**2)); 
+    return $self->pythagorean([$self->x1, $self->y1], [$self->x2, $self->y2]);
 }
 
 1;

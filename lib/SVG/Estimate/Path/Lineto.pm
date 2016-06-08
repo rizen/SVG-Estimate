@@ -3,6 +3,7 @@ package SVG::Estimate::Path::Lineto;
 use Moo;
 
 extends 'SVG::Estimate::Path::Command';
+with 'SVG::Estimate::Role::Pythagorean';
 
 has point => (
     is          => 'ro',
@@ -16,9 +17,7 @@ sub end_point {
 
 sub length {
     my $self = shift;
-    my $a = $self->point->[0] - $self->start_point->[0];
-    my $b = $self->point->[1] - $self->start_point->[1];
-    return sqrt(($a**2)+($b**2)); 
+    return $self->pythagorean($self->start_point, $self->point);
 }
 
 1;
