@@ -4,7 +4,7 @@ use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Path';
 
-my $path = SVG::Estimate::Polygon->new(
+my $path = SVG::Estimate::Path->new(
     start_point => [0,0],
     d  => 'M 5 5 L 5 15 L 15 15 L 15 5 Z',
 );
