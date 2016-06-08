@@ -38,6 +38,7 @@ has start_point => (
 );
 
 with 'SVG::Estimate::Role::Round';
+with 'SVG::Estimate::Role::Pythagorean';
 
 =head2 length ( )
 
@@ -79,10 +80,7 @@ Returns the distance between C<start_point> and where the drawing of the shape b
 
 sub travel_length { 
     my $self = shift;
-    my ($drawx, $drawy) = @{$self->draw_start};
-    my $a = $drawx - $self->start_point->[0];
-    my $b = $drawy - $self->start_point->[1];
-    return sqrt(($a**2)+($b**2)); 
+    return $self->pythagorean($self->draw_start, $self->start_point);
 }
 
 =head2 shape_length ( )
