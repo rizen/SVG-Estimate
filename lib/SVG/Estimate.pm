@@ -13,6 +13,7 @@ use SVG::Estimate::Polyline;
 use SVG::Estimate::Polygon;
 #use SVG::Estimate::Path;
 
+with 'SVG::Estimate::Role::Round';
 
 has file_path => (
     is          => 'ro',
@@ -53,8 +54,6 @@ sub sum {
     my ($self, $elements) = @_;
     my $length = 0;
     my $shape_count = 0;
-    use Data::Dumper;
-    warn Dumper $elements;
     foreach my $element (@{$elements}) {
         my @keys = keys %{$element};
         if ($keys[0] ~~ [qw(g svg)]) {
