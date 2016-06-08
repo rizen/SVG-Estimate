@@ -6,8 +6,8 @@ use SVG::Estimate::Path::Moveto;
 use SVG::Estimate::Path::Lineto;
 use SVG::Estimate::Path::CubicBezier;
 use SVG::Estimate::Path::QuadraticBezier;
-use SVG::Estimate::Path::HorizontalLineTo;
-use SVG::Estimate::Path::VerticalLineTo;
+use SVG::Estimate::Path::HorizontalLineto;
+use SVG::Estimate::Path::VerticalLineto;
 use SVG::Estimate::Path::Arc;
 use List::Util qw/sum/;
 use Clone qw/clone/;
@@ -36,8 +36,8 @@ sub BUILDARGS {
                     : $subpath->{type} eq 'line-to'            ? SVG::Estimate::Path::Lineto->new($subpath)
                     : $subpath->{type} eq 'cubic-bezier'       ? SVG::Estimate::Path::CubicBezier->new($subpath)
                     : $subpath->{type} eq 'quadratic-bezier'   ? SVG::Estimate::Path::QuadraticBezier->new($subpath)
-                    : $subpath->{type} eq 'horizontal-line-to' ? SVG::Estimate::Path::HorizontalLineTo->new($subpath)
-                    : $subpath->{type} eq 'vertical-line-to'   ? SVG::Estimate::Path::VerticalLineTo->new($subpath)
+                    : $subpath->{type} eq 'horizontal-line-to' ? SVG::Estimate::Path::HorizontalLineto->new($subpath)
+                    : $subpath->{type} eq 'vertical-line-to'   ? SVG::Estimate::Path::VerticalLineto->new($subpath)
                     : $subpath->{type} eq 'arc'                ? SVG::Estimate::Path::Arc->new($subpath)
                     : $subpath->{type} eq 'closepath'          ? '' #Placeholder so we don't fall through
                     : croak "Unknown subpath type ".$subpath->{type}."\n" ;  ##Something bad happened
