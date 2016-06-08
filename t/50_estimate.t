@@ -16,12 +16,12 @@ cmp_ok $shapes->shape_count, '==', 7, 'shapes - shape count';
 
 my $inkscape_box_in = SVG::Estimate->new( file_path => 'var/inkscape-box-px.svg' );
 $inkscape_box_in->estimate;
-cmp_ok $inkscape_box_in->length, '>', 5000, 'inkscape_box_in - length';
+cmp_ok $inkscape_box_in->length, '>', 1700, 'inkscape_box_in - length';
 cmp_ok $inkscape_box_in->shape_count, '==', 1, 'inkscape_box_in - shape count';
 
 my $affinity_box_in = SVG::Estimate->new( file_path => 'var/affinity-box-in.svg' );
 $affinity_box_in->estimate;
-cmp_ok $affinity_box_in->length, '==', 864, 'affinity_box_in - length';
+cmp_ok $affinity_box_in->length, '>', 3700, 'affinity_box_in - length';
 cmp_ok $affinity_box_in->shape_count, '==', 1, 'affinity_box_in - shape count';
 
 done_testing();
