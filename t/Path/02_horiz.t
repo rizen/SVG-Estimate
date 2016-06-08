@@ -5,7 +5,7 @@ use lib 'lib', '../../lib';
 use_ok 'SVG::Estimate::Path::HorizontalLineto';
 my $hlineto = SVG::Estimate::Path::HorizontalLineto->new(
     start_point => [4, 5],
-    x => 10,
+    x => 14,
 );
 
 is_deeply $hlineto->end_point, [14,5], 'horizontallineto end point';

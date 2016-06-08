@@ -1,7 +1,6 @@
 package SVG::Estimate::Path::HorizontalLineto;
 
 use Moo;
-use Clone qw/clone/;
 
 extends 'SVG::Estimate::Path::Command';
 
@@ -12,14 +11,12 @@ has x => (
 
 sub end_point {
     my $self = shift;
-    my $point = clone $self->start_point;
-    $point->[0] += $self->x;
-    return $point;
+    return [$self->x, $self->start_point->[1]];
 }
 
 sub length {
     my $self = shift;
-    return $self->x; 
+    return abs($self->x - $self->start_point->[0]); 
 }
 
 1;
