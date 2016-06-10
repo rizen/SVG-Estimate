@@ -32,4 +32,9 @@ isnt $polygon->parsed_points->[0], $polygon->parsed_points->[-1], 'Did not creat
 is_deeply $polygon->draw_start, [2,0], 'polygon start point, dead north';
 cmp_ok $polygon->shape_length,  '==', 12, 'polygon length';
 
+is $polygon->min_x, 1, 'min_x';
+is $polygon->max_x, 4, 'max_x';
+is $polygon->min_y, 0, 'min_y';
+is $polygon->max_y, 3, 'max_y';
+
 done_testing();

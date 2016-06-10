@@ -6,15 +6,13 @@ use Clone qw/clone/;
 
 extends 'SVG::Estimate::Polyline';
 
-sub BUILDARGS {
-    my ($class, @args) = @_;
-    ##Upgrade to hashref
-    my $args = @args % 2 ? $args[0] : { @args };
-    my $points = clone $class->parse_points($args->{points});
+around parsed_points => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $points = $self->$orig();
     my $start_point = clone $points->[0];
     push @{ $points }, $start_point;
-    $args->{parsed_points} = $points;
-    return $args;
-}
+    return $points;
+};
 
 1;
