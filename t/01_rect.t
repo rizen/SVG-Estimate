@@ -24,6 +24,10 @@ is $rect->round($rect->length), 3648.179, 'rectangle total length';
 
 is_deeply $rect->draw_end, [0,310], 'rectangle end is the same as the start';
 
+is $rect->min_x, 0, 'min_x';
+is $rect->max_x, 943, 'max_x';
+is $rect->min_y, 310, 'min_y';
+is $rect->max_y, 1051, 'max_y';
 
 done_testing();
 
