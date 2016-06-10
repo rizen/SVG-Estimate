@@ -18,6 +18,6 @@ cmp_ok $circle->round($circle->shape_length),  '==', 6.283, 'circle circumerence
 is $circle->min_x, 1, 'min_x';
 is $circle->max_x, 3, 'max_x';
 is $circle->min_y, 1, 'min_y';
-is $circle->may_y, 3, 'may_y';
+is $circle->max_y, 3, 'max_y';
 
 done_testing();

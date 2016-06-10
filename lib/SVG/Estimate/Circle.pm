@@ -42,7 +42,7 @@ sub min_y {
     return $self->cy - $self->r;
 }
 
-sub may_y {
+sub max_y {
     my $self = shift;
     return $self->cy + $self->r;
 }
