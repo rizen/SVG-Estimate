@@ -19,4 +19,24 @@ sub length {
     return abs($self->x - $self->start_point->[0]); 
 }
 
+sub min_x {
+    my $self = shift;
+    return $self->x;
+}
+
+sub max_x {
+    my $self = shift;
+    return $self->x;
+}
+
+sub min_y {
+    my $self = shift;
+    return $self->start_point->[1];
+}
+
+sub max_y {
+    my $self = shift;
+    return $self->start_point->[1];
+}
+
 1;
