@@ -1,6 +1,7 @@
 package SVG::Estimate::Path::QuadraticBezier;
 
 use Moo;
+use List::Util qw/min max/;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::EndToPoint';
@@ -44,6 +45,28 @@ sub length {
 
     my $length = ( $A32 + $SA*$B*($SABC-$SC) + (4*$C*$A - $B*$B)*log( (2*$SA + $BA + $SABC)/($BA + $SC) ) ) / (4*($A32));
     return $length;
+}
+
+##Bouding box points approximated by the control points.
+
+sub min_x {
+    my $self = shift;
+    return min $self->start_point->[0], $self->control->[0], $self->point->[0];
+}
+
+sub max_x {
+    my $self = shift;
+    return max $self->start_point->[0], $self->control->[0], $self->point->[0];
+}
+
+sub min_y {
+    my $self = shift;
+    return min $self->start_point->[1], $self->control->[1], $self->point->[1];
+}
+
+sub max_y {
+    my $self = shift;
+    return max $self->start_point->[1], $self->control->[1], $self->point->[1];
 }
 
 1;

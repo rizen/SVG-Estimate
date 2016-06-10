@@ -14,5 +14,10 @@ is_deeply $quad->start_point, [1, 1], 'quadratic bezier start point';
 is_deeply $quad->end_point, [6,6], 'quadratic bezier end point';
 cmp_ok $quad->round($quad->length),  '==', 5.105, 'quadratic bezier length';
 
+is $quad->min_x, 1, 'min_x';
+is $quad->max_x, 8, 'max_x';
+is $quad->min_y, 1, 'min_y';
+is $quad->max_y, 6, 'max_y';
+
 done_testing();
 

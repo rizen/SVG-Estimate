@@ -18,5 +18,10 @@ is_deeply $arc->start_point, [7, 5], 'arc start point';
 is_deeply $arc->end_point, [5,7], 'arc end point';
 cmp_ok $arc->round($arc->length),  '==', 3.142, 'arc length';
 
+cmp_ok $arc->round($arc->min_x), '==', 5, 'min_x';
+cmp_ok $arc->round($arc->max_x), '==', 7, 'max_x';
+cmp_ok $arc->round($arc->min_y), '==', 3, 'min_y';
+cmp_ok $arc->round($arc->max_y), '==', 5, 'max_y';
+
 done_testing();
 

@@ -1,9 +1,11 @@
 package SVG::Estimate::Path::CubicBezier;
 
 use Moo;
+use List::Util qw/min max/;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
+with 'SVG::Estimate::Role::SegmentLength';
 with 'SVG::Estimate::Role::EndToPoint';
 
 has point => (
@@ -19,6 +21,24 @@ has control1 => (
 has control2 => (
     is          => 'ro',
     required    => 1,
+);
+
+##Precalculated when parsing points, see below
+has min_x => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_x => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
+);
+has min_y => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_y => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
 );
 
 sub end_point {
@@ -50,24 +70,11 @@ sub length {
     my $self = shift;
     my $start = $self->this_point(0);
     my $end   = $self->this_point(1);
+    $self->_set_min_x( $start->[0] < $end->[0] ? $start->[0] : $end->[0]);
+    $self->_set_max_x( $start->[0] > $end->[0] ? $start->[0] : $end->[0]);
+    $self->_set_min_y( $start->[1] < $end->[1] ? $start->[1] : $end->[1]);
+    $self->_set_max_y( $start->[1] > $end->[1] ? $start->[1] : $end->[1]);
     return $self->segment_length(0, 1, $start, $end, 1e-4, 5, 0);
-}
-
-sub segment_length {
-    my $self = shift;
-    my ($t0, $t1, $start, $end, $error, $min_depth, $depth) = @_;
-    my $th = ($t1 + $t0) / 2;  ##half-way
-    my $mid = $self->this_point($th);
-    my $length = $self->pythagorean($start, $end); ##Segment from start to end
-    my $left   = $self->pythagorean($start, $mid);
-    my $right  = $self->pythagorean($mid,   $end);
-    my $length2 = $left + $right;  ##Sum of segments through midpoint
-    if ($length2 - $length > $error || $depth < $min_depth) {
-        ++$depth;
-        return $self->segment_length($t0, $th, $start, $mid, $error, $min_depth, $depth)
-             + $self->segment_length($th, $t1, $mid,   $end, $error, $min_depth, $depth)
-    }
-    return $length2;
 }
 
 1;

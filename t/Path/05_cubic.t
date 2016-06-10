@@ -13,7 +13,12 @@ isa_ok $cubic, 'SVG::Estimate::Path::CubicBezier';
 
 is_deeply $cubic->start_point, [120, 160], 'cubic bezier start point';
 is_deeply $cubic->end_point, [220,40], 'cubic bezier end point';
-cmp_ok $cubic->round($cubic->length),  '==', 272.870, 'cubic bezier length';
+cmp_ok $cubic->round($cubic->length),  '==', 272.868, 'cubic bezier length';
+
+cmp_ok $cubic->round($cubic->min_x), '==', 97.665, 'min_x';
+cmp_ok $cubic->round($cubic->max_x), '==', 220, 'max_x';
+cmp_ok $cubic->round($cubic->min_y), '==', 40, 'min_y';
+cmp_ok $cubic->round($cubic->max_y), '==', 198.862, 'max_y';
 
 done_testing();
 
