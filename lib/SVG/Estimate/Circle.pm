@@ -27,4 +27,24 @@ sub shape_length {
     return 2 * pi * $self->r;
 }
 
+sub min_x {
+    my $self = shift;
+    return $self->cx - $self->r;
+}
+
+sub max_x {
+    my $self = shift;
+    return $self->cx + $self->r;
+}
+
+sub min_y {
+    my $self = shift;
+    return $self->cy - $self->r;
+}
+
+sub may_y {
+    my $self = shift;
+    return $self->cy + $self->r;
+}
+
 1;
