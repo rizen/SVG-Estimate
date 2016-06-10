@@ -36,4 +36,24 @@ sub shape_length {
     return $self->pythagorean([$self->x1, $self->y1], [$self->x2, $self->y2]);
 }
 
+sub min_x {
+    my $self = shift;
+    return $self->x1 < $self->x2 ? $self->x1 : $self->x2;
+}
+
+sub max_x {
+    my $self = shift;
+    return $self->x1 > $self->x2 ? $self->x1 : $self->x2;
+}
+
+sub min_y {
+    my $self = shift;
+    return $self->y1 < $self->y2 ? $self->y1 : $self->y2;
+}
+
+sub max_y {
+    my $self = shift;
+    return $self->y1 > $self->y2 ? $self->y1 : $self->y2;
+}
+
 1;
