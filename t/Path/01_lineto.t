@@ -13,4 +13,9 @@ is_deeply $lineto->start_point, [4, 5], 'lineto start point';
 is_deeply $lineto->end_point, [14,15], 'lineto end point';
 cmp_ok $lineto->round($lineto->length),  '==', 14.142, 'lineto length';
 
+is $lineto->min_x, 14, 'min_x';
+is $lineto->max_x, 14, 'max_x';
+is $lineto->min_y, 15, 'min_y';
+is $lineto->max_y, 15, 'max_y';
+
 done_testing();
