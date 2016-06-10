@@ -35,4 +35,24 @@ sub shape_length {
     return $len;
 }
 
+sub min_x {
+    my $self = shift;
+    return $self->cx - $self->rx;
+}
+
+sub max_x {
+    my $self = shift;
+    return $self->cx + $self->rx;
+}
+
+sub min_y {
+    my $self = shift;
+    return $self->cy - $self->ry;
+}
+
+sub max_y {
+    my $self = shift;
+    return $self->cy + $self->ry;
+}
+
 1;
