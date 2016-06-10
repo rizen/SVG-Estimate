@@ -3,6 +3,7 @@ package SVG::Estimate::Polyline;
 use Moo;
 use Math::Trig qw/pi/;
 use Clone qw/clone/;
+use List::Util qw/min max/;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::Pythagorean';
@@ -21,14 +22,27 @@ has parsed_points => (
     },
 );
 
+##Precalculated when parsing points, see below
+has _bounding_box => (
+    is          => 'rw',
+    default     => sub { [] },
+);
+
 sub parse_points {
-    my ($class, $string) = @_;
+    my ($self, $string) = @_;
     $string =~ s/^\s+|\s+$//g;
     my @pairs = split ' ', $string;
     my @points = ();
+    my ($min_x, $max_x, $min_y, $max_y) = (1e10, -1e10, 1e10, -1e10);
     foreach my $pair (@pairs) {
-        push @points, [ split ',', $pair ];
+        my ($x, $y) = split ',', $pair;
+        $min_x = $x if $x < $min_x;
+        $max_x = $x if $x > $max_x;
+        $min_y = $y if $y < $min_y;
+        $max_y = $y if $y > $max_y;
+        push @points, [ $x, $y ];
     }
+    $self->_bounding_box([ $min_x, $max_x, $min_y, $max_y ]);
     return \@points;
 }
 
@@ -55,6 +69,26 @@ sub shape_length {
         $start = $point;
     }
     return $length;
+}
+
+sub min_x {
+    my $self = shift;
+    return $self->_bounding_box->[0];
+}
+
+sub max_x {
+    my $self = shift;
+    return $self->_bounding_box->[1];
+}
+
+sub min_y {
+    my $self = shift;
+    return $self->_bounding_box->[2];
+}
+
+sub max_y {
+    my $self = shift;
+    return $self->_bounding_box->[3];
 }
 
 1;

@@ -24,4 +24,9 @@ is_deeply $polyline->draw_start, [5,3], 'polyline start point, first point in li
 is_deeply $polyline->draw_end,   [7,7], 'polyline end point, last line';
 cmp_ok $polyline->shape_length,  '==',  6.000, 'polyline length';
 
+is $polyline->min_x, 5, 'min_x';
+is $polyline->max_x, 7, 'max_x';
+is $polyline->min_y, 3, 'min_y';
+is $polyline->max_y, 7, 'max_y';
+
 done_testing();
