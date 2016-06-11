@@ -63,6 +63,49 @@ has max_y => (
     default     => sub { -1e10 },
 );
 
+has transform_stack => (
+    is          => 'rwp',
+    default     => sub { [] },
+);
+
+sub push_transform {
+    my $self = shift;
+    my $stack = $self->transform_stack;
+    push @{ $stack }, @_;
+    $self->_set_transform_stack($stack);
+    $self->clear_transform_string;
+}
+
+sub pop_transform {
+    my $self = shift;
+    my $stack = $self->transform_stack;
+    my $element = pop @{ $stack };
+    $self->_set_transform_stack($stack);
+    $self->clear_transform_string;
+    return $element;
+}
+
+has combined_transform_string => (
+    is => 'lazy',
+    clearer => 'clear_transform_string',
+    default => sub {
+        my $self = shift;
+        return join ' ', map { $_ } @{ $self->transform_stack };
+    },
+);
+
+sub get_transform_string {
+    my $self = shift;
+}
+
+has transform => (
+    is => 'lazy',
+);
+
+sub _builder_transform {
+    return Image::SVG::Transform->new();
+}
+
 sub read_svg {
     my $self = shift;
     my $xml = read_file($self->file_path);
@@ -98,7 +141,10 @@ sub sum {
             elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
                 $shape_count++;
                 my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
-                my $shape = $class->new($self->parse_params($element->{$keys[0]}));
+                my %params = $self->parse_params($element->{$keys[0]});
+                ##Handle transforms on an element
+                $self->push_transform(exists $params{transform} ? $params{transform} : '');
+                my $shape = $class->new(%params);
                 $shape_length  += $shape->shape_length;
                 $travel_length += $shape->travel_length;
                 $length        += $shape->length;
@@ -107,6 +153,11 @@ sub sum {
                 $max_x = $shape->max_x if $shape->max_x > $max_x;
                 $min_y = $shape->min_y if $shape->min_y < $min_y;
                 $max_y = $shape->max_y if $shape->max_y > $max_y;
+                $self->pop_transform;
+            }
+            ##Handle transforms on a containing svg or g element
+            else {
+                $self->push_transform(exists $element->{'-transform'} ? $element->{'-transform'} : '');
             }
         }
     }
@@ -123,6 +174,7 @@ sub sum {
     $self->_set_max_x($max_x);
     $self->_set_min_y($min_y);
     $self->_set_max_y($max_y);
+    $self->pop_transform;
 }
 
 sub parse_params {
