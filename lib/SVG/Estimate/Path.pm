@@ -17,6 +17,23 @@ extends 'SVG::Estimate::Shape';
 
 has d => ( is => 'ro', required => 1, );
 has commands => ( is => 'ro', );
+has min_x => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_x => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
+);
+has min_y => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_y => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
+);
+
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -59,7 +76,14 @@ sub BUILDARGS {
 
 sub shape_length {
     my $self = shift;
-    my $length = sum map { $_->length()+0 } @{ $self->commands };
+    my $length = 0;
+    foreach my $command ( @{ $self->commands } ) {
+        $length += $command->length;
+        $self->_set_min_x( $command->min_x ) if $command->min_x < $self->min_x;
+        $self->_set_max_x( $command->max_x ) if $command->max_x > $self->max_x;
+        $self->_set_min_y( $command->min_y ) if $command->min_y < $self->min_y;
+        $self->_set_max_y( $command->max_y ) if $command->max_y > $self->max_y;
+    }
     return $length;
 }
 
