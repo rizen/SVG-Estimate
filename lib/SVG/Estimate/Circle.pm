@@ -26,6 +26,16 @@ This class extends L<SVG::Estimate::Shape>.
 
 =head1 METHODS
 
+=head2 new()
+
+Constructor.
+
+=over
+
+=back
+
+=cut
+
 has cx => (
     is => 'ro',
 );
