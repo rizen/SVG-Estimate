@@ -2,6 +2,7 @@ package SVG::Estimate::Path::Arc;
 
 use Moo;
 use Math::Trig qw/pi acos deg2rad rad2deg/;
+use strict;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
@@ -93,6 +94,12 @@ sub BUILD {
     my $t2 = $ry_sq * $x1prim_sq;
     my $ts = $t1 + $t2;
     my $c  = sqrt(abs( (($rx_sq * $ry_sq) - $ts) / ($ts) ) );
+
+    if ($self->large_arc_flag == $self->sweep_flag) {
+        $c *= -1;
+    }
+    my $cxprim =     $c * $rx * $y1prim / $ry;
+    my $cyprim = -1 *$c * $ry * $x1prim / $rx;
 
     $self->_center([
         ($cosr * $cxprim - $sinr * $cyprim) + ( ($self->start_point->[0] + $self->point->[0]) / 2 ),
