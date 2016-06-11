@@ -130,10 +130,6 @@ sub sum {
     my $shape_length = 0;
     my $travel_length = 0;
     my $shape_count = 0;
-    my $min_x = 1e10;
-    my $max_x = -1e10;
-    my $min_y = 1e10;
-    my $max_y = -1e10;
     my $has_transform = 0; ##Flag for g/svg element having a transform
     if (ref $elements eq 'ARRAY') {
         foreach my $element (@{$elements}) {
@@ -158,10 +154,10 @@ sub sum {
                 $travel_length += $shape->travel_length;
                 $length        += $shape->length;
                 $self->cursor($shape->draw_end);
-                $min_x = $shape->min_x if $shape->min_x < $min_x;
-                $max_x = $shape->max_x if $shape->max_x > $max_x;
-                $min_y = $shape->min_y if $shape->min_y < $min_y;
-                $max_y = $shape->max_y if $shape->max_y > $max_y;
+                $self->_set_min_x($shape->min_x) if $shape->min_x < $self->min_x;
+                $self->_set_max_x($shape->max_x) if $shape->max_x > $self->max_x;
+                $self->_set_min_y($shape->min_y) if $shape->min_y < $self->min_y;
+                $self->_set_max_y($shape->max_y) if $shape->max_y > $self->max_y;
                 if (exists $params{transform}) {
                     $self->pop_transform;
                 }
@@ -184,10 +180,6 @@ sub sum {
     $self->shape_length($self->shape_length + $shape_length);
     $self->travel_length($self->travel_length + $travel_length);
     $self->shape_count($self->shape_count + $shape_count);
-    $self->_set_min_x($min_x);
-    $self->_set_max_x($max_x);
-    $self->_set_min_y($min_y);
-    $self->_set_max_y($max_y);
     $self->pop_transform if $has_transform;
 }
 

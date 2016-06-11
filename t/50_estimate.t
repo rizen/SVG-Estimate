@@ -17,10 +17,20 @@ my $shapes = SVG::Estimate->new( file_path => 'var/shapes.svg' );
 $shapes->estimate;
 cmp_ok $shapes->length, '>', 5000, 'shapes - length';
 cmp_ok $shapes->shape_count, '==', 7, 'shapes - shape count';
-cmp_ok $shapes->round($shapes->min_x), '==', 149.707,  '... min_x';
-cmp_ok $shapes->round($shapes->max_x), '==', 590.5, '... max_x';
+cmp_ok $shapes->round($shapes->min_x), '==', 36,  '... min_x';
+cmp_ok $shapes->round($shapes->max_x), '==', 687.203, '... max_x';
 cmp_ok $shapes->round($shapes->min_y), '==', 39.157, '... min_y';
 cmp_ok $shapes->round($shapes->max_y), '==', 518.5, '... max_y';
+
+my $drawing1 = SVG::Estimate->new( file_path => 'var/drawing-1.svg' );
+$drawing1->estimate;
+cmp_ok $drawing1->length, '>', 200, 'drawing-1 - length';
+cmp_ok $drawing1->shape_count, '==', 1, 'shape count';
+cmp_ok $drawing1->round($drawing1->min_x), '==', 50,  '... min_x';
+cmp_ok $drawing1->round($drawing1->max_x), '==', 100, '... max_x';
+cmp_ok $drawing1->round($drawing1->min_y), '==', 50, '... min_y';
+cmp_ok $drawing1->round($drawing1->max_y), '==', 100, '... max_y';
+
 
 my $inkscape_box_in = SVG::Estimate->new( file_path => 'var/inkscape-box-px.svg' );
 $inkscape_box_in->estimate;
