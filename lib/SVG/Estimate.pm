@@ -90,7 +90,9 @@ has combined_transform_string => (
     clearer => 'clear_transform_string',
     default => sub {
         my $self = shift;
-        return join ' ', map { $_ } @{ $self->transform_stack };
+        my $cts = join ' ', map { $_ } @{ $self->transform_stack };
+        $self->transform->extract_transforms($cts);
+        return $cts;
     },
 );
 
@@ -131,6 +133,7 @@ sub sum {
     my $max_x = -1e10;
     my $min_y = 1e10;
     my $max_y = -1e10;
+    my $has_transform = 0; ##Flag for g/svg element having a transform
     if (ref $elements eq 'ARRAY') {
         foreach my $element (@{$elements}) {
             my @keys = keys %{$element};
@@ -143,7 +146,9 @@ sub sum {
                 my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
                 my %params = $self->parse_params($element->{$keys[0]});
                 ##Handle transforms on an element
-                $self->push_transform(exists $params{transform} ? $params{transform} : '');
+                if (exists $params{transform}) {
+                    $self->push_transform($params{transform});
+                }
                 my $shape = $class->new(%params);
                 $shape_length  += $shape->shape_length;
                 $travel_length += $shape->travel_length;
@@ -153,11 +158,16 @@ sub sum {
                 $max_x = $shape->max_x if $shape->max_x > $max_x;
                 $min_y = $shape->min_y if $shape->min_y < $min_y;
                 $max_y = $shape->max_y if $shape->max_y > $max_y;
-                $self->pop_transform;
+                if (exists $params{transform}) {
+                    $self->pop_transform;
+                }
             }
             ##Handle transforms on a containing svg or g element
             else {
-                $self->push_transform(exists $element->{'-transform'} ? $element->{'-transform'} : '');
+                if (exists $element->{'-transform'}) {
+                    $self->push_transform($element->{'-transform'});
+                    $has_transform = 1;
+                }
             }
         }
     }
@@ -174,7 +184,7 @@ sub sum {
     $self->_set_max_x($max_x);
     $self->_set_min_y($min_y);
     $self->_set_max_y($max_y);
-    $self->pop_transform;
+    $self->pop_transform if $has_transform;
 }
 
 sub parse_params {
