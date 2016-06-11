@@ -32,6 +32,18 @@ Constructor.
 
 =over
 
+=item cx
+
+Float representing center x.
+
+=item cy
+
+Float representing center y.
+
+=item r
+
+Float representing the radius.
+
 =back
 
 =cut

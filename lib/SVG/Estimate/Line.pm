@@ -5,6 +5,54 @@ use Moo;
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::Pythagorean';
 
+=head1 NAME
+
+SVG::Estimate::Line - Handles estimating straight lines.
+
+=head1 SYNOPIS
+
+ my $line = SVG::Estimate::Line->new(
+    start_point => [45,13],
+    x1          => 1,
+    y1          => 3,
+    x2          => 4.6,
+    y2          => 3,
+ );
+
+ my $length = $line->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Shape> and consumes L<SVG::Estimate::Role::Pythagorean>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item x1
+
+Float representing the x start point.
+
+=item y1
+
+Float representing the y start point.
+
+=item x2 
+
+Float representing the x end point.
+
+=item y2
+
+Float representing the y end point.
+
+=back
+
+=cut
+
 has x1 => (
     is => 'ro',
 );

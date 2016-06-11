@@ -5,6 +5,54 @@ use Math::Trig qw/pi/;
 
 extends 'SVG::Estimate::Shape';
 
+=head1 NAME
+
+SVG::Estimate::Ellipse - Handles estimating ellipses.
+
+=head1 SYNOPIS
+
+ my $ellipse = SVG::Estimate::Ellipse->new(
+    start_point => [45,13],
+    cx          => 1,
+    cy          => 3,
+    rx          => 1,
+    ry          => 1.5,
+ );
+
+ my $length = $ellipse->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Shape>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item cx
+
+Float representing center x.
+
+=item cy
+
+Float representing center y.
+
+=item rx
+
+Float representing the x radius.
+
+=item ry
+
+Float representing the y radius.
+
+=back
+
+=cut
+
 has cx => (
     is => 'ro',
 );
