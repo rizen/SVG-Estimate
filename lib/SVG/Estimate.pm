@@ -87,6 +87,7 @@ sub pop_transform {
 
 has combined_transform_string => (
     is => 'lazy',
+    predicate => 'has_transforms',
     clearer => 'clear_transform_string',
     default => sub {
         my $self = shift;
@@ -148,6 +149,9 @@ sub sum {
                 ##Handle transforms on an element
                 if (exists $params{transform}) {
                     $self->push_transform($params{transform});
+                }
+                if ($self->has_transforms) {
+                    $params{transform} = $self->transform;
                 }
                 my $shape = $class->new(%params);
                 $shape_length  += $shape->shape_length;

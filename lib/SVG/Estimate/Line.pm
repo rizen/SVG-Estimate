@@ -21,6 +21,24 @@ has y2 => (
     is => 'ro',
 );
 
+has transform => (
+    is => 'ro',
+);
+
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    return $args unless exists $args->{transform};
+    my $point1 = $args->{transform}->transform([$args->{x1}, $args->{y1}]);
+    my $point2 = $args->{transform}->transform([$args->{x2}, $args->{y2}]);
+    $args->{x1} = $point1->[0];
+    $args->{y1} = $point1->[1];
+    $args->{x2} = $point2->[0];
+    $args->{y2} = $point2->[1];
+    return $args;
+}
+
 sub draw_start {
     my $self = shift;
     return [$self->x1, $self->y1];
