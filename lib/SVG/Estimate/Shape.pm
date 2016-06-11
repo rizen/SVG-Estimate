@@ -10,6 +10,10 @@ SVG::Estimate::Shape - Base class for all other shape calculations.
 
 There are a lot of methods and parameters shared between the various shape classes in L<SVG::Estimate>. This base class encapsulates them all.
 
+=head1 INHERITANCE
+
+This class consumes L<SVG::Estimate::Role::Round> and L<SVG::Estimate::Role::Pythagorean>.
+
 =head1 METHODS
 
 =head2 new( properties ) 
@@ -58,7 +62,7 @@ Must be overridden by subclass. Should return an x and a y value as an array ref
 =cut
 
 sub draw_start {
-    die "override draw_start() in sub class";
+    die "override draw_start() in subclass";
 }
 
 =head2 draw_end ( )
@@ -90,7 +94,48 @@ Must be overridden by the subclass. Returns the total length of the vectors in t
 =cut
 
 sub shape_length { 
-    die "override shape_length() in sub class";
+    die "override shape_length() in subclass";
 }
+
+=head2 min_x ( )
+
+Must be overriden in the subclass. Returns the minimum position of C<x> that this shape will ever reach. 
+
+=cut
+
+sub min_x {
+    die "override min_x() in the subclass";
+}
+
+=head2 max_x ( )
+
+Must be overriden in the subclass. Returns the maximum position of C<x> that this shape will ever reach. 
+
+=cut
+
+sub max_x {
+    die "override max_x() in the subclass";
+}
+
+=head2 min_y ( )
+
+Must be overriden in the subclass. Returns the minimum position of C<y> that this shape will ever reach. 
+
+=cut
+
+sub min_y {
+    die "override min_y() in the subclass";
+}
+
+=head2 max_y ( )
+
+Must be overriden in the subclass. Returns the max position of C<y> that this shape will ever reach. 
+
+=cut
+
+sub max_y {
+    die "override max_y() in the subclass";
+}
+
 
 1;
