@@ -8,11 +8,19 @@ isa_ok $onesquare, 'SVG::Estimate';
 $onesquare->estimate;
 cmp_ok $onesquare->round($onesquare->length), '==', 1226.979, 'one square - length';
 cmp_ok $onesquare->shape_count, '==', 1, 'one square - shape count';
+cmp_ok $onesquare->round($onesquare->min_x), '==', 36,  '... min_x';
+cmp_ok $onesquare->round($onesquare->max_x), '==', 252, '... max_x';
+cmp_ok $onesquare->round($onesquare->min_y), '==', 216, '... min_y';
+cmp_ok $onesquare->round($onesquare->max_y), '==', 504, '... max_y';
 
 my $shapes = SVG::Estimate->new( file_path => 'var/shapes.svg' );
 $shapes->estimate;
 cmp_ok $shapes->length, '>', 5000, 'shapes - length';
 cmp_ok $shapes->shape_count, '==', 7, 'shapes - shape count';
+cmp_ok $shapes->round($shapes->min_x), '==', 149.707,  '... min_x';
+cmp_ok $shapes->round($shapes->max_x), '==', 590.5, '... max_x';
+cmp_ok $shapes->round($shapes->min_y), '==', 39.157, '... min_y';
+cmp_ok $shapes->round($shapes->max_y), '==', 518.5, '... max_y';
 
 my $inkscape_box_in = SVG::Estimate->new( file_path => 'var/inkscape-box-px.svg' );
 $inkscape_box_in->estimate;

@@ -46,6 +46,23 @@ has cursor => (
     default => sub { [0,0] },
 );
 
+has min_x => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_x => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
+);
+has min_y => (
+    is          => 'rwp',
+    default     => sub { 1e10 },
+);
+has max_y => (
+    is          => 'rwp',
+    default     => sub { -1e10 },
+);
+
 sub read_svg {
     my $self = shift;
     my $xml = read_file($self->file_path);
@@ -67,6 +84,10 @@ sub sum {
     my $shape_length = 0;
     my $travel_length = 0;
     my $shape_count = 0;
+    my $min_x = 1e10;
+    my $max_x = -1e10;
+    my $min_y = 1e10;
+    my $max_y = -1e10;
     if (ref $elements eq 'ARRAY') {
         foreach my $element (@{$elements}) {
             my @keys = keys %{$element};
@@ -82,6 +103,10 @@ sub sum {
                 $travel_length += $shape->travel_length;
                 $length        += $shape->length;
                 $self->cursor($shape->draw_end);
+                $min_x = $shape->min_x if $shape->min_x < $min_x;
+                $max_x = $shape->max_x if $shape->max_x > $max_x;
+                $min_y = $shape->min_y if $shape->min_y < $min_y;
+                $max_y = $shape->max_y if $shape->max_y > $max_y;
             }
         }
     }
@@ -94,6 +119,10 @@ sub sum {
     $self->shape_length($self->shape_length + $shape_length);
     $self->travel_length($self->travel_length + $travel_length);
     $self->shape_count($self->shape_count + $shape_count);
+    $self->_set_min_x($min_x);
+    $self->_set_max_x($max_x);
+    $self->_set_min_y($min_y);
+    $self->_set_max_y($max_y);
 }
 
 sub parse_params {
