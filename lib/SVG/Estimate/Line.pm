@@ -4,6 +4,7 @@ use Moo;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::Pythagorean';
+with 'SVG::Estimate::Role::Transform';
 
 =head1 NAME
 
@@ -66,10 +67,6 @@ has x2 => (
 );
 
 has y2 => (
-    is => 'ro',
-);
-
-has transform => (
     is => 'ro',
 );
 
