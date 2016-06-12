@@ -17,6 +17,7 @@ SVG::Estimate::Path::Arc - Handles estimating arcs.
 
  my $arc = SVG::Estimate::Path::Arc->new(
     transform       => $transform,
+    start_point     => [13, 19],
     point           => [45,13],
     rx              => 1,
     ry              => 3,

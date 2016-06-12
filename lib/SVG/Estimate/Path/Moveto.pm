@@ -13,6 +13,7 @@ SVG::Estimate::Path::Moveto - Handles estimating non-drawn movement.
 
  my $move = SVG::Estimate::Path::Moveto->new(
     transform       => $transform,
+    start_point     => [13, 19],
     point           => [45,13],
  );
 
@@ -43,34 +44,22 @@ has point => (
     required    => 1,
 );
 
-sub end_point {
-    my $self = shift;
-    return $self->point;
-}
-
-sub length {
-    my $self = shift;
-    return $self->pythagorean($self->start_point, $self->point);
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->point->[0];
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->point->[0];
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->point->[1];
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->point->[1];
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    my $point  = $args->{point};
+    if ($args->{transform}->has_transforms) {
+        $point   = $args->{transform}->transform($point);
+    }
+    $args->{start_point}  = $args->{start_point};
+    $args->{end_point}    = $point;
+    $args->{length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
+    $args->{min_x}        = $point->[0];
+    $args->{min_y}        = $point->[1];
+    $args->{max_x}        = $point->[0];
+    $args->{max_y}        = $point->[1];
+    return $args;
 }
 
 1;

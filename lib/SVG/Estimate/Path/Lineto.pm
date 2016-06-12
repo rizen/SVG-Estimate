@@ -13,6 +13,7 @@ SVG::Estimate::Path::Lineto - Handles estimating diagonal lines.
 
  my $line = SVG::Estimate::Path::Lineto->new(
     transform       => $transform,
+    start_point     => [13, 19],
     point           => [45,13],
  );
 

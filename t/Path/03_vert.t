@@ -1,9 +1,12 @@
 use strict;
 use Test::More;
 use lib 'lib', '../../lib', '../lib';
+use Image::SVG::Transform;
 
 use_ok 'SVG::Estimate::Path::VerticalLineto';
+my $transform = Image::SVG::Transform->new();
 my $vlineto = SVG::Estimate::Path::VerticalLineto->new(
+    transform   => $transform,
     start_point => [4, 5],
     y => 15,
 );

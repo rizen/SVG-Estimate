@@ -14,6 +14,7 @@ SVG::Estimate::Path::QuadraticBezier - Handles estimating quadratic bezier curve
 
  my $curve = SVG::Estimate::Path::QuadraticBezier->new(
     transform       => $transform,
+    start_point     => [13, 19],
     point           => [45,13],
     control         => [10,3],
  );

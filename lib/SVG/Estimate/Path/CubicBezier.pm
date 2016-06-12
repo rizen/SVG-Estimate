@@ -16,6 +16,7 @@ SVG::Estimate::Path::CubicBezier - Handles estimating cubic bezier curves.
 
  my $curve = SVG::Estimate::Path::CubicBezier->new(
     transform       => $transform,
+    start_point     => [13, 19],
     point           => [45,13],
     control1        => [10,3],
     control2        => [157,40],

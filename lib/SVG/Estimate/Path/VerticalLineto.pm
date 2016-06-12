@@ -12,6 +12,7 @@ SVG::Estimate::Path::VerticalLineto - Handles estimating vertical lines.
 
  my $line = SVG::Estimate::Path::VerticalLineto->new(
     transform       => $transform,
+    start_point     => [13, 19],
     y               => 45,
  );
 

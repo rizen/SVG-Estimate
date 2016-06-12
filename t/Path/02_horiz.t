@@ -1,9 +1,12 @@
 use strict;
 use Test::More;
 use lib 'lib', '../../lib', '../lib';
+use Image::SVG::Transform;
 
 use_ok 'SVG::Estimate::Path::HorizontalLineto';
+my $transform = Image::SVG::Transform->new();
 my $hlineto = SVG::Estimate::Path::HorizontalLineto->new(
+    transform   => $transform,
     start_point => [4, 5],
     x => 14,
 );

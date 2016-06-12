@@ -1,9 +1,12 @@
 use strict;
 use Test::More;
 use lib 'lib', '../../lib', '../lib';
+use Image::SVG::Transform;
 
 use_ok 'SVG::Estimate::Path::Arc';
+my $transform = Image::SVG::Transform->new();
 my $arc = SVG::Estimate::Path::Arc->new(
+    transform   => $transform,
     start_point     => [275, 25],
     rx              => 150,
     ry              => 150,
