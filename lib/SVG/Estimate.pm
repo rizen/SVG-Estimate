@@ -14,7 +14,6 @@ use SVG::Estimate::Polygon;
 use SVG::Estimate::Path;
 
 with 'SVG::Estimate::Role::Round';
-with 'SVG::Estimate::Role::Dpi';
 
 =head1 NAME
 
@@ -38,7 +37,7 @@ This is highly useful for any 2 dimensional CNC machines that use vector files t
 
 =head1 INHERITANCE
 
-This class consumes L<SVG::Estimate::Role::Round> and L<SVG::Estimate::Role::Dpi>.
+This class consumes L<SVG::Estimate::Role::Round>.
 
 =head1 METHODS
 
