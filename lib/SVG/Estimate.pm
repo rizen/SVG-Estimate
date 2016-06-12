@@ -129,14 +129,35 @@ has min_x => (
     is          => 'rwp',
     default     => sub { 1e10 },
 );
+
+=head2 max_x()
+
+Returns the right most x value of the bounding box for this document.
+
+=cut
+
 has max_x => (
     is          => 'rwp',
     default     => sub { -1e10 },
 );
+
+=head2 min_y()
+
+Returns the top most y value of the bounding box for this document.
+
+=cut
+
 has min_y => (
     is          => 'rwp',
     default     => sub { 1e10 },
 );
+
+=head2 max_y()
+
+Returns the bottom most y value of the bounding box for this document.
+
+=cut
+
 has max_y => (
     is          => 'rwp',
     default     => sub { -1e10 },
@@ -188,6 +209,12 @@ sub _builder_transform {
     return Image::SVG::Transform->new();
 }
 
+=head2 read_svg()
+
+Reads in the SVG document specified by C<file_path> in the constructor.
+
+=cut
+
 sub read_svg {
     my $self = shift;
     my $xml = read_file($self->file_path);
@@ -196,12 +223,32 @@ sub read_svg {
     return $hash;
 }
 
+=head2 estimate()
+
+Performs all the calculations on this document. B<NOTE:> before C<estimate()> is run, none of the measurements will produce valid values.
+
+=cut
+
 sub estimate {
     my $self = shift;
     my $hash = $self->read_svg();
     $self->sum($hash->{svg});
     return $self;
 }
+
+=head2 sum(elements)
+
+This is used by C<estimate> to do calculations on the various elements of the document. It recurses over a list of elements. This method is likely only useful to you if you want to evaluate only a section of a document.
+
+=over
+
+=item elements
+
+An array reference of SVG elements as parsed by L<XML::Hash::LX>.
+
+=back
+
+=cut 
 
 sub sum {
     my ($self, $elements) = @_;
@@ -262,6 +309,20 @@ sub sum {
     $self->pop_transform if $has_transform;
 }
 
+=head2 parse_params ( in )
+
+Removes the C<-> added to attributes by L<XML::Hash::LX> and returns a hash with the fixed paramter names.
+
+=over
+
+=item in
+
+A hash reference of parameters from L<XML::Hash::LX> with the preceeding C<-> on each key. 
+
+=back
+
+=cut
+
 sub parse_params {
     my ($self, $in) = @_;
     my %out = (start_point => $self->cursor);
@@ -271,5 +332,42 @@ sub parse_params {
     }
     return %out;
 }
+
+=head1 PREREQS
+
+L<Moo>
+L<Math::Trig>
+L<Image::SVG::Path>
+L<Clone>
+L<List::Util>
+L<Ouch>
+L<Test::More>
+L<File::Slurp>
+L<XML::LibXML>
+L<XML::Hash::LX>
+
+=head1 SUPPORT
+
+=over
+
+=item Repository
+
+L<http://github.com/rizen/SVG-Estimate>
+
+=item Bug Reports
+
+L<http://github.com/rizen/SVG-Estimate/issues>
+
+=back
+
+=head1 AUTHOR
+
+This module was created by JT Smith <jt_at_plainblack_dot_com> and Colin Kuskie <colink_at_plainblack_dot_com>.
+
+=head1 LEGAL
+
+SVG::Estimate is Copyright 2016 Plain Black Corporation (L<http://www.plainblack.com>) and is licensed under the same terms as Perl itself.
+
+=cut
 
 1;
