@@ -1,10 +1,10 @@
 use strict;
 use Test::More;
 use Math::Trig;
+use Image::SVG::Transform;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Line';
-use_ok 'Image::SVG::Transform';
 
 my $transform = Image::SVG::Transform->new();
 
