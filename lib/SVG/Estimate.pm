@@ -30,6 +30,11 @@ SVG::Estimate - Estimates the length of all the vectors in an SVG file.
 
  my $length = $se->length;
 
+=head1 DESCRIPTION
+
+SVG::Estimate is a suite of modules that allow you to accurately estimate the length of the vectors inside of a Scalable Vector Graphics (SVG) file. It is only an estimate because we lack the math to give absolutely precise lengths of really complex curves in a time-efficient manner. Therefore, we take guesses in some cases, though those guesses are still quite accurate (to within about 0.1%). In a battery of tests against our own equipment, our measurements were more accurate than those provided by the equipment itself. 
+
+This is highly useful for any 2 dimensional CNC machines that use vector files to create tool paths, as you may want to know how long a job will take to quote your customer.
 
 =head1 INHERITANCE
 
