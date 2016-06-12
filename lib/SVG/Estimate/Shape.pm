@@ -30,6 +30,10 @@ Constructor.
 
 An array ref that describes the position of the cursor (or CNC head) prior to drawing this shape (where it left off from the last object).
 
+=item transform
+
+A reference to a L<Image::SVG::Transform> object that contains all the transforms for this shape.
+
 =back
 
 =back
@@ -38,6 +42,11 @@ An array ref that describes the position of the cursor (or CNC head) prior to dr
 
 has start_point => (
     is          => 'ro', 
+    required    => 1,
+);
+
+has transform => (
+    is          => 'ro',
     required    => 1,
 );
 
@@ -57,13 +66,14 @@ sub length {
 
 =head2 draw_start ( )
 
-Must be overridden by subclass. Should return an x and a y value as an array ref of where the drawing will start that can be used by the C<travel_length> method.
+Returns an x and a y value as an array ref of where the drawing will start that can be used by the C<travel_length> method.
 
 =cut
 
-sub draw_start {
-    die "override draw_start() in subclass";
-}
+has draw_start => (
+    is          => 'ro',
+    required    => 1,
+);
 
 =head2 draw_end ( )
 
@@ -71,10 +81,14 @@ Returns the same as C<draw_start()>. Override this if you have an open ended sha
 
 =cut
 
-sub draw_end {
-    my $self = shift;
-    return $self->draw_start;
-}
+has draw_end => (
+    is          => 'ro',
+    lazy        => 1,
+    default     => sub {
+        my $self = shift;
+        return $self->draw_start;
+    },
+);
 
 =head2 travel_length ( )
 
@@ -89,53 +103,60 @@ sub travel_length {
 
 =head2 shape_length ( )
 
-Must be overridden by the subclass. Returns the total length of the vectors in the shape.
+Returns the total length of the vectors in the shape.
 
 =cut
 
-sub shape_length { 
-    die "override shape_length() in subclass";
-}
+has shape_length => (
+    is      => 'rwp', 
+    default => 0,
+);
 
 =head2 min_x ( )
 
-Must be overriden in the subclass. Returns the minimum position of C<x> that this shape will ever reach. 
+Returns the minimum position of C<x> that this shape will ever reach. 
 
 =cut
 
-sub min_x {
-    die "override min_x() in the subclass";
-}
+has min_x => (
+    is          => 'ro',
+    required    => 1,
+);
 
 =head2 max_x ( )
 
-Must be overriden in the subclass. Returns the maximum position of C<x> that this shape will ever reach. 
+Returns the maximum position of C<x> that this shape will ever reach. 
 
 =cut
 
-sub max_x {
-    die "override max_x() in the subclass";
-}
+has max_x => (
+    is          => 'ro',
+    required    => 1,
+);
 
 =head2 min_y ( )
 
-Must be overriden in the subclass. Returns the minimum position of C<y> that this shape will ever reach. 
+Returns the minimum position of C<y> that this shape will ever reach. 
 
 =cut
 
-sub min_y {
-    die "override min_y() in the subclass";
-}
+has min_y => (
+    is          => 'ro',
+    required    => 1,
+);
 
 =head2 max_y ( )
 
-Must be overriden in the subclass. Returns the max position of C<y> that this shape will ever reach. 
+Returns the max position of C<y> that this shape will ever reach. 
 
 =cut
 
-sub max_y {
-    die "override max_y() in the subclass";
-}
+has max_y => (
+    is          => 'ro',
+    required    => 1,
+);
+
+
 
 
 1;
