@@ -4,6 +4,9 @@ use Math::Trig;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Line';
+use_ok 'Image::SVG::Transform';
+
+my $transform = Image::SVG::Transform->new();
 
 my $line = SVG::Estimate::Line->new(
     x1          => 12,
@@ -11,6 +14,7 @@ my $line = SVG::Estimate::Line->new(
     x2          => 58,
     y2          => 226,
     start_point => [11, 450],
+    transform   => $transform,
 );
 
 is_deeply $line->draw_start, [12, 147], 'line start point';
@@ -28,6 +32,7 @@ my $line2 = SVG::Estimate::Line->new(
     x2          => 9,
     y2          => 9,
     start_point => [11, 450],
+    transform   => $transform,
 );
 
 is $line2->min_x, 9,  'backwards line, min_x';

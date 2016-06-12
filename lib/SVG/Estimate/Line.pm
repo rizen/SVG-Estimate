@@ -82,42 +82,14 @@ sub BUILDARGS {
     $args->{y1} = $point1->[1];
     $args->{x2} = $point2->[0];
     $args->{y2} = $point2->[1];
+    $args->{draw_start} = $point1;
+    $args->{draw_end}   = $point2;
+    $args->{min_y} = $args->{y1} < $args->{y2} ? $args->{y1} : $args->{y2};
+    $args->{max_y} = $args->{y1} > $args->{y2} ? $args->{y1} : $args->{y2};
+    $args->{min_x} = $args->{x1} < $args->{x2} ? $args->{x1} : $args->{x2};
+    $args->{max_x} = $args->{x1} > $args->{x2} ? $args->{x1} : $args->{x2};
+    $args->{shape_length} = $class->pythagorean($point1, $point2);
     return $args;
-}
-
-sub draw_start {
-    my $self = shift;
-    return [$self->x1, $self->y1];
-}
-
-sub draw_end {
-    my $self = shift;
-    return [$self->x2, $self->y2];
-}
-
-sub shape_length {
-    my $self = shift;
-    return $self->pythagorean([$self->x1, $self->y1], [$self->x2, $self->y2]);
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->x1 < $self->x2 ? $self->x1 : $self->x2;
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->x1 > $self->x2 ? $self->x1 : $self->x2;
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->y1 < $self->y2 ? $self->y1 : $self->y2;
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->y1 > $self->y2 ? $self->y1 : $self->y2;
 }
 
 1;
