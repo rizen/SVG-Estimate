@@ -4,6 +4,39 @@ use Moo;
 
 extends 'SVG::Estimate::Path::Command';
 
+=head1 NAME
+
+SVG::Estimate::Path::VerticalLineto - Handles estimating vertical lines.
+
+=head1 SYNOPSIS
+
+ my $line = SVG::Estimate::Path::VerticalLineto->new(
+    transform       => $transform,
+    y               => 45,
+ );
+
+ my $length = $line->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Path::Command>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item y
+
+A float representing what to change the y value to.
+
+=back
+
+=cut
+
 has y => (
     is          => 'ro',
     required    => 1,

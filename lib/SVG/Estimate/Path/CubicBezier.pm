@@ -8,6 +8,49 @@ with 'SVG::Estimate::Role::Pythagorean';
 with 'SVG::Estimate::Role::SegmentLength';
 with 'SVG::Estimate::Role::EndToPoint';
 
+=head1 NAME
+
+SVG::Estimate::Path::CubicBezier - Handles estimating cubic bezier curves.
+
+=head1 SYNOPSIS
+
+ my $curve = SVG::Estimate::Path::CubicBezier->new(
+    transform       => $transform,
+    point           => [45,13],
+    control1        => [10,3],
+    control2        => [157,40],
+ );
+
+ my $length = $curve->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Path::Command> and consumes L<SVG::Estimate::Role::Pythagorean>, L<SVG::Estimate::Role::SegmentLength>, and L<SVG::Estimate::Role::EndToPoint>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item point
+
+An array ref containing two floats that represent a point. 
+
+=item control1
+
+An array ref containing two floats that represent a point. 
+
+=item control2
+
+An array ref containing two floats that represent a point. 
+
+=back
+
+=cut
+
 has point => (
     is          => 'ro',
     required    => 1,

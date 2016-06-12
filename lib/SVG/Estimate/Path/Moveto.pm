@@ -5,6 +5,39 @@ use Moo;
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
 
+=head1 NAME
+
+SVG::Estimate::Path::Moveto - Handles estimating non-drawn movement.
+
+=head1 SYNOPSIS
+
+ my $move = SVG::Estimate::Path::Moveto->new(
+    transform       => $transform,
+    point           => [45,13],
+ );
+
+ my $length = $move->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Path::Command> and consumes L<SVG::Estimate::Role::Pythagorean>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item point
+
+An array ref containing two floats that represent a point. 
+
+=back
+
+=cut
+
 has point => (
     is          => 'ro',
     required    => 1,

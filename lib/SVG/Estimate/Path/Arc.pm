@@ -16,18 +16,20 @@ SVG::Estimate::Path::Arc - Handles estimating arcs.
 =head1 SYNOPSIS
 
  my $arc = SVG::Estimate::Path::Arc->new(
-    transform   => $transform,
-    start_point => [45,13],
-    cx          => 1,
-    cy          => 3,
-    r           => 1,
+    transform       => $transform,
+    point           => [45,13],
+    rx              => 1,
+    ry              => 3,
+    x_axis_rotation => 0,
+    large_arc_flag  => 0,
+    sweep_flag      => 0,
  );
 
  my $length = $arc->length;
 
 =head1 INHERITANCE
 
-This class extends L<SVG::Estimate::Shape>.
+This class extends L<SVG::Estimate::Path::Command> and consumes L<SVG::Estimate::Role::Pythagorean>, L<SVG::Estimate::Role::SegmentLength>, and L<SVG::Estimate::Role::EndToPoint>.
 
 =head1 METHODS
 
@@ -55,11 +57,11 @@ Float that indicates how the ellipse as a whole is rotated relative to the curre
 
 =item large_arc_flag
 
-
+Must be 1 or 0. See details L<http://www.w3.org/TR/SVG/paths.html>.
 
 =item sweep_flag
 
-
+Must be 1 or 0. See details L<http://www.w3.org/TR/SVG/paths.html>.
 
 =back
 
