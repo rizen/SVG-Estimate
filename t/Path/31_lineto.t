@@ -5,6 +5,7 @@ use Image::SVG::Transform;
 
 use_ok 'SVG::Estimate::Path::Lineto';
 my $transform = Image::SVG::Transform->new();
+$transform->extract_transforms('translate (10,-5)');
 my $lineto = SVG::Estimate::Path::Lineto->new(
     transform   => $transform,
     start_point => [4, 5],
@@ -13,12 +14,12 @@ my $lineto = SVG::Estimate::Path::Lineto->new(
 isa_ok $lineto, 'SVG::Estimate::Path::Lineto';
 
 is_deeply $lineto->start_point, [4, 5], 'lineto start point';
-is_deeply $lineto->end_point, [14,15], 'lineto end point';
-cmp_ok $lineto->round($lineto->length),  '==', 14.142, 'lineto length';
+is_deeply $lineto->end_point, [24,10], 'lineto end point';
+cmp_ok $lineto->round($lineto->length),  '==', 20.616, 'lineto length';
 
 is $lineto->min_x, 4, 'min_x';
-is $lineto->max_x, 14, 'max_x';
+is $lineto->max_x, 24, 'max_x';
 is $lineto->min_y, 5, 'min_y';
-is $lineto->max_y, 15, 'max_y';
+is $lineto->max_y, 10, 'max_y';
 
 done_testing();
