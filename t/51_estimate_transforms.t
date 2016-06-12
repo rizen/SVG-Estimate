@@ -1,12 +1,13 @@
 use strict;
 use Test::More;
+my $t; use lib ($t = -e 't' ? 't' : '.');
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate';
 
-my $without = SVG::Estimate->new( file_path => 'var/shapes-without-transforms.svg' );
+my $without = SVG::Estimate->new( file_path => $t.'/var/shapes-without-transforms.svg' );
 $without->estimate;
-my $with    = SVG::Estimate->new( file_path => 'var/shapes-with-transforms.svg' );
+my $with    = SVG::Estimate->new( file_path => $t.'/var/shapes-with-transforms.svg' );
 $with->estimate;
 
 cmp_ok abs($with->length - $without->length), '<=', 0.05 * $with->length,   'comparing equivalent SVGs with and without transforms, length';
