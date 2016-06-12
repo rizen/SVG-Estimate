@@ -2,7 +2,6 @@ package SVG::Estimate::Circle;
 
 use Moo;
 use Math::Trig qw/pi/;
-use SVG::Estimate::Polygon;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::MakePolygon';
@@ -84,8 +83,8 @@ sub BUILDARGS {
     $args->{draw_end}     = $args->{draw_start};
     $args->{shape_length} = 2 * pi * $args->{r};
     $args->{min_x}        = $args->{cx} - $args->{r};
-    $args->{min_y}        = $args->{cx} - $args->{r};
-    $args->{max_x}        = $args->{cy} + $args->{r};
+    $args->{min_y}        = $args->{cy} - $args->{r};
+    $args->{max_x}        = $args->{cx} + $args->{r};
     $args->{max_y}        = $args->{cy} + $args->{r};
     return $args;
 }
