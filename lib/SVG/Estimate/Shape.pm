@@ -108,8 +108,8 @@ Returns the total length of the vectors in the shape.
 =cut
 
 has shape_length => (
-    is      => 'rwp', 
-    default => 0,
+    is       => 'ro', 
+    required => 1,
 );
 
 =head2 min_x ( )
