@@ -170,14 +170,20 @@ has max_y => (
 has transform_stack => (
     is          => 'rwp',
     default     => sub { [] },
+    trigger     => 1,
 );
+
+sub _trigger_transform_stack {
+    my $self = shift;
+    my $cts =  join ' ', map { $_ } @{ $self->transform_stack };
+    $self->transformer->extract_transforms($cts);
+}
 
 sub push_transform {
     my $self = shift;
     my $stack = $self->transform_stack;
     push @{ $stack }, @_;
     $self->_set_transform_stack($stack);
-    $self->clear_transform_string;
 }
 
 sub pop_transform {
@@ -185,23 +191,7 @@ sub pop_transform {
     my $stack = $self->transform_stack;
     my $element = pop @{ $stack };
     $self->_set_transform_stack($stack);
-    $self->clear_transform_string;
     return $element;
-}
-
-has combined_transform_string => (
-    is => 'lazy',
-    clearer => 'clear_transform_string',
-    default => sub {
-        my $self = shift;
-        my $cts = join ' ', map { $_ } @{ $self->transform_stack };
-        $self->transformer->extract_transforms($cts);
-        return $cts;
-    },
-);
-
-sub get_transform_string {
-    my $self = shift;
 }
 
 has transformer => (
@@ -264,7 +254,6 @@ sub sum {
         foreach my $element (@{$elements}) {
             my @keys = keys %{$element};
             if ($keys[0] ~~ [qw(g svg)]) {
-                #warn '__________'.$keys[0];
                 $self->sum($element->{$keys[0]});
             }
             elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
