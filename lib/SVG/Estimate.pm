@@ -16,35 +16,114 @@ use SVG::Estimate::Path;
 with 'SVG::Estimate::Role::Round';
 with 'SVG::Estimate::Role::Dpi';
 
+=head1 NAME
+
+SVG::Estimate - Estimates the length of all the vectors in an SVG file.
+
+=head1 SYNOPSIS
+
+ my $se = SVG::Estimate->new(
+    file_path   => '/path/to/file.svg',
+ );
+
+ $se->estimate; # performs all the calculations
+
+ my $length = $se->length;
+
+
+=head1 INHERITANCE
+
+This class consumes L<SVG::Estimate::Role::Round> and L<SVG::Estimate::Role::Dpi>.
+
+=head1 METHODS
+
+=head2 new(properties)
+
+Constructor.
+
+=over
+
+=item properties
+
+A hash of properties for this class.
+
+=over
+
+=item file_path
+
+The path to the SVG file.
+
+=back
+
+=back
+
+=cut
+
 has file_path => (
     is          => 'ro',
     required    => 1,
 );
+
+=head2 length()
+
+Returns the length in user units (pixels) of the SVG. This is equivalent of adding C<tavel_length> and C<shape_length> together. B<NOTE:> The number of user units within any given element could be variable depending upon how the vector was specified and how the SVG editor exports its documents. For example, if you have a line that is 1 inch long in Adobe Illustrator it will export that as 72 user units, and a 1 inch line in Inkscape will export that as 90 user units. 
+
+=cut
 
 has length => (
     is      => 'rw',
     default => sub { 0 },
 );
 
+=head2 travel_length()
+
+Returns the length of tool travel in user units that a toolhead would have to move to get into position for the next shape.
+
+=cut
+
 has travel_length => (
     is      => 'rw',
     default => sub { 0 },
 );
+
+=head2 shape_length()
+
+Returns the length of the vectors (in user units) that make up the shapes in this document. 
+
+=cut
 
 has shape_length => (
     is      => 'rw',
     default => sub { 0 },
 );
 
+=head2 shape_count()
+
+The count of all the shapes in this document.
+
+=cut
+
 has shape_count => (
     is      => 'rw',
     default => sub { 0 },
 );
 
+=head2 cursor()
+
+Returns a point (an array ref with 2 values) of where the toolhead will be at the end of estimation.
+
+=cut
+
 has cursor => (
     is      => 'rw',
     default => sub { [0,0] },
 );
+
+=head2 min_x()
+
+Returns the left most x value of the bounding box for this document.
+
+=cut
 
 has min_x => (
     is          => 'rwp',
