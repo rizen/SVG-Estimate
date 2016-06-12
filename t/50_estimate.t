@@ -35,12 +35,12 @@ cmp_ok $drawing1->round($drawing1->max_y), '==', 100, '... max_y';
 
 my $inkscape_box_in = SVG::Estimate->new( file_path => $t.'/var/inkscape-box-px.svg' );
 $inkscape_box_in->estimate;
-cmp_ok $inkscape_box_in->length, '>', 1700, 'inkscape_box_in - length';
+cmp_ok $inkscape_box_in->round($inkscape_box_in->length), '==', 1333.336, 'inkscape_box_in - length';
 cmp_ok $inkscape_box_in->shape_count, '==', 1, 'inkscape_box_in - shape count';
 
 my $affinity_box_in = SVG::Estimate->new( file_path => $t.'/var/affinity-box-in.svg' );
 $affinity_box_in->estimate;
-cmp_ok $affinity_box_in->length, '>', 3700, 'affinity_box_in - length';
+cmp_ok $affinity_box_in->round($affinity_box_in->length), '==', 863.998, 'affinity_box_in - length';
 cmp_ok $affinity_box_in->shape_count, '==', 1, 'affinity_box_in - shape count';
 
 my $furniture = SVG::Estimate->new( file_path => $t.'/var/furniture.svg' );
