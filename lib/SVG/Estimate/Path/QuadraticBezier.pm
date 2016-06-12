@@ -2,6 +2,7 @@ package SVG::Estimate::Path::QuadraticBezier;
 
 use Moo;
 use List::Util qw/min max/;
+use Clone qw/clone/;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::EndToPoint';
@@ -55,16 +56,30 @@ has control => (
     required    => 1,
 );
 
-sub end_point {
-    my $self = shift;
-    return $self->point;
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    if ($args->{transform}->has_transforms) {
+        $args->{point}   = $args->{transform}->transform($args->{point});
+        $args->{control} = $args->{transform}->transform($args->{control});
+    }
+    $args->{end_point} = clone $args->{point};
+    $args->{length} = $class->_calculate_length($args);
+    ##Bouding box points approximated by the control points.
+    $args->{min_x} = min $args->{start_point}->[0], $args->{control}->[0], $args->{point}->[0];
+    $args->{max_x} = max $args->{start_point}->[0], $args->{control}->[0], $args->{point}->[0];
+    $args->{min_y} = min $args->{start_point}->[1], $args->{control}->[1], $args->{point}->[1];
+    $args->{max_y} = max $args->{start_point}->[1], $args->{control}->[1], $args->{point}->[1];
+    return $args;
 }
 
-sub length {
-    my $self = shift;
-    my $start = $self->start_point;
-    my $control = $self->control;
-    my $end   = $self->point;
+sub _calculate_length {
+    my $class = shift;
+    my $args  = shift;
+    my $start   = $args->{start_point};
+    my $control = $args->{control};
+    my $end     = $args->{point};
 
     ##http://www.malczak.info/blog/quadratic-bezier-curve-length/
     my $a_x = $start->[0] - 2 * $control->[0] + $end->[0];
@@ -84,28 +99,6 @@ sub length {
 
     my $length = ( $A32 + $SA*$B*($SABC-$SC) + (4*$C*$A - $B*$B)*log( (2*$SA + $BA + $SABC)/($BA + $SC) ) ) / (4*($A32));
     return $length;
-}
-
-##Bouding box points approximated by the control points.
-
-sub min_x {
-    my $self = shift;
-    return min $self->start_point->[0], $self->control->[0], $self->point->[0];
-}
-
-sub max_x {
-    my $self = shift;
-    return max $self->start_point->[0], $self->control->[0], $self->point->[0];
-}
-
-sub min_y {
-    my $self = shift;
-    return min $self->start_point->[1], $self->control->[1], $self->point->[1];
-}
-
-sub max_y {
-    my $self = shift;
-    return max $self->start_point->[1], $self->control->[1], $self->point->[1];
 }
 
 1;
