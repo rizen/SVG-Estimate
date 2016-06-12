@@ -66,7 +66,7 @@ sub BUILDARGS {
     my $args = @args % 2 ? $args[0] : { @args };
     my $string = $args->{points};
     $string =~ s/^\s+|\s+$//g;
-    my @pairs = split ' ', $string;
+    my @pairs = $class->_get_pairs($string);
     my @points = ();
     my ($min_x, $max_x, $min_y, $max_y) = (1e10, -1e10, 1e10, -1e10);
     my $first  = 1;
@@ -99,6 +99,13 @@ sub BUILDARGS {
     $args->{draw_end}     = clone $points[-1];
     $args->{shape_length} = $length;
     return $args;
+}
+
+##This method is here so that Polygon can wrap it to add a closing point.
+
+sub _get_pairs {
+    my ($class, $string) = @_;
+    return split ' ', $string;
 }
 
 1;

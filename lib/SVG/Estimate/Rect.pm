@@ -69,34 +69,28 @@ has height => (
     is => 'ro',
 );
 
-sub draw_start {
-    my $self = shift;
-    return [$self->x, $self->y];
-}
-
-sub shape_length {
-    my $self = shift;
-    return ($self->width + $self->height) * 2;
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->x;
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->x + $self->width;
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->y;
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->y + $self->height;
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    my $origin   = [ $args->{x}, $args->{y} ];
+    my $opposite = [ $args->{x} + $args->{width}, $args->{y} + $args->{height} ];
+    if ($args->{transform}->has_transforms) {
+        $origin   = $args->{transform}->transform($origin);
+        $opposite = $args->{transform}->transform($opposite);
+        $args->{x} = $origin->[0] < $opposite->[0] ? $origin->[0] : $opposite->[0];
+        $args->{y} = $origin->[1] < $opposite->[1] ? $origin->[1] : $opposite->[1];
+        $args->{width}  = abs($opposite->[0] - $origin->[0]);
+        $args->{height} = abs($opposite->[1] - $origin->[1]);
+    }
+    $args->{draw_start}   = $origin;
+    $args->{draw_end}     = $origin;
+    $args->{shape_length} = ($args->{width} + $args->{height}) * 2;
+    $args->{min_x}        = $origin->[0];
+    $args->{min_y}        = $origin->[1];
+    $args->{max_x}        = $opposite->[0];
+    $args->{max_y}        = $opposite->[1];
+    return $args;
 }
 
 1;
