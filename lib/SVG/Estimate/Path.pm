@@ -9,7 +9,6 @@ use SVG::Estimate::Path::QuadraticBezier;
 use SVG::Estimate::Path::HorizontalLineto;
 use SVG::Estimate::Path::VerticalLineto;
 use SVG::Estimate::Path::Arc;
-use List::Util qw/sum/;
 use Clone qw/clone/;
 use Ouch;
 
@@ -51,23 +50,6 @@ An SVG path string as described L<http://www.w3.org/TR/SVG/paths.html>.
 
 has d => ( is => 'ro', required => 1, );
 has commands => ( is => 'ro', );
-has min_x => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_x => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
-has min_y => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_y => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
-
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -80,7 +62,9 @@ sub BUILDARGS {
     my $first_flag = 1;
     my $first;
     my $cursor  = [0, 0];  ##Updated after every command
+    $args->{length} = 0;
     foreach my $subpath (@path_info) {
+        $subpath->{transform}   = $args->{transform};
         ##On the first command, set the start point to the moveto destination, otherwise the travel length gets counted twice.
         $subpath->{start_point} = clone $cursor;
         my $command = $subpath->{type} eq 'moveto'             ? SVG::Estimate::Path::Moveto->new($subpath)
@@ -98,36 +82,30 @@ sub BUILDARGS {
         }
         $cursor = clone $command->end_point;
         if ($first_flag) {
+            ##Save the first point in order to handle a closepath, if it exists
             $first_flag = 0;
             $first = $command; ##According to SVG, this will be a Moveto.
+            $args->{min_x}      = $command->min_x;
+            $args->{max_x}      = $command->max_x;
+            $args->{min_y}      = $command->min_y;
+            $args->{max_y}      = $command->max_y;
+            $args->{draw_start} = $command->end_point;
         }
+        $args->{shape_length} += $command->length;
+        $args->{min_x} = $command->min_x if $command->min_x < $args->{min_x};
+        $args->{max_x} = $command->max_x if $command->max_x > $args->{max_x};
+        $args->{min_y} = $command->min_y if $command->min_y < $args->{min_y};
+        $args->{max_y} = $command->max_y if $command->max_y > $args->{max_y};
         push @commands, $command;
     }
 
-    $args->{commands} = \@commands;
+    $args->{commands}      = \@commands;
     return $args;
 }
 
-sub shape_length {
-    my $self = shift;
-    my $length = 0;
-    foreach my $command ( @{ $self->commands } ) {
-        $length += $command->length;
-        $self->_set_min_x( $command->min_x ) if $command->min_x < $self->min_x;
-        $self->_set_max_x( $command->max_x ) if $command->max_x > $self->max_x;
-        $self->_set_min_y( $command->min_y ) if $command->min_y < $self->min_y;
-        $self->_set_max_y( $command->max_y ) if $command->max_y > $self->max_y;
-    }
-    return $length;
-}
-
+##By convention, due to the moveto, the travel_length of this is 0
 sub travel_length {
     return 0;
-}
-
-sub draw_start {
-    my $self = shift;
-    return $self->commands->[0]->point;
 }
 
 1;
