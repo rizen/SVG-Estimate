@@ -26,13 +26,13 @@ This class extends L<SVG::Estimate::Polyline>.
 
 =cut
 
-around parsed_points => sub {
+##Take the first pair, and make it the last to close the shape.
+around _get_pairs => sub {
     my $orig = shift;
     my $self = shift;
-    my $points = $self->$orig();
-    my $start_point = clone $points->[0];
-    push @{ $points }, $start_point;
-    return $points;
+    my @points = $self->$orig(@_);
+    push @points, $points[0];
+    return @points
 };
 
 1;
