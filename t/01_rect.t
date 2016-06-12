@@ -1,14 +1,17 @@
 use strict;
 use Test::More;
+use Image::SVG::Transform;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Rect';
+my $transform = Image::SVG::Transform->new();
 my $rect = SVG::Estimate::Rect->new(
     start_point => [10,30],
     x           => 0,
     y           => 310,
     width       => 943,
     height      => 741,
+    transform   => $transform,
 );
 isa_ok $rect, 'SVG::Estimate::Rect';
 
