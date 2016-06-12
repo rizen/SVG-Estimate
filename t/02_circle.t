@@ -1,19 +1,21 @@
 use strict;
 use Test::More;
-use Math::Trig;
+use Image::SVG::Transform;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Circle';
 
+my $transform = Image::SVG::Transform->new();
 my $circle = SVG::Estimate::Circle->new(
     cx          => 2,
     cy          => 2,
     r           => 1,
     start_point => [0,0],
+    transform   => $transform,
 );
 
-is_deeply $circle->draw_start, [2,2.5], 'circle draw start';
-cmp_ok $circle->round($circle->shape_length),  '==', 6.283, 'circle circumerence';
+is_deeply $circle->draw_start, [3,2], 'circle draw start';
+cmp_ok $circle->round($circle->shape_length),  '==', 6.283, '... circumerence';
 
 is $circle->min_x, 1, 'min_x';
 is $circle->max_x, 3, 'max_x';

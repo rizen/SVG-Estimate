@@ -2,8 +2,10 @@ package SVG::Estimate::Circle;
 
 use Moo;
 use Math::Trig qw/pi/;
+use SVG::Estimate::Polygon;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::MakePolygon';
 
 =head1 NAME
 
@@ -61,57 +63,43 @@ has r => (
     is => 'ro',
 );
 
-sub draw_start {
-    my $self = shift;
-    return [$self->cx, $self->cy + 0.5*$self->r];
-}
-
-sub shape_length {
-    my $self = shift;
-    return 2 * pi * $self->r;
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->cx - $self->r;
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->cx + $self->r;
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->cy - $self->r;
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->cy + $self->r;
-}
-
 sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
     my $center   = [ $args->{cx}, $args->{cy} ];
-    my $opposite = [ $args->{x} + $args->{width}, $args->{y} + $args->{height} ];
     if ($args->{transform}->has_transforms) {
-        $center   = $args->{transform}->transform($center);
-        $opposite = $args->{transform}->transform($opposite);
-        $args->{x} = $origin->[0] < $opposite->[0] ? $origin->[0] : $opposite->[0];
-        $args->{y} = $origin->[1] < $opposite->[1] ? $origin->[1] : $opposite->[1];
-        $args->{width}  = abs($opposite->[0] - $origin->[0]);
-        $args->{height} = abs($opposite->[1] - $origin->[1]);
+        ##Approximate the circle with a polygon
+        my $poly = $class->make_polygon($args);
+        $args->{draw_start}   = $poly->draw_start;
+        $args->{draw_end}     = $poly->draw_end;
+        $args->{shape_length} = $poly->shape_length;
+        $args->{min_x}        = $poly->min_x;
+        $args->{min_y}        = $poly->min_y;
+        $args->{max_x}        = $poly->max_x;
+        $args->{max_y}        = $poly->max_y;
+        return $args;
     }
-    $args->{draw_start}   = $center;
-    $args->{draw_end}     = $center;
-    $args->{shape_length} = ($args->{width} + $args->{height}) * 2;
-    $args->{min_x}        = $origin->[0];
-    $args->{min_y}        = $origin->[1];
-    $args->{max_x}        = $opposite->[0];
-    $args->{max_y}        = $opposite->[1];
+    $args->{draw_start}   = [$args->{cx}+$args->{r}, $args->{cy}];
+    $args->{draw_end}     = $args->{draw_start};
+    $args->{shape_length} = 2 * pi * $args->{r};
+    $args->{min_x}        = $args->{cx} - $args->{r};
+    $args->{min_y}        = $args->{cx} - $args->{r};
+    $args->{max_x}        = $args->{cy} + $args->{r};
+    $args->{max_y}        = $args->{cy} + $args->{r};
     return $args;
 }
+
+sub this_point {
+    my $class = shift;
+    my $args  = shift;
+    my $t     = shift;
+    my $angle = $t * 2 * pi;
+    my $cosr  = cos $angle;
+    my $sinr  = sin $angle;
+    my $x     = $cosr * $args->{r} + $args->{cx};
+    my $y     = $sinr * $args->{r} + $args->{cy};
+    return [$x, $y];
+}
+
 1;
