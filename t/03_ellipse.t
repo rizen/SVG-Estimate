@@ -1,16 +1,18 @@
 use strict;
 use Test::More;
-use Math::Trig;
+use Image::SVG::Transform;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Ellipse';
 
+my $transform = Image::SVG::Transform->new();
 my $ellipse = SVG::Estimate::Ellipse->new(
     cx          => 3,
     cy          => 3,
     rx          => 10,
     ry          => 5,
     start_point => [0,0],
+    transform   => $transform,
 );
 
 is_deeply $ellipse->draw_start, [3,5.5], 'ellipse start point, dead north';

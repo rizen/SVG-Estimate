@@ -3,6 +3,7 @@ package SVG::Estimate::Role::MakePolygon;
 use strict;
 use Moo::Role;
 use Image::SVG::Transform;
+use SVG::Estimate::Polygon;
 
 =head2 make_polygon ( $args )
 

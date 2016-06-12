@@ -4,6 +4,7 @@ use Moo;
 use Math::Trig qw/pi/;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::MakePolygon';
 
 =head1 NAME
 
@@ -70,38 +71,48 @@ has ry => (
     is => 'ro',
 );
 
-sub draw_start {
-    my $self = shift;
-    return [$self->cx, $self->cy + 0.5*$self->ry];
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    my $center   = [ $args->{cx}, $args->{cy} ];
+    if ($args->{transform}->has_transforms) {
+        ##Approximate the circle with a polygon
+        my $poly = $class->make_polygon($args);
+        $args->{draw_start}   = $poly->draw_start;
+        $args->{draw_end}     = $poly->draw_end;
+        $args->{shape_length} = $poly->shape_length;
+        $args->{min_x}        = $poly->min_x;
+        $args->{min_y}        = $poly->min_y;
+        $args->{max_x}        = $poly->max_x;
+        $args->{max_y}        = $poly->max_y;
+        return $args;
+    }
+    $args->{draw_start}   = [$args->{cx}+$args->{rx}, $args->{cy}];
+    $args->{draw_end}     = $args->{draw_start};
+
+    ##https://www.mathsisfun.com/geometry/ellipse-perimeter.html, Series #2
+    my $h = ($args->{rx} - $args->{ry})**2 / ($args->{rx} + $args->{ry}) **2;
+    my $len = pi * ( $args->{rx} + $args->{ry} ) * ( 1 + $h/4 + ($h**2)/64 + ($h**3)/256 + ($h**4 * (25/16384)));
+    $args->{shape_length} = $len;
+
+    $args->{min_x}        = $args->{cx} - $args->{rx};
+    $args->{min_y}        = $args->{cy} - $args->{ry};
+    $args->{max_x}        = $args->{cx} + $args->{rx};
+    $args->{max_y}        = $args->{cy} + $args->{ry};
+    return $args;
 }
 
-##https://www.mathsisfun.com/geometry/ellipse-perimeter.html, Series #2
-
-sub shape_length {
-    my $self = shift;
-    my $h = ($self->rx - $self->ry)**2 / ($self->rx + $self->ry) **2;
-    my $len = pi * ( $self->rx + $self->ry ) * ( 1 + $h/4 + ($h**2)/64 + ($h**3)/256 + ($h**4 * (25/16384)));
-    return $len;
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->cx - $self->rx;
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->cx + $self->rx;
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->cy - $self->ry;
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->cy + $self->ry;
+sub this_point {
+    my $class = shift;
+    my $args  = shift;
+    my $t     = shift;
+    my $angle = $t * 2 * pi;
+    my $cosr  = cos $angle;
+    my $sinr  = sin $angle;
+    my $x     = $cosr * $args->{rx} + $args->{cx};
+    my $y     = $sinr * $args->{ry} + $args->{cy};
+    return [$x, $y];
 }
 
 1;
