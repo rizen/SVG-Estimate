@@ -6,19 +6,20 @@ extends 'SVG::Estimate::Shape';
 
 =head1 NAME
 
-SVG::Estimate::Circle - Handles estimating circles.
+SVG::Estimate::Rect - Handles estimating rectangles.
 
 =head1 SYNOPIS
 
- my $circle = SVG::Estimate::Circle->new(
+ my $rect = SVG::Estimate::Rect->new(
     transform   => $transform,
     start_point => [45,13],
-    cx          => 1,
-    cy          => 3,
-    r           => 1,
+    x           => 3,
+    y           => 6,
+    width       => 11.76,
+    height      => 15.519,
  );
 
- my $length = $circle->length;
+ my $length = $rect->length;
 
 =head1 INHERITANCE
 
@@ -32,17 +33,21 @@ Constructor.
 
 =over
 
-=item cx
+=item x
 
-Float representing center x.
+Float representing the top left corner x.
 
-=item cy
+=item y
 
-Float representing center y.
+Float representing the top left corner y.
 
-=item r
+=item width
 
-Float representing the radius.
+Float representing the width of the box.
+
+=item height
+
+Float representing the height of the box.
 
 =back
 
