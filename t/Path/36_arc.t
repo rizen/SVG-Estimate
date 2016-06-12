@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Path::Arc';
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('scale(5)');
 my $arc = SVG::Estimate::Path::Arc->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point     => [275, 25],
     rx              => 30,
     ry              => 30,

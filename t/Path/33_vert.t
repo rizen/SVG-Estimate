@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Path::VerticalLineto';
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('translate (10,-5)');
 my $vlineto = SVG::Estimate::Path::VerticalLineto->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [4, 5],
     y => 15,
 );

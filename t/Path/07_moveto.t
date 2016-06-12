@@ -6,7 +6,7 @@ use Image::SVG::Transform;
 use_ok 'SVG::Estimate::Path::Moveto';
 my $transform = Image::SVG::Transform->new();
 my $moveto = SVG::Estimate::Path::Moveto->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [4, 5],
     point       => [14, 15],
 );

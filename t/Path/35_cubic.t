@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Path::CubicBezier';
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('scale(2)');
 my $cubic = SVG::Estimate::Path::CubicBezier->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point    => [120, 160],
     end            => [110, 20],
     control1       => [17.5, 100],

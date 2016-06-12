@@ -13,7 +13,7 @@ SVG::Estimate::Polyline - Handles estimating multi-part lines.
 =head1 SYNOPSIS
 
  my $line = SVG::Estimate::Polyline->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [45,13],
     points      => '20,20 40,25 60,40 80,120 120,140 200,180',
  );
@@ -74,8 +74,8 @@ sub BUILDARGS {
     my $length = 0;
     PAIR: foreach my $pair (@pairs) {
         my $point =  [ split ',', $pair ];
-        if ($args->{transform}->has_transforms) {
-            $point = $args->{transform}->transform($point);
+        if ($args->{transformer}->has_transforms) {
+            $point = $args->{transformer}->transform($point);
         }
         $min_x = $point->[0] if $point->[0] < $min_x;
         $max_x = $point->[0] if $point->[0] > $max_x;

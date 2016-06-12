@@ -12,7 +12,7 @@ SVG::Estimate::Path::HorizontalLineto - Handles estimating horizontal lines.
 =head1 SYNOPSIS
 
  my $line = SVG::Estimate::Path::HorizontalLineto->new(
-    transform       => $transform,
+    transformer     => $transform,
     start_point     => [13, 19],
     x               => 13,
  );
@@ -49,8 +49,8 @@ sub BUILDARGS {
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
     my $end  = [$args->{x}, $args->{start_point}[0]];
-    if ($args->{transform}->has_transforms) {
-        $end = $args->{transform}->transform($end);
+    if ($args->{transformer}->has_transforms) {
+        $end = $args->{transformer}->transform($end);
     }
     $args->{end_point}    = [$end->[0], $args->{start_point}[1]];
     $args->{y}            = $args->{end_point}[1];

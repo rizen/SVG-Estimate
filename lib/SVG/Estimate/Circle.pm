@@ -13,7 +13,7 @@ SVG::Estimate::Circle - Handles estimating circles.
 =head1 SYNOPSIS
 
  my $circle = SVG::Estimate::Circle->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [45,13],
     cx          => 1,
     cy          => 3,
@@ -67,7 +67,7 @@ sub BUILDARGS {
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
     my $center   = [ $args->{cx}, $args->{cy} ];
-    if ($args->{transform}->has_transforms) {
+    if ($args->{transformer}->has_transforms) {
         ##Approximate the circle with a polygon
         my $poly = $class->make_polygon($args);
         $args->{draw_start}   = $poly->draw_start;

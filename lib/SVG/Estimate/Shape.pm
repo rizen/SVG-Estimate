@@ -30,7 +30,7 @@ Constructor.
 
 An array ref that describes the position of the cursor (or CNC head) prior to drawing this shape (where it left off from the last object).
 
-=item transform
+=item transformer
 
 A reference to a L<Image::SVG::Transform> object that contains all the transforms for this shape.
 
@@ -45,7 +45,8 @@ has start_point => (
     required    => 1,
 );
 
-has transform => (
+##Note, named transformer because Transformers are cool, and because it clashes with the transform attribute
+has transformer => (
     is          => 'ro',
     required    => 1,
 );

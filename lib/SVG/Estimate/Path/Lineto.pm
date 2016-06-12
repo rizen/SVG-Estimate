@@ -12,7 +12,7 @@ SVG::Estimate::Path::Lineto - Handles estimating diagonal lines.
 =head1 SYNOPSIS
 
  my $line = SVG::Estimate::Path::Lineto->new(
-    transform       => $transform,
+    transformer     => $transform,
     start_point     => [13, 19],
     point           => [45,13],
  );
@@ -49,8 +49,8 @@ sub BUILDARGS {
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
     my $point  = $args->{point};
-    if ($args->{transform}->has_transforms) {
-        $point   = $args->{transform}->transform($point);
+    if ($args->{transformer}->has_transforms) {
+        $point   = $args->{transformer}->transform($point);
     }
     $args->{start_point}  = $args->{start_point};
     $args->{end_point}    = $point;

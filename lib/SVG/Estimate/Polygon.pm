@@ -13,7 +13,7 @@ SVG::Estimate::Polygon - Handles estimating shapes of more than 3 points with st
 =head1 SYNOPSIS
 
  my $polygon = SVG::Estimate::Polygon->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [45,13],
     points      => '20,20 40,25 60,40 80,120 120,140 200,180',
  );

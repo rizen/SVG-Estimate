@@ -6,7 +6,7 @@ use Image::SVG::Transform;
 use_ok 'SVG::Estimate::Path::CubicBezier';
 my $transform = Image::SVG::Transform->new();
 my $cubic = SVG::Estimate::Path::CubicBezier->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point    => [120, 160],
     end            => [220, 40],
     control1       => [35, 200],
