@@ -90,10 +90,6 @@ sub parse_points {
     my ($min_x, $max_x, $min_y, $max_y) = (1e10, -1e10, 1e10, -1e10);
     foreach my $pair (@pairs) {
         my ($x, $y) = split ',', $pair;
-        if ($self->transform) {
-            my $point = $self->transform->transform([$x, $y]);
-            ($x, $y) = @{ $point };
-        }
         $min_x = $x if $x < $min_x;
         $max_x = $x if $x > $max_x;
         $min_y = $y if $y < $min_y;
