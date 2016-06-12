@@ -13,6 +13,7 @@ SVG::Estimate::Line - Handles estimating straight lines.
 =head1 SYNOPIS
 
  my $line = SVG::Estimate::Line->new(
+    transform   => $transform,
     start_point => [45,13],
     x1          => 1,
     y1          => 3,

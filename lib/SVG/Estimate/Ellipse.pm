@@ -12,6 +12,7 @@ SVG::Estimate::Ellipse - Handles estimating ellipses.
 =head1 SYNOPIS
 
  my $ellipse = SVG::Estimate::Ellipse->new(
+    transform   => $transform,
     start_point => [45,13],
     cx          => 1,
     cy          => 3,

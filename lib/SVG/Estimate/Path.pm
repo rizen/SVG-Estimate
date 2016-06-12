@@ -11,7 +11,7 @@ use SVG::Estimate::Path::VerticalLineto;
 use SVG::Estimate::Path::Arc;
 use List::Util qw/sum/;
 use Clone qw/clone/;
-use Carp qw/croak/;
+use Ouch;
 
 extends 'SVG::Estimate::Shape';
 
@@ -21,14 +21,13 @@ SVG::Estimate::Circle - Handles estimating circles.
 
 =head1 SYNOPIS
 
- my $circle = SVG::Estimate::Circle->new(
+ my $path = SVG::Estimate::Path->new(
+    transform   => $transform,
     start_point => [45,13],
-    cx          => 1,
-    cy          => 3,
-    r           => 1,
+    d           => 'M150 0 L75 200 L225 200 Z',
  );
 
- my $length = $circle->length;
+ my $length = $path->length;
 
 =head1 INHERITANCE
 
@@ -42,21 +41,14 @@ Constructor.
 
 =over
 
-=item cx
+=item d
 
-Float representing center x.
-
-=item cy
-
-Float representing center y.
-
-=item r
-
-Float representing the radius.
+An SVG path string as described L<http://www.w3.org/TR/SVG/paths.html>.
 
 =back
 
 =cut
+
 has d => ( is => 'ro', required => 1, );
 has commands => ( is => 'ro', );
 has min_x => (
@@ -99,7 +91,7 @@ sub BUILDARGS {
                     : $subpath->{type} eq 'vertical-line-to'   ? SVG::Estimate::Path::VerticalLineto->new($subpath)
                     : $subpath->{type} eq 'arc'                ? SVG::Estimate::Path::Arc->new($subpath)
                     : $subpath->{type} eq 'closepath'          ? '' #Placeholder so we don't fall through
-                    : croak "Unknown subpath type ".$subpath->{type}."\n" ;  ##Something bad happened
+                    : ouch('unknown_path', "Unknown subpath type ".$subpath->{type}) ;  ##Something bad happened
         if ($subpath->{type} eq 'closepath') {
             $subpath->{point} = clone $first->point;
             $command = SVG::Estimate::Path::Lineto->new($subpath);

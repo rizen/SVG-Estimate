@@ -16,6 +16,7 @@ SVG::Estimate::Circle - Handles estimating circles.
 =head1 SYNOPIS
 
  my $circle = SVG::Estimate::Circle->new(
+    transform   => $transform,
     start_point => [45,13],
     cx          => 1,
     cy          => 3,
