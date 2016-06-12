@@ -2,6 +2,7 @@ package SVG::Estimate::Path::CubicBezier;
 
 use Moo;
 use List::Util qw/min max/;
+use Clone qw/clone/;
 
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
@@ -67,27 +68,29 @@ has control2 => (
     required    => 1,
 );
 
-##Precalculated when parsing points, see below
-has min_x => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_x => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
-has min_y => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_y => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    $args->{point} = $args->{end};
+    if ($args->{transform}->has_transforms) {
+        $args->{point}    = $args->{transform}->transform($args->{point});
+        $args->{control1} = $args->{transform}->transform($args->{control1});
+        $args->{control2} = $args->{transform}->transform($args->{control2});
+    }
+    $args->{start_point}  = $args->{start_point};
+    $args->{end_point}    = clone $args->{point};
 
-sub end_point {
-    my $self = shift;
-    return $self->point;
+    my $start      = $class->this_point($args, 0);
+    my $end        = $class->this_point($args, 1);
+    $args->{min_x} = $start->[0] < $end->[0] ? $start->[0] : $end->[0];
+    $args->{max_x} = $start->[0] > $end->[0] ? $start->[0] : $end->[0];
+    $args->{min_y} = $start->[1] < $end->[1] ? $start->[1] : $end->[1];
+    $args->{max_y} = $start->[1] > $end->[1] ? $start->[1] : $end->[1];
+
+    $args->{length} = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 5, 0);
+
+    return $args;
 }
 
 sub _this_point {
@@ -101,24 +104,14 @@ sub _this_point {
 }
 
 sub this_point {
-    my $self = shift;
-    my $t    = shift;
+    my $class = shift;
+    my $args  = shift;
+    my $t     = shift;
     return [
-        $self->_this_point($t, $self->start_point->[0], $self->control1->[0], $self->control2->[0], $self->point->[0]),
-        $self->_this_point($t, $self->start_point->[1], $self->control1->[1], $self->control2->[1], $self->point->[1])
+        $class->_this_point($t, $args->{start_point}->[0], $args->{control1}->[0], $args->{control2}->[0], $args->{point}->[0]),
+        $class->_this_point($t, $args->{start_point}->[1], $args->{control1}->[1], $args->{control2}->[1], $args->{point}->[1])
     ];
 }
 
-
-sub length {
-    my $self = shift;
-    my $start = $self->this_point(0);
-    my $end   = $self->this_point(1);
-    $self->_set_min_x( $start->[0] < $end->[0] ? $start->[0] : $end->[0]);
-    $self->_set_max_x( $start->[0] > $end->[0] ? $start->[0] : $end->[0]);
-    $self->_set_min_y( $start->[1] < $end->[1] ? $start->[1] : $end->[1]);
-    $self->_set_max_y( $start->[1] > $end->[1] ? $start->[1] : $end->[1]);
-    return $self->segment_length(0, 1, $start, $end, 1e-4, 5, 0);
-}
 
 1;
