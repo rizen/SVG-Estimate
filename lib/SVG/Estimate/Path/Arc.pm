@@ -9,6 +9,62 @@ with 'SVG::Estimate::Role::Pythagorean';
 with 'SVG::Estimate::Role::SegmentLength';
 with 'SVG::Estimate::Role::EndToPoint';
 
+=head1 NAME
+
+SVG::Estimate::Path::Arc - Handles estimating arcs.
+
+=head1 SYNOPSIS
+
+ my $arc = SVG::Estimate::Path::Arc->new(
+    transform   => $transform,
+    start_point => [45,13],
+    cx          => 1,
+    cy          => 3,
+    r           => 1,
+ );
+
+ my $length = $arc->length;
+
+=head1 INHERITANCE
+
+This class extends L<SVG::Estimate::Shape>.
+
+=head1 METHODS
+
+=head2 new()
+
+Constructor.
+
+=over
+
+=item point
+
+An array ref containing two floats that represent a point. 
+
+=item rx
+
+Float representing the x radius.
+
+=item ry
+
+Float representing the y radius.
+
+=item x_axis_rotation
+
+Float that indicates how the ellipse as a whole is rotated relative to the current coordinate system.
+
+=item large_arc_flag
+
+
+
+=item sweep_flag
+
+
+
+=back
+
+=cut
+
 has rx => (
     is          => 'ro',
     required    => 1,
