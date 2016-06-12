@@ -3,9 +3,9 @@ package SVG::Estimate::Role::EndToPoint;
 use strict;
 use Moo::Role;
 
-=head2 BUILDARGS ( )
+=head1 NAME
 
-Change arguments from "end" to "point", mainly for Path command objects
+SVG::Estimate::Role::EndToPoint - Change arguments from "end" to "point", mainly for Path command objects
 
 =cut
 

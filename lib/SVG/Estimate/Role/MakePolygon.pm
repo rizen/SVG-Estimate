@@ -5,6 +5,12 @@ use Moo::Role;
 use Image::SVG::Transform;
 use SVG::Estimate::Polygon;
 
+=head1 NAME
+
+SVG::Estimate::Role::MakePolygon - Approximate shapes that are hard to estimate
+
+=head1 METHODS
+
 =head2 make_polygon ( $args )
 
 Class method.

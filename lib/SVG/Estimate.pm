@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package SVG::Estimate;
+
 use XML::Hash::LX;
 use XML::LibXML;
 use File::Slurp;

@@ -3,6 +3,12 @@ package SVG::Estimate::Role::Pythagorean;
 use strict;
 use Moo::Role;
 
+=head1 NAME
+
+SVG::Estimate::Role::Pythagorean - Use Pythagorean theorem to calc distance
+
+=head1 METHODS
+
 =head2 pythagorean ( point1, point2 )
 
 Calculates the distance between two points.

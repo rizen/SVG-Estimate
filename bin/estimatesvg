@@ -1,5 +1,20 @@
 #!/usr/bin/env perl
 
+=head1 NAME
+
+estimatesvg - Do quick estimations of files via the CLI.
+
+=head1 SYNOPSIS
+
+ estimatesvg /path/to/file.svg
+
+=head1 OPTIONS
+
+ -h --help      Display help.
+ -c --csv       Output CSV data about the estimate.
+
+=cut
+
 use strict;
 use warnings;
 use lib '../lib', 'lib';

@@ -3,6 +3,12 @@ package SVG::Estimate::Role::SegmentLength;
 use strict;
 use Moo::Role;
 
+=head1 NAME
+
+SVG::Estimate::Role::SegmentLength - Estimate the distance along a curve 
+
+=head1 METHODS
+
 =head2 segment_length ( args, t0, t1, start_point, end_point, tolerance, minimum_iterations, current_iteration)
 
 Calculate the distance along a curve using straight line approximations along segments of the curve
