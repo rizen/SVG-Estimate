@@ -127,7 +127,6 @@ sub BUILDARGS {
         my $first = 1;
         my $start;
         my $length = 0;
-        warn "Points: ";
         POINT: for (my $t=0; $t<=1; $t+=1/12) {
             $point = $class->this_point($args, $t);
             $point = $args->{transformer}->transform($point);
