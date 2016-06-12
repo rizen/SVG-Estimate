@@ -9,7 +9,7 @@ extends 'SVG::Estimate::Shape';
 
 SVG::Estimate::Ellipse - Handles estimating ellipses.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
  my $ellipse = SVG::Estimate::Ellipse->new(
     transform   => $transform,

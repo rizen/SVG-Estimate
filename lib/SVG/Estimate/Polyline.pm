@@ -7,27 +7,24 @@ use List::Util qw/min max/;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::Pythagorean';
-with 'SVG::Estimate::Role::Transform';
 
 =head1 NAME
 
-SVG::Estimate::Circle - Handles estimating circles.
+SVG::Estimate::Polyline - Handles estimating multi-part lines.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
- my $circle = SVG::Estimate::Circle->new(
+ my $line = SVG::Estimate::Polyline->new(
     transform   => $transform,
     start_point => [45,13],
-    cx          => 1,
-    cy          => 3,
-    r           => 1,
+    points      => '20,20 40,25 60,40 80,120 120,140 200,180',
  );
 
- my $length = $circle->length;
+ my $length = $line->length;
 
 =head1 INHERITANCE
 
-This class extends L<SVG::Estimate::Shape>.
+This class extends L<SVG::Estimate::Shape> and consumes L<SVG::Estimate::Role::Pythagorean>.
 
 =head1 METHODS
 
@@ -37,25 +34,24 @@ Constructor.
 
 =over
 
-=item cx
+=item points
 
-Float representing center x.
-
-=item cy
-
-Float representing center y.
-
-=item r
-
-Float representing the radius.
+A string listing points for the polyline as defined by L<http://www.w3.org/TR/SVG/shapes.html>.
 
 =back
 
 =cut
+
 has points => (
     is          => 'ro',
     required    => 1,
 );
+
+=head2 parsed_points() 
+
+Returns an array reference of array references marking the parsed C<points> string.
+
+=cut
 
 has parsed_points => (
     is          => 'ro',
@@ -71,6 +67,20 @@ has _bounding_box => (
     is          => 'rw',
     default     => sub { [] },
 );
+
+=head2 parse_points( string )
+
+Returns an array reference of array references. 
+
+=over
+
+=item string
+
+A string listing points for the polyline as defined by L<http://www.w3.org/TR/SVG/shapes.html>.
+
+=back
+
+=cut
 
 sub parse_points {
     my ($self, $string) = @_;

@@ -10,7 +10,7 @@ with 'SVG::Estimate::Role::Transform';
 
 SVG::Estimate::Line - Handles estimating straight lines.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
  my $line = SVG::Estimate::Line->new(
     transform   => $transform,

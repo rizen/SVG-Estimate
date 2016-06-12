@@ -9,7 +9,7 @@ extends 'SVG::Estimate::Shape';
 
 SVG::Estimate::Circle - Handles estimating circles.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
  my $circle = SVG::Estimate::Circle->new(
     transform   => $transform,

@@ -17,9 +17,9 @@ extends 'SVG::Estimate::Shape';
 
 =head1 NAME
 
-SVG::Estimate::Circle - Handles estimating circles.
+SVG::Estimate::Path - Handles estimating arbitrary vectors.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
  my $path = SVG::Estimate::Path->new(
     transform   => $transform,

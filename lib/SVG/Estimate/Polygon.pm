@@ -8,47 +8,24 @@ extends 'SVG::Estimate::Polyline';
 
 =head1 NAME
 
-SVG::Estimate::Circle - Handles estimating circles.
+SVG::Estimate::Polygon - Handles estimating shapes of more than 3 points with straight lines between the points.
 
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
- my $circle = SVG::Estimate::Circle->new(
+ my $polygon = SVG::Estimate::Polygon->new(
     transform   => $transform,
     start_point => [45,13],
-    cx          => 1,
-    cy          => 3,
-    r           => 1,
+    points      => '20,20 40,25 60,40 80,120 120,140 200,180',
  );
 
- my $length = $circle->length;
+ my $length = $polygon->length;
 
 =head1 INHERITANCE
 
-This class extends L<SVG::Estimate::Shape>.
-
-=head1 METHODS
-
-=head2 new()
-
-Constructor.
-
-=over
-
-=item cx
-
-Float representing center x.
-
-=item cy
-
-Float representing center y.
-
-=item r
-
-Float representing the radius.
-
-=back
+This class extends L<SVG::Estimate::Polyline>.
 
 =cut
+
 around parsed_points => sub {
     my $orig = shift;
     my $self = shift;
