@@ -72,7 +72,6 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
-    $args->{point} = $args->{end};
     if ($args->{transform}->has_transforms) {
         $args->{point}    = $args->{transform}->transform($args->{point});
         $args->{control1} = $args->{transform}->transform($args->{control1});

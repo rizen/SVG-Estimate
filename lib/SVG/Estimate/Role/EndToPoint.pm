@@ -9,12 +9,12 @@ Change arguments from "end" to "point", mainly for Path command objects
 
 =cut
 
-sub BUILDARGS {
-    my ($class, @args) = @_;
+around BUILDARGS => sub {
+    my ($orig, $class, @args) = @_;
     my $args = @args % 2 ? $args[0] : { @args };
     $args->{point} = $args->{end};
-    return $args;
-}
+    return $class->$orig($args);
+};
 
 
 1;
