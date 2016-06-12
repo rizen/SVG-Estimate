@@ -23,7 +23,7 @@ is_deeply $line->draw_end,    [110,110], '... end point';
 cmp_ok $line->round($line->shape_length),  '==', 14.142, '... line length';
 
 $transform->extract_transforms('translate(5,15)');
-my $line = SVG::Estimate::Line->new(
+$line = SVG::Estimate::Line->new(
     x1          => 10,
     y1          => 10,
     x2          => 20,
