@@ -3,6 +3,7 @@ package SVG::Estimate::Path::HorizontalLineto;
 use Moo;
 
 extends 'SVG::Estimate::Path::Command';
+with 'SVG::Estimate::Role::Pythagorean';
 
 =head1 NAME
 
@@ -20,7 +21,7 @@ SVG::Estimate::Path::HorizontalLineto - Handles estimating horizontal lines.
 
 =head1 INHERITANCE
 
-This class extends L<SVG::Estimate::Path::Command>.
+This class extends L<SVG::Estimate::Path::Command> and consumes L<SVG::Estimate::Role::Pythagorean>.
 
 =head1 METHODS
 
@@ -43,34 +44,22 @@ has x => (
     required    => 1,
 );
 
-sub end_point {
-    my $self = shift;
-    return [$self->x, $self->start_point->[1]];
-}
-
-sub length {
-    my $self = shift;
-    return abs($self->x - $self->start_point->[0]); 
-}
-
-sub min_x {
-    my $self = shift;
-    return $self->x;
-}
-
-sub max_x {
-    my $self = shift;
-    return $self->x;
-}
-
-sub min_y {
-    my $self = shift;
-    return $self->start_point->[1];
-}
-
-sub max_y {
-    my $self = shift;
-    return $self->start_point->[1];
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    my $end  = [$args->{x}, $args->{start_point}[0]];
+    if ($args->{transform}->has_transforms) {
+        $end = $args->{transform}->transform($end);
+    }
+    $args->{end_point}    = [$end->[0], $args->{start_point}[1]];
+    $args->{y}            = $args->{end_point}[1];
+    $args->{length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
+    $args->{min_x}        = $args->{start_point}[0] < $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
+    $args->{min_y}        = $args->{start_point}[1] < $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
+    $args->{max_x}        = $args->{start_point}[0] > $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
+    $args->{max_y}        = $args->{start_point}[1] > $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
+    return $args;
 }
 
 1;
