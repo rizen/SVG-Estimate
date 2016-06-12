@@ -2,6 +2,7 @@ package SVG::Estimate::Path::Arc;
 
 use Moo;
 use Math::Trig qw/pi acos deg2rad rad2deg/;
+use Clone qw/clone/;
 use strict;
 
 extends 'SVG::Estimate::Path::Command';
@@ -98,24 +99,6 @@ has point => (
     required    => 1,
 );
 
-##Precalculated when parsing points, see below
-has min_x => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_x => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
-has min_y => (
-    is          => 'rwp',
-    default     => sub { 1e10 },
-);
-has max_y => (
-    is          => 'rwp',
-    default     => sub { -1e10 },
-);
-
 ##Used for conversion from endpoint to center parameterization
 has _delta => (
     is          => 'rw',
@@ -129,13 +112,65 @@ has _center => (
     is          => 'rw',
 );
 
-sub BUILD {
-    my $self = shift;
-    my $rotr = deg2rad($self->x_axis_rotation);
+sub BUILDARGS {
+    my ($class, @args) = @_;
+    ##Upgrade to hashref
+    my $args = @args % 2 ? $args[0] : { @args };
+    if ($args->{transform}->has_transforms) {
+        ##The start point and end point are in different coordinate systems (view and user, respectively).
+        ##To make the set of point in the user space, transform the start_point into user space
+        ##Then run all the calculations
+        my $view_start_point = clone $args->{start_point};
+        $args->{start_point} = $args->{transform}->untransform($args->{start_point});
+        $class->endpoint_to_center($args);
+        my $point;
+        my $first = 1;
+        my $start;
+        my $length = 0;
+        warn "Points: ";
+        POINT: for (my $t=0; $t<=1; $t+=1/12) {
+            $point = $class->this_point($args, $t);
+            $point = $args->{transform}->transform($point);
+            if ($first) {
+                $first = 0;
+                $start = $point;
+                $args->{min_x} = $args->{max_x} = $point->[0];
+                $args->{min_y} = $args->{max_y} = $point->[1];
+                next POINT;
+            }
+            $length += $class->pythagorean($start, $point);
+            $args->{min_x} = $point->[0] if $point->[0] < $args->{min_x};
+            $args->{min_y} = $point->[1] if $point->[1] < $args->{min_y};
+            $args->{max_x} = $point->[0] if $point->[0] > $args->{max_x};
+            $args->{max_y} = $point->[1] if $point->[1] > $args->{max_y};
+            $start = $point;
+        }
+        ##Restore the original start point in the viewport coordinate system
+        $args->{start_point} = $view_start_point;
+        $args->{end_point} = $point;
+        $args->{length}    = $length;
+        return $args;
+    }
+    $class->endpoint_to_center($args);
+    $args->{end_point} = clone $args->{point};
+    my $start = $class->this_point($args, 0);
+    my $end   = $class->this_point($args, 1);
+    $args->{min_x}  = $start->[0] < $end->[0] ? $start->[0] : $end->[0];
+    $args->{max_x}  = $start->[0] > $end->[0] ? $start->[0] : $end->[0];
+    $args->{min_y}  = $start->[1] < $end->[1] ? $start->[1] : $end->[1];
+    $args->{max_y}  = $start->[1] > $end->[1] ? $start->[1] : $end->[1];
+    $args->{length} = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 5, 0);
+    return $args;
+}
+
+sub endpoint_to_center {
+    my $class = shift;
+    my $args  = shift;
+    my $rotr = deg2rad($args->{x_axis_rotation});
     my $cosr = cos $rotr;
     my $sinr = sin $rotr;
-    my $dx   = ($self->start_point->[0] - $self->point->[0] ) / 2; #*
-    my $dy   = ($self->start_point->[1] - $self->point->[1] ) / 2; #*
+    my $dx   = ($args->{start_point}->[0] - $args->{point}->[0] ) / 2; #*
+    my $dy   = ($args->{start_point}->[1] - $args->{point}->[1] ) / 2; #*
 
     my $x1prim = $cosr * $dx + $sinr * $dy; #*
     my $y1prim = -1*$sinr * $dx + $cosr * $dy; #*
@@ -143,8 +178,8 @@ sub BUILD {
     my $x1prim_sq = $x1prim**2; #*
     my $y1prim_sq = $y1prim**2; #*
 
-    my $rx = $self->rx; #*
-    my $ry = $self->ry; #*
+    my $rx = $args->{rx}; #*
+    my $ry = $args->{ry}; #*
 
     my $rx_sq = $rx**2; #*
     my $ry_sq = $ry**2; #*
@@ -154,16 +189,16 @@ sub BUILD {
     my $ts = $t1 + $t2;
     my $c  = sqrt(abs( (($rx_sq * $ry_sq) - $ts) / ($ts) ) );
 
-    if ($self->large_arc_flag == $self->sweep_flag) {
+    if ($args->{large_arc_flag} == $args->{sweep_flag}) {
         $c *= -1;
     }
     my $cxprim =     $c * $rx * $y1prim / $ry;
     my $cyprim = -1 *$c * $ry * $x1prim / $rx;
 
-    $self->_center([
-        ($cosr * $cxprim - $sinr * $cyprim) + ( ($self->start_point->[0] + $self->point->[0]) / 2 ),
-        ($sinr * $cxprim + $cosr * $cyprim) + ( ($self->start_point->[1] + $self->point->[1]) / 2 )
-    ]);
+    $args->{_center} = [
+        ($cosr * $cxprim - $sinr * $cyprim) + ( ($args->{start_point}->[0] + $args->{point}->[0]) / 2 ),
+        ($sinr * $cxprim + $cosr * $cyprim) + ( ($args->{start_point}->[1] + $args->{point}->[1]) / 2 )
+    ];
 
     ##**
 
@@ -177,7 +212,7 @@ sub BUILD {
     if ($uy < 0) {
         $theta *= -1;
     }
-    $self->_theta($theta % 360);
+    $args->{_theta} = $theta % 360;
 
     my $vx = -1 * ($x1prim + $cxprim) / $rx;
     my $vy = -1 * ($y1prim + $cyprim) / $ry;
@@ -191,44 +226,29 @@ sub BUILD {
     }
     $delta = $delta % 360;
 
-    if (! $self->sweep_flag) {
+    if (! $args->{sweep_flag}) {
         $delta -= 360;
     }
-    $self->_delta($delta);
+    $args->{_delta} = $delta;
 }
 
-sub end_point {
-    my $self = shift;
-    return $self->point;
-}
-
-=head2 this_point (t)
+=head2 this_point (args, t)
 
 Calculate a point on the graph, normalized from start point to end point as t, in 2-D space
 
 =cut
 
 sub this_point {
-    my $self = shift;
-    my $t    = shift;
-    my $angle = deg2rad($self->_theta + ($self->_delta * $t));
-    my $rotr  = deg2rad($self->x_axis_rotation);
+    my $class = shift;
+    my $args  = shift;
+    my $t     = shift;
+    my $angle = deg2rad($args->{_theta} + ($args->{_delta} * $t));
+    my $rotr  = deg2rad($args->{x_axis_rotation});
     my $cosr  = cos $rotr;
     my $sinr  = sin $rotr;
-    my $x     = ($cosr * cos($angle) * $self->rx - $sinr * sin($angle) * $self->ry + $self->_center->[0]);
-    my $y     = ($sinr * cos($angle) * $self->rx + $cosr * sin($angle) * $self->ry + $self->_center->[1]);
+    my $x     = ($cosr * cos($angle) * $args->{rx} - $sinr * sin($angle) * $args->{ry} + $args->{_center}->[0]);
+    my $y     = ($sinr * cos($angle) * $args->{rx} + $cosr * sin($angle) * $args->{ry} + $args->{_center}->[1]);
     return [$x, $y];
-}
-
-sub length {
-    my $self = shift;
-    my $start = $self->this_point(0);
-    my $end   = $self->this_point(1);
-    $self->_set_min_x( $start->[0] < $end->[0] ? $start->[0] : $end->[0]);
-    $self->_set_max_x( $start->[0] > $end->[0] ? $start->[0] : $end->[0]);
-    $self->_set_min_y( $start->[1] < $end->[1] ? $start->[1] : $end->[1]);
-    $self->_set_max_y( $start->[1] > $end->[1] ? $start->[1] : $end->[1]);
-    return $self->segment_length(0, 1, $start, $end, 1e-4, 5, 0);
 }
 
 1;
