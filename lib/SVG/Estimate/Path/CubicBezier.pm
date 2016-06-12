@@ -77,7 +77,6 @@ sub BUILDARGS {
         $args->{control1} = $args->{transform}->transform($args->{control1});
         $args->{control2} = $args->{transform}->transform($args->{control2});
     }
-    $args->{start_point}  = $args->{start_point};
     $args->{end_point}    = clone $args->{point};
 
     my $start      = $class->this_point($args, 0);
