@@ -89,6 +89,13 @@ sub BUILDARGS {
     return $args;
 }
 
+=head2 this_point ($args, $t)
+
+This class method is used to calculate a point on a circle, given it's relative position (C<$t>, ranging
+from 0 to 1, inclusive), and the radius and center of the circle from a hashref of C<$args> (C<r> and C<cx> and <cy>).
+
+=cut
+
 sub this_point {
     my $class = shift;
     my $args  = shift;
