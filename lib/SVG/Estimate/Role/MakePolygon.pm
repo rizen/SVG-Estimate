@@ -26,7 +26,6 @@ sub make_polygon {
     my $polygon_points = join ' ', map { join ',', @{ $_ } } @points;
     ##Have to send in an empty transform object
     my $littleT = Image::SVG::Transform->new();
-    warn $polygon_points;
     return SVG::Estimate::Polygon->new(points => $polygon_points, transformer => $littleT, start_point => $args->{start_point}, );
 }
 
