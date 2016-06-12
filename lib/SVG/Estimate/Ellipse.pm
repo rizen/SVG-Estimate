@@ -4,6 +4,7 @@ use Moo;
 use Math::Trig qw/pi/;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::EllipsePoints';
 
 =head1 NAME
 
