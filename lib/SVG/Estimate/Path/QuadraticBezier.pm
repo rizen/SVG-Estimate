@@ -14,7 +14,7 @@ SVG::Estimate::Path::QuadraticBezier - Handles estimating quadratic bezier curve
 =head1 SYNOPSIS
 
  my $curve = SVG::Estimate::Path::QuadraticBezier->new(
-    transform       => $transform,
+    transformer     => $transform,
     start_point     => [13, 19],
     point           => [45,13],
     control         => [10,3],
@@ -60,9 +60,9 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
-    if ($args->{transform}->has_transforms) {
-        $args->{point}   = $args->{transform}->transform($args->{point});
-        $args->{control} = $args->{transform}->transform($args->{control});
+    if ($args->{transformer}->has_transforms) {
+        $args->{point}   = $args->{transformer}->transform($args->{point});
+        $args->{control} = $args->{transformer}->transform($args->{control});
     }
     $args->{end_point} = clone $args->{point};
     $args->{length} = $class->_calculate_length($args);

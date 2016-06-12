@@ -12,7 +12,7 @@ my $ellipse = SVG::Estimate::Ellipse->new(
     rx          => 10,
     ry          => 5,
     start_point => [0,0],
-    transform   => $transform,
+    transformer => $transform,
 );
 
 is_deeply $ellipse->draw_start, [3,5.5], 'ellipse start point, dead north';

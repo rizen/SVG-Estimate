@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Path::Lineto';
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('translate (10,-5)');
 my $lineto = SVG::Estimate::Path::Lineto->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [4, 5],
     point => [14, 15],
 );

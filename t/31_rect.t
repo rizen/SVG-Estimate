@@ -12,7 +12,7 @@ my $rect = SVG::Estimate::Rect->new(
     y           => 310,
     width       => 943,
     height      => 741,
-    transform   => $transform,
+    transformer => $transform,
 );
 isa_ok $rect, 'SVG::Estimate::Rect';
 

@@ -16,7 +16,7 @@ SVG::Estimate::Path::CubicBezier - Handles estimating cubic bezier curves.
 =head1 SYNOPSIS
 
  my $curve = SVG::Estimate::Path::CubicBezier->new(
-    transform       => $transform,
+    transformer     => $transform,
     start_point     => [13, 19],
     point           => [45,13],
     control1        => [10,3],
@@ -72,10 +72,10 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
-    if ($args->{transform}->has_transforms) {
-        $args->{point}    = $args->{transform}->transform($args->{point});
-        $args->{control1} = $args->{transform}->transform($args->{control1});
-        $args->{control2} = $args->{transform}->transform($args->{control2});
+    if ($args->{transformer}->has_transforms) {
+        $args->{point}    = $args->{transformer}->transform($args->{point});
+        $args->{control1} = $args->{transformer}->transform($args->{control1});
+        $args->{control2} = $args->{transformer}->transform($args->{control2});
     }
     $args->{end_point}    = clone $args->{point};
 

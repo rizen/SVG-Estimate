@@ -11,7 +11,7 @@ SVG::Estimate::Rect - Handles estimating rectangles.
 =head1 SYNOPIS
 
  my $rect = SVG::Estimate::Rect->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [45,13],
     x           => 3,
     y           => 6,
@@ -75,9 +75,9 @@ sub BUILDARGS {
     my $args = @args % 2 ? $args[0] : { @args };
     my $origin   = [ $args->{x}, $args->{y} ];
     my $opposite = [ $args->{x} + $args->{width}, $args->{y} + $args->{height} ];
-    if ($args->{transform}->has_transforms) {
-        $origin   = $args->{transform}->transform($origin);
-        $opposite = $args->{transform}->transform($opposite);
+    if ($args->{transformer}->has_transforms) {
+        $origin   = $args->{transformer}->transform($origin);
+        $opposite = $args->{transformer}->transform($opposite);
         $args->{x} = $origin->[0] < $opposite->[0] ? $origin->[0] : $opposite->[0];
         $args->{y} = $origin->[1] < $opposite->[1] ? $origin->[1] : $opposite->[1];
         $args->{width}  = abs($opposite->[0] - $origin->[0]);

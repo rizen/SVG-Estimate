@@ -32,7 +32,7 @@ Constructor.
 
 An array ref that describes the position of the cursor (or CNC head) prior to drawing this path (where it left off from the last object).
 
-=item transform
+=item transformer
 
 A reference to a L<Image::SVG::Transform> object that contains all the transforms for this path segment.
 
@@ -47,7 +47,7 @@ has start_point => (
     required    => 1,
 );
 
-has transform => (
+has transformer => (
     is          => 'ro',
     required    => 1,
 );

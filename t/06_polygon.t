@@ -11,7 +11,7 @@ my $points_string = '2,0 2,1 1,1 1,2 2,2 2,3 3,3 3,2 4,2 4,1 3,1 3,0';
 
 my $polygon = SVG::Estimate::Polygon->new(
     start_point => [0,0],
-    transform   => $transform,
+    transformer => $transform,
     points  => $points_string,
 );
 

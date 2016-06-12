@@ -15,7 +15,7 @@ my $line = SVG::Estimate::Line->new(
     x2          => 11,
     y2          => 11,
     start_point => [9, 9],
-    transform   => $transform,
+    transformer => $transform,
 );
 
 is_deeply $line->draw_start, [100, 100], 'scaled line start point';
@@ -29,7 +29,7 @@ my $line = SVG::Estimate::Line->new(
     x2          => 20,
     y2          => 20,
     start_point => [0, 0],
-    transform   => $transform,
+    transformer => $transform,
 );
 
 is_deeply $line->draw_start, [15, 25], 'translated line start point';

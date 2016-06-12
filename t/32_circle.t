@@ -12,7 +12,7 @@ my $circle = SVG::Estimate::Circle->new(
     cy          => 2,
     r           => 1,
     start_point => [10,10],
-    transform   => $transform,
+    transformer => $transform,
 );
 
 is_deeply $circle->draw_start, [12,8], 'circle draw start';

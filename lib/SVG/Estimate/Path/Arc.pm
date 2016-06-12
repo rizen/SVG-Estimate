@@ -17,7 +17,7 @@ SVG::Estimate::Path::Arc - Handles estimating arcs.
 =head1 SYNOPSIS
 
  my $arc = SVG::Estimate::Path::Arc->new(
-    transform       => $transform,
+    transformer     => $transform,
     start_point     => [13, 19],
     point           => [45,13],
     rx              => 1,
@@ -116,12 +116,12 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
-    if ($args->{transform}->has_transforms) {
+    if ($args->{transformer}->has_transforms) {
         ##The start point and end point are in different coordinate systems (view and user, respectively).
         ##To make the set of point in the user space, transform the start_point into user space
         ##Then run all the calculations
         my $view_start_point = clone $args->{start_point};
-        $args->{start_point} = $args->{transform}->untransform($args->{start_point});
+        $args->{start_point} = $args->{transformer}->untransform($args->{start_point});
         $class->endpoint_to_center($args);
         my $point;
         my $first = 1;
@@ -130,7 +130,7 @@ sub BUILDARGS {
         warn "Points: ";
         POINT: for (my $t=0; $t<=1; $t+=1/12) {
             $point = $class->this_point($args, $t);
-            $point = $args->{transform}->transform($point);
+            $point = $args->{transformer}->transform($point);
             if ($first) {
                 $first = 0;
                 $start = $point;

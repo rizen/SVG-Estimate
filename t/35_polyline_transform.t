@@ -11,7 +11,7 @@ $transform->extract_transforms('translate(10,10)');
 
 my $polyline = SVG::Estimate::Polyline->new(
     start_point => [0,0],
-    transform   => $transform,
+    transformer => $transform,
     points      => '5,3 5,4 6,4 6,5 6,6 7,6 7,7',
    # [  ##unit staircase
    #     [5, 3],

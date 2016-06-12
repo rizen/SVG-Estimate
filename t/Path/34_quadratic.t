@@ -7,7 +7,7 @@ use_ok 'SVG::Estimate::Path::QuadraticBezier';
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('translate(2,3)');
 my $quad = SVG::Estimate::Path::QuadraticBezier->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point   => [1, 1],
     end           => [4, 3],
     control       => [6, 0.5],

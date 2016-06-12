@@ -21,7 +21,7 @@ SVG::Estimate::Path - Handles estimating arbitrary vectors.
 =head1 SYNOPSIS
 
  my $path = SVG::Estimate::Path->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [45,13],
     d           => 'M150 0 L75 200 L225 200 Z',
  );
@@ -64,7 +64,7 @@ sub BUILDARGS {
     my $cursor  = [0, 0];  ##Updated after every command
     $args->{length} = 0;
     foreach my $subpath (@path_info) {
-        $subpath->{transform}   = $args->{transform};
+        $subpath->{transform}   = $args->{transformer};
         ##On the first command, set the start point to the moveto destination, otherwise the travel length gets counted twice.
         $subpath->{start_point} = clone $cursor;
         my $command = $subpath->{type} eq 'moveto'             ? SVG::Estimate::Path::Moveto->new($subpath)

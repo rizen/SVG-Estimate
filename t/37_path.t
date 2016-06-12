@@ -8,7 +8,7 @@ use Image::SVG::Transform;
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('scale(2,4)');
 my $path = SVG::Estimate::Path->new(
-    transform   => $transform,
+    transformer => $transform,
     start_point => [0,0],
     d  => 'M 5 5 L 5 15 L 15 15 L 15 5 Z',
 );
