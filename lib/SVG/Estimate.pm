@@ -192,12 +192,11 @@ sub pop_transform {
 
 has combined_transform_string => (
     is => 'lazy',
-    predicate => 'has_transforms',
     clearer => 'clear_transform_string',
     default => sub {
         my $self = shift;
         my $cts = join ' ', map { $_ } @{ $self->transform_stack };
-        $self->transform->extract_transforms($cts);
+        $self->transformer->extract_transforms($cts);
         return $cts;
     },
 );
@@ -206,11 +205,11 @@ sub get_transform_string {
     my $self = shift;
 }
 
-has transform => (
+has transformer => (
     is => 'lazy',
 );
 
-sub _builder_transform {
+sub _build_transformer {
     return Image::SVG::Transform->new();
 }
 
@@ -277,9 +276,7 @@ sub sum {
                 if (exists $params{transform}) {
                     $self->push_transform($params{transform});
                 }
-                if ($self->has_transforms) {
-                    $params{transform} = $self->transform;
-                }
+                $params{transformer} = $self->transformer;
                 my $shape = $class->new(%params);
                 $shape_length  += $shape->shape_length;
                 $travel_length += $shape->travel_length;
