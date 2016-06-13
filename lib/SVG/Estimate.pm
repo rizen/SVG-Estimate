@@ -5,6 +5,7 @@ package SVG::Estimate;
 use XML::Hash::LX;
 use XML::LibXML;
 use File::Slurp;
+use List::MoreUtils qw/any/;
 use Moo;
 use SVG::Estimate::Line;
 use SVG::Estimate::Rect;
@@ -254,10 +255,10 @@ sub sum {
     if (ref $elements eq 'ARRAY') {
         foreach my $element (@{$elements}) {
             my @keys = keys %{$element};
-            if ($keys[0] ~~ [qw(g svg)]) {
+            if (any { $keys[0] eq $_} qw(g svg)) {
                 $self->sum($element->{$keys[0]});
             }
-            elsif ($keys[0] ~~ [qw(line ellipse rect circle polygon polyline path)]) {
+            elsif (any {$keys[0] eq $_} qw(line ellipse rect circle polygon polyline path)) {
                 $shape_count++;
                 my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
                 my %params = $self->parse_params($element->{$keys[0]});
@@ -332,6 +333,7 @@ L<Image::SVG::Path>
 L<Image::SVG::Transform>
 L<Clone>
 L<List::Util>
+L<List::MoreUtils>
 L<Ouch>
 L<Test::More>
 L<File::Slurp>
