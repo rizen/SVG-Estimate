@@ -329,6 +329,7 @@ sub parse_params {
 L<Moo>
 L<Math::Trig>
 L<Image::SVG::Path>
+L<Image::SVG::Transform>
 L<Clone>
 L<List::Util>
 L<Ouch>
