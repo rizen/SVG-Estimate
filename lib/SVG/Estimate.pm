@@ -290,7 +290,7 @@ sub sum {
         }
     }
     elsif (ref $elements eq 'HASH') {
-        foreach my $key (keys $elements) {
+        foreach my $key (keys %{ $elements }) {
             $self->sum($elements->{$key});
         }
     }
