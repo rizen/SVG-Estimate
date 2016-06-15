@@ -72,7 +72,7 @@ has file_path => (
 
 =head2 length()
 
-Returns the length in user units (pixels) of the SVG. This is equivalent of adding C<tavel_length> and C<shape_length> together. B<NOTE:> The number of user units within any given element could be variable depending upon how the vector was specified and how the SVG editor exports its documents. For example, if you have a line that is 1 inch long in Adobe Illustrator it will export that as 72 user units, and a 1 inch line in Inkscape will export that as 90 user units. 
+Returns the length in user units (pixels) of the SVG. This is equivalent of adding C<travel_length> and C<shape_length> together. B<NOTE:> The number of user units within any given element could be variable depending upon how the vector was specified and how the SVG editor exports its documents. For example, if you have a line that is 1 inch long in Adobe Illustrator it will export that as 72 user units, and a 1 inch line in Inkscape will export that as 90 user units. 
 
 =cut
 
