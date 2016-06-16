@@ -25,10 +25,12 @@ use Time::HiRes qw(tv_interval gettimeofday);
 
 my $csv;
 my $help;
+my $dpi = 72;
 
 GetOptions(
     'h|help' => \$help,
     'c|csv'  => \$csv,
+    'dpi=i'    => \$dpi,
 );
 
 if ($help) {
@@ -58,17 +60,17 @@ foreach my $file (@ARGV) {
     $se->estimate;
     if ($csv) {
         say join ",", $file,
-                      $se->round($se->length,0), $se->round($se->dpi($se->length)),
-                      $se->round($se->shape_length,0), $se->round($se->dpi($se->shape_length)),
-                      $se->round($se->travel_length,0), $se->round($se->dpi($se->travel_length)),
+                      $se->round($se->length,0), $se->round($se->length / $dpi),
+                      $se->round($se->shape_length,0), $se->round($se->shape_length / $dpi),
+                      $se->round($se->travel_length,0), $se->round($se->travel_length / $dpi),
                       $se->shape_count,
                       ;
     }
     else {
         say $file;
-        say "\tTotal Length: ".$se->round($se->length,0)."px ". $se->round($se->dpi($se->length))."in";
-        say "\tShape Length: ".$se->round($se->shape_length,0)."px ". $se->round($se->dpi($se->shape_length))."in";
-        say "\tTravel Length: ".$se->round($se->travel_length,0)."px ". $se->round($se->dpi($se->travel_length))."in";
+        say "\tTotal Length: ".$se->round($se->length,0)."px ". $se->round($se->length / $dpi)."in";
+        say "\tShape Length: ".$se->round($se->shape_length,0)."px ". $se->round($se->shape_length / $dpi)."in";
+        say "\tTravel Length: ".$se->round($se->travel_length,0)."px ". $se->round($se->travel_length / $dpi)."in";
         say "\tShapes: ".$se->shape_count;
     }
 }

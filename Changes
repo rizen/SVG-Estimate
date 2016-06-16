@@ -1,3 +1,6 @@
+1.0006 2016-06-15
+ * Bug fixes in the CLI.
+
 1.0005 2016-06-15
  * Fix the name of a method referenced in the pod. Thanks to Jeremy Leader.
  * Previously forgot to commit the changes file.
