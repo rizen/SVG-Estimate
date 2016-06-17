@@ -1,3 +1,6 @@
+1.0007 2016-06-16
+ * Upped the requirements for Image::SVG::Transform to 0.03
+
 1.0006 2016-06-15
  * Bug fixes in the CLI.
 
