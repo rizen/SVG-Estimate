@@ -1,3 +1,6 @@
+1.0008 2016-06-16
+ * Handle the case where an element only has a single child.
+
 1.0007 2016-06-16
  * Upped the requirements for Image::SVG::Transform to 0.03
 
