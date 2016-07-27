@@ -14,6 +14,7 @@ use SVG::Estimate::Ellipse;
 use SVG::Estimate::Polyline;
 use SVG::Estimate::Polygon;
 use SVG::Estimate::Path;
+use Data::Dumper;
 
 with 'SVG::Estimate::Role::Round';
 
@@ -252,6 +253,10 @@ sub sum {
     my $travel_length = 0;
     my $shape_count = 0;
     my $has_transform = 0; ##Flag for g/svg element having a transform
+    ##xml2hash rules
+    ## * Just one element, you get a hash
+    ## * Two elements, you get an array of hashes
+    ## * One element, container has properties, you get an array of hashes
     if (ref $elements eq 'ARRAY') {
         foreach my $element (@{$elements}) {
             my @keys = keys %{$element};
@@ -289,10 +294,9 @@ sub sum {
             }
         }
     }
+    ##Resubmit hashes (which should only have one key/value pair) as an array
     elsif (ref $elements eq 'HASH') {
-        foreach my $key (keys %{ $elements }) {
-            $self->sum($elements->{$key});
-        }
+        $self->sum([ $elements ]);
     }
     $self->length($self->length + $length);
     $self->shape_length($self->shape_length + $shape_length);
