@@ -74,8 +74,8 @@ foreach my $file (@ARGV) {
         say "\tShapes: ".$se->shape_count;
         my $width = abs($se->max_x - $se->min_x);
         my $height = abs($se->max_y - $se->min_y);
-        say "\tWidth: ".$width."px ".$se->round($width / $dpi)."in";
-        say "\tHeight: ".$height."px ".$se->round($height / $dpi)."in";
+        say "\tWidth: ".int($width)."px ".$se->round($width / $dpi)."in";
+        say "\tHeight: ".int($height)."px ".$se->round($height / $dpi)."in";
     }
 }
 
