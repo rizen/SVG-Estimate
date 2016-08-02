@@ -50,6 +50,7 @@ An SVG path string as described L<http://www.w3.org/TR/SVG/paths.html>.
 
 has d => ( is => 'ro', required => 1, );
 has commands => ( is => 'ro', );
+has internal_travel_length => ( is => 'ro', required => 1, );
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -91,7 +92,8 @@ sub BUILDARGS {
             $args->{max_y}      = $command->max_y;
             $args->{draw_start} = $command->end_point;
         }
-        $args->{shape_length} += $command->length;
+        $args->{shape_length}  += $command->shape_length;
+        $args->{internal_travel_length} += $command->travel_length;
         $args->{min_x} = $command->min_x if $command->min_x < $args->{min_x};
         $args->{max_x} = $command->max_x if $command->max_x > $args->{max_x};
         $args->{min_y} = $command->min_y if $command->min_y < $args->{min_y};
@@ -103,9 +105,11 @@ sub BUILDARGS {
     return $args;
 }
 
-##By convention, due to the moveto, the travel_length of this is 0
+##Return the internally calculated travel length, not the standard one use by SVG::Estimate::Shape
 sub travel_length {
-    return 0;
+    my $self = shift;
+    my $length = $self->internal_travel_length;
+    return $length;
 }
 
 1;

@@ -13,7 +13,8 @@ my $hlineto = SVG::Estimate::Path::HorizontalLineto->new(
 
 is_deeply $hlineto->end_point, [14,5], 'horizontallineto end point';
 is_deeply $hlineto->start_point, [4, 5], 'checking that we did not stomp on the starting point';
-cmp_ok $hlineto->round($hlineto->length),  '==', 10, 'horizontallineto length';
+cmp_ok $hlineto->round($hlineto->shape_length),  '==', 10, 'horizontallineto shape length';
+cmp_ok $hlineto->round($hlineto->travel_length),  '==', 0, 'horizontallineto travel length';
 
 is $hlineto->min_x, 4, 'min_x';
 is $hlineto->max_x, 14, 'max_x';

@@ -17,7 +17,7 @@ SVG::Estimate::Path::Moveto - Handles estimating non-drawn movement.
     point           => [45,13],
  );
 
- my $length = $move->length;
+ my $travel_length = $move->travel_length;
 
 =head1 INHERITANCE
 
@@ -54,11 +54,12 @@ sub BUILDARGS {
     }
     $args->{start_point}  = $args->{start_point};
     $args->{end_point}    = $point;
-    $args->{length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
     $args->{min_x}        = $point->[0];
     $args->{min_y}        = $point->[1];
     $args->{max_x}        = $point->[0];
     $args->{max_y}        = $point->[1];
+    $args->{travel_length} = $class->pythagorean($args->{start_point}, $args->{end_point});
+    $args->{shape_length}  = 0;
     return $args;
 }
 

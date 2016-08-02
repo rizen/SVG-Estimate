@@ -15,7 +15,8 @@ isa_ok $moveto, 'SVG::Estimate::Path::Moveto';
 
 is_deeply $moveto->start_point, [4, 5], 'moveto start point';
 is_deeply $moveto->end_point, [24,10], 'moveto end point';
-cmp_ok $moveto->round($moveto->length),  '==', 20.616, 'moveto length';
+cmp_ok $moveto->round($moveto->travel_length),  '==', 20.616, 'moveto travel length';
+cmp_ok $moveto->round($moveto->shape_length),   '==', 0.0, 'moveto shape length';
 
 is $moveto->min_x, 24, 'min_x';
 is $moveto->max_x, 24, 'max_x';

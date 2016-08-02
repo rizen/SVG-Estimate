@@ -63,13 +63,24 @@ has end_point => (
     required    => 1,
 );
 
-=head2 length ( )
+=head2 shape_length ( )
 
-Returns the total length of the vector in the path command.
+Returns the total shape length of the vector in the path command.
 
 =cut
 
-has length => (
+has shape_length => (
+    is          => 'ro',
+    required    => 1,
+);
+
+=head2 travel_length ( )
+
+Returns the total travel length of the vector in the path command.
+
+=cut
+
+has travel_length => (
     is          => 'ro',
     required    => 1,
 );

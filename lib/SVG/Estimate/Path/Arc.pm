@@ -154,9 +154,10 @@ sub BUILDARGS {
             $start = $point;
         }
         ##Restore the original start point in the viewport coordinate system
-        $args->{start_point} = $view_start_point;
-        $args->{end_point} = $point;
-        $args->{length}    = $length;
+        $args->{start_point}   = $view_start_point;
+        $args->{end_point}     = $point;
+        $args->{shape_length}  = $length;
+        $args->{travel_length} = 0;
         return $args;
     }
     $class->endpoint_to_center($args);
@@ -167,7 +168,8 @@ sub BUILDARGS {
     $args->{max_x}  = $start->[0] > $end->[0] ? $start->[0] : $end->[0];
     $args->{min_y}  = $start->[1] < $end->[1] ? $start->[1] : $end->[1];
     $args->{max_y}  = $start->[1] > $end->[1] ? $start->[1] : $end->[1];
-    $args->{length} = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 5, 0);
+    $args->{shape_length}  = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 5, 0);
+    $args->{travel_length} = 0;
     return $args;
 }
 

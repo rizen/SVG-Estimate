@@ -65,7 +65,8 @@ sub BUILDARGS {
         $args->{control} = $args->{transformer}->transform($args->{control});
     }
     $args->{end_point} = clone $args->{point};
-    $args->{length} = $class->_calculate_length($args);
+    $args->{shape_length}  = $class->_calculate_length($args);
+    $args->{travel_length} = 0;
     ##Bouding box points approximated by the control points.
     $args->{min_x} = min $args->{start_point}->[0], $args->{control}->[0], $args->{point}->[0];
     $args->{max_x} = max $args->{start_point}->[0], $args->{control}->[0], $args->{point}->[0];

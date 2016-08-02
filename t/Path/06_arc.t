@@ -22,7 +22,8 @@ is_deeply $arc->start_point, [275, 25], 'arc start point';
 is_deeply $arc->_center,   [275,175],  'calculated center point';
 cmp_ok $arc->round($arc->_theta), '==', 270, 'calculated theta (angle to initial point on x-axis)';
 cmp_ok $arc->round($arc->_delta), '==', -90, 'calculated delta (angle to initial point on x-axis)';
-cmp_ok $arc->round($arc->length),  '==', 235.618, 'arc length'; #( 2* pi * r / 4);
+cmp_ok $arc->round($arc->shape_length),  '==', 235.618, 'arc shape length'; #( 2* pi * r / 4);
+cmp_ok $arc->round($arc->travel_length),  '==', 0.0, 'arc travel length'; #( 2* pi * r / 4);
 
 cmp_ok $arc->round($arc->min_x), '==', 125, 'min_x';
 cmp_ok $arc->round($arc->max_x), '==', 275, 'max_x';

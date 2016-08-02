@@ -20,7 +20,8 @@ my $arc = SVG::Estimate::Path::Arc->new(
 isa_ok $arc, 'SVG::Estimate::Path::Arc';
 
 is_deeply $arc->start_point, [275, 25], 'arc start point';
-cmp_ok $arc->round($arc->length),  '==', 235.451, 'arc length'; #( 2* pi * r / 4);
+cmp_ok $arc->round($arc->shape_length),  '==', 235.451, 'arc shape length'; #( 2* pi * r / 4);
+cmp_ok $arc->round($arc->travel_length),  '==', 0.0, 'arc travel length'; #( 2* pi * r / 4);
 
 cmp_ok $arc->round($arc->min_x), '==', 125, 'min_x';
 cmp_ok $arc->round($arc->max_x), '==', 275, 'max_x';

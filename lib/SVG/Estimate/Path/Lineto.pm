@@ -54,11 +54,12 @@ sub BUILDARGS {
     }
     $args->{start_point}  = $args->{start_point};
     $args->{end_point}    = $point;
-    $args->{length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
     $args->{min_x}        = $args->{start_point}[0] < $point->[0] ? $args->{start_point}[0] : $point->[0];
     $args->{min_y}        = $args->{start_point}[1] < $point->[1] ? $args->{start_point}[1] : $point->[1];
     $args->{max_x}        = $args->{start_point}[0] > $point->[0] ? $args->{start_point}[0] : $point->[0];
     $args->{max_y}        = $args->{start_point}[1] > $point->[1] ? $args->{start_point}[1] : $point->[1];
+    $args->{shape_length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
+    $args->{travel_length}      = 0;
     return $args;
 }
 

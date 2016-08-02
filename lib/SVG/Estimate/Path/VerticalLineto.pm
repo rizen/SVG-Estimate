@@ -52,13 +52,14 @@ sub BUILDARGS {
     if ($args->{transformer}->has_transforms) {
         $end = $args->{transformer}->transform($end);
     }
-    $args->{end_point}    = [$args->{start_point}[0], $end->[1]];
-    $args->{y}            = $args->{end_point}[1];
-    $args->{length}       = $class->pythagorean($args->{start_point}, $args->{end_point});
-    $args->{min_x}        = $args->{start_point}[0] < $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
-    $args->{min_y}        = $args->{start_point}[1] < $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
-    $args->{max_x}        = $args->{start_point}[0] > $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
-    $args->{max_y}        = $args->{start_point}[1] > $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
+    $args->{end_point}     = [$args->{start_point}[0], $end->[1]];
+    $args->{y}             = $args->{end_point}[1];
+    $args->{shape_length}  = $class->pythagorean($args->{start_point}, $args->{end_point});
+    $args->{travel_length} = 0;
+    $args->{min_x}         = $args->{start_point}[0] < $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
+    $args->{min_y}         = $args->{start_point}[1] < $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
+    $args->{max_x}         = $args->{start_point}[0] > $args->{end_point}->[0] ? $args->{start_point}[0] : $args->{end_point}->[0];
+    $args->{max_y}         = $args->{start_point}[1] > $args->{end_point}->[1] ? $args->{start_point}[1] : $args->{end_point}->[1];
     return $args;
 }
 

@@ -14,7 +14,8 @@ my $vlineto = SVG::Estimate::Path::VerticalLineto->new(
 
 is_deeply $vlineto->end_point, [4,10], 'verticallineto end point';
 is_deeply $vlineto->start_point, [4, 5], 'checking that we did not stomp on the starting point';
-cmp_ok $vlineto->round($vlineto->length),  '==', 5, 'verticallineto length';
+cmp_ok $vlineto->round($vlineto->shape_length),  '==', 5, 'verticallineto shape length';
+cmp_ok $vlineto->round($vlineto->travel_length),  '==', 0, 'verticallineto travel length';
 
 is $vlineto->min_x, 4, 'min_x';
 is $vlineto->max_x, 4, 'max_x';

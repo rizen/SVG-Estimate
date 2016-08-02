@@ -22,9 +22,9 @@ my $path = SVG::Estimate::Path->new(
 
 is scalar(@{$path->commands}), 5, 'All commands correctly parsed';
 is_deeply $path->draw_start, [10,20], 'start drawing at the first command (always a moveto)';
-cmp_ok $path->round($path->shape_length),  '==', 142.361, 'simple path length';  ##Shape length includes the travel_length due to the moveto
+cmp_ok $path->round($path->shape_length),  '==', 120, 'simple path length';  ##Shape length includes the travel_length due to the moveto
 ##Test travel_length and length to make sure we don't count the initial moveto twice
-cmp_ok $path->round($path->travel_length), '==', 0.000, 'path travel length';
+cmp_ok $path->round($path->travel_length), '==', 22.361, 'path travel length';
 cmp_ok $path->round($path->length),        '==', 142.361, 'path length total';
 cmp_ok $path->min_x, '==', 10, '... min x';
 cmp_ok $path->max_x, '==', 30, '... max x';

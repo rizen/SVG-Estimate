@@ -1,6 +1,7 @@
 1.0100 2016-08-02
  * Added width and height outputs to estimatesvg CLI program.
  * Fixed interface for SVG Path Arc elements
+ * Separate move and shape lengths for Path elements
 
 1.0008 2016-06-16
  * Handle the case where an element only has a single child.

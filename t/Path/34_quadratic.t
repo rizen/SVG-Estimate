@@ -16,7 +16,8 @@ isa_ok $quad, 'SVG::Estimate::Path::QuadraticBezier';
 
 is_deeply $quad->start_point, [1, 1], 'quadratic bezier start point';
 is_deeply $quad->end_point, [6,6], 'quadratic bezier end point';
-cmp_ok $quad->round($quad->length),  '==', 5.105, 'quadratic bezier length';
+cmp_ok $quad->round($quad->shape_length),  '==', 5.105, 'quadratic bezier shape length';
+cmp_ok $quad->round($quad->travel_length),  '==', 0.0, 'quadratic bezier travel length';
 
 is $quad->min_x, 1, 'min_x';
 is $quad->max_x, 8, 'max_x';
