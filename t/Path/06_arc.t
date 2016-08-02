@@ -13,12 +13,12 @@ my $arc = SVG::Estimate::Path::Arc->new(
     x_axis_rotation => 0,
     sweep_flag      => 0,
     large_arc_flag  => 0,
-    end             => [125, 175],
+    x               => 125,
+    y               => 175,
 );
 isa_ok $arc, 'SVG::Estimate::Path::Arc';
 
 is_deeply $arc->start_point, [275, 25], 'arc start point';
-is_deeply $arc->end_point, [125,175], 'arc end point';
 is_deeply $arc->_center,   [275,175],  'calculated center point';
 cmp_ok $arc->round($arc->_theta), '==', 270, 'calculated theta (angle to initial point on x-axis)';
 cmp_ok $arc->round($arc->_delta), '==', -90, 'calculated delta (angle to initial point on x-axis)';

@@ -14,12 +14,12 @@ my $arc = SVG::Estimate::Path::Arc->new(
     x_axis_rotation => 0,
     sweep_flag      => 0,
     large_arc_flag  => 0,
-    end             => [25, 35],
+    x               => 25,
+    y               => 35,
 );
 isa_ok $arc, 'SVG::Estimate::Path::Arc';
 
 is_deeply $arc->start_point, [275, 25], 'arc start point';
-is_deeply $arc->end_point, [125,175], 'arc end point';
 cmp_ok $arc->round($arc->length),  '==', 235.451, 'arc length'; #( 2* pi * r / 4);
 
 cmp_ok $arc->round($arc->min_x), '==', 125, 'min_x';

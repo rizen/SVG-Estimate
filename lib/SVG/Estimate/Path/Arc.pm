@@ -8,7 +8,6 @@ use strict;
 extends 'SVG::Estimate::Path::Command';
 with 'SVG::Estimate::Role::Pythagorean';
 with 'SVG::Estimate::Role::SegmentLength';
-with 'SVG::Estimate::Role::EndToPoint';
 
 =head1 NAME
 
@@ -19,7 +18,8 @@ SVG::Estimate::Path::Arc - Handles estimating arcs.
  my $arc = SVG::Estimate::Path::Arc->new(
     transformer     => $transform,
     start_point     => [13, 19],
-    point           => [45,13],
+    x               => 45,
+    y               => 13,
     rx              => 1,
     ry              => 3,
     x_axis_rotation => 0,
@@ -41,9 +41,13 @@ Constructor.
 
 =over
 
-=item point
+=item x
 
-An array ref containing two floats that represent a point. 
+The x coordinate for the end-point of the arc.
+
+=item y
+
+The y coordinate for the end-point of the arc.
 
 =item rx
 
@@ -94,7 +98,12 @@ has sweep_flag => (
     required    => 1,
 );
 
-has point => (
+has x => (
+    is          => 'ro',
+    required    => 1,
+);
+
+has y => (
     is          => 'ro',
     required    => 1,
 );
@@ -168,8 +177,8 @@ sub endpoint_to_center {
     my $rotr = deg2rad($args->{x_axis_rotation});
     my $cosr = cos $rotr;
     my $sinr = sin $rotr;
-    my $dx   = ($args->{start_point}->[0] - $args->{point}->[0] ) / 2; #*
-    my $dy   = ($args->{start_point}->[1] - $args->{point}->[1] ) / 2; #*
+    my $dx   = ($args->{start_point}->[0] - $args->{x}) / 2; #*
+    my $dy   = ($args->{start_point}->[1] - $args->{y}) / 2; #*
 
     my $x1prim = $cosr * $dx + $sinr * $dy; #*
     my $y1prim = -1*$sinr * $dx + $cosr * $dy; #*
@@ -195,8 +204,8 @@ sub endpoint_to_center {
     my $cyprim = -1 *$c * $ry * $x1prim / $rx;
 
     $args->{_center} = [
-        ($cosr * $cxprim - $sinr * $cyprim) + ( ($args->{start_point}->[0] + $args->{point}->[0]) / 2 ),
-        ($sinr * $cxprim + $cosr * $cyprim) + ( ($args->{start_point}->[1] + $args->{point}->[1]) / 2 )
+        ($cosr * $cxprim - $sinr * $cyprim) + ( ($args->{start_point}->[0] + $args->{x}) / 2 ),
+        ($sinr * $cxprim + $cosr * $cyprim) + ( ($args->{start_point}->[1] + $args->{y}) / 2 )
     ];
 
     ##**
