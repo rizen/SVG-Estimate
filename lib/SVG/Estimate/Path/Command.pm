@@ -129,5 +129,20 @@ has max_y => (
     required    => 1,
 );
 
+has summarize => (
+    is          => 'ro',
+    default     => sub { 0 },
+);
+
+sub summarize_myself {
+    my $self = shift;
+    print "\t".ref $self;
+    printf "\n\t\tstart point: [%s, %s]", $self->round($self->start_point->[0]), $self->round($self->start_point->[1]);
+    printf "\n\t\tend   point: [%s, %s]", $self->round($self->end_point->[0]), $self->round($self->end_point->[1]);
+    print "\n\t\ttotal  length: ". $self->round($self->travel_length + $self->shape_length);
+    print "\n\t\ttravel length: ". $self->round($self->travel_length);
+    print "\n\t\tshape length:  ". $self->round($self->shape_length);
+    print "\n";
+}
 
 1;

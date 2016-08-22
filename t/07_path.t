@@ -29,4 +29,12 @@ cmp_ok $path->max_x, '==', 15, '... max x';
 cmp_ok $path->min_y, '==',  5, '... min y';
 cmp_ok $path->max_y, '==', 15, '... max y';
 
+my $path2 = SVG::Estimate::Path->new(
+    transformer => $transform,
+    start_point => [0,0],
+    d  => 'M 1 1 L 2 2 M 3 3',
+);
+cmp_ok $path2->round($path2->shape_length),  '==', 1.414, 'two moves, simple path length';
+cmp_ok $path2->round($path2->travel_length), '==', 2.828, '... path travel length';
+
 done_testing();

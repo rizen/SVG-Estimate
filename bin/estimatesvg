@@ -26,11 +26,13 @@ use Time::HiRes qw(tv_interval gettimeofday);
 my $csv;
 my $help;
 my $dpi = 72;
+my $summarize = 0;
 
 GetOptions(
-    'h|help' => \$help,
-    'c|csv'  => \$csv,
-    'dpi=i'    => \$dpi,
+    'h|help'       => \$help,
+    'c|csv'        => \$csv,
+    's|summarize'  => \$summarize,
+    'dpi=i'        => \$dpi,
 );
 
 if ($help) {
@@ -56,7 +58,7 @@ foreach my $file (@ARGV) {
         next;
     }
 
-    my $se = SVG::Estimate->new(file_path => $file);
+    my $se = SVG::Estimate->new(file_path => $file, summarize => $summarize, );
     $se->estimate;
     if ($csv) {
         say join ",", $file,

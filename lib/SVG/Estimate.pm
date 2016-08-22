@@ -60,6 +60,11 @@ A hash of properties for this class.
 
 The path to the SVG file.
 
+=item summarize
+
+Have each parse SVG object emit its starting coordinates, ending coordinates, travel length, shape length and total length,
+all in pixels.
+
 =back
 
 =back
@@ -170,6 +175,11 @@ has max_y => (
     default     => sub { -1e10 },
 );
 
+has summarize => (
+    is          => 'ro',
+    default     => sub { 0 },
+);
+
 has transform_stack => (
     is          => 'rwp',
     default     => sub { [] },
@@ -267,12 +277,19 @@ sub sum {
                 $shape_count++;
                 my $class = 'SVG::Estimate::'.ucfirst($keys[0]);
                 my %params = $self->parse_params($element->{$keys[0]});
+                ##Have to pass this into Path with all its Commands
+                if ($self->summarize) {
+                    $params{summarize} = 1;
+                }
                 ##Handle transforms on an element
                 if (exists $params{transform}) {
                     $self->push_transform($params{transform});
                 }
                 $params{transformer} = $self->transformer;
                 my $shape = $class->new(%params);
+                if ($self->summarize) {
+                    $shape->summarize_myself;
+                }
                 $shape_length  += $shape->shape_length;
                 $travel_length += $shape->travel_length;
                 $length        += $shape->length;

@@ -1,3 +1,7 @@
+1.0101 2016-08-22
+ * Added summarize option to dump out copious debugging output
+ * Fixed a bug in overestimating moveto travel lenghs in paths.
+
 1.0100 2016-08-02
  * Added width and height outputs to estimatesvg CLI program.
  * Fixed interface for SVG Path Arc elements

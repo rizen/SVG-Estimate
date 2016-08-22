@@ -51,6 +51,7 @@ An SVG path string as described L<http://www.w3.org/TR/SVG/paths.html>.
 has d => ( is => 'ro', required => 1, );
 has commands => ( is => 'ro', );
 has internal_travel_length => ( is => 'ro', required => 1, );
+has summarize => ( is => 'ro', default => sub { 0 }, );
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -62,7 +63,7 @@ sub BUILDARGS {
 
     my $first_flag = 1;
     my $first;
-    my $cursor  = [0, 0];  ##Updated after every command
+    my $cursor  = clone $args->{start_point};
     $args->{length} = 0;
     foreach my $subpath (@path_info) {
         $subpath->{transformer} = $args->{transformer};
@@ -98,6 +99,9 @@ sub BUILDARGS {
         $args->{max_x} = $command->max_x if $command->max_x > $args->{max_x};
         $args->{min_y} = $command->min_y if $command->min_y < $args->{min_y};
         $args->{max_y} = $command->max_y if $command->max_y > $args->{max_y};
+        if (exists $args->{summarize} && $args->{summarize}) {
+            $command->summarize_myself;
+        }
         push @commands, $command;
     }
 

@@ -157,7 +157,16 @@ has max_y => (
     required    => 1,
 );
 
-
-
+sub summarize_myself {
+    my $self = shift;
+    print ref $self;
+    printf "\n\tstart point: [%s, %s]", $self->round($self->start_point->[0]), $self->round($self->start_point->[1]);
+    printf "\n\tdraw start : [%s, %s]", $self->round($self->draw_start->[0]), $self->round($self->draw_start->[1]);
+    printf "\n\tdraw end   : [%s, %s]", $self->round($self->draw_end->[0]), $self->round($self->draw_end->[1]);
+    print "\n\ttotal  length: ". $self->round($self->length);
+    print "\n\ttravel length: ". $self->round($self->travel_length);
+    print "\n\tshape length:  ". $self->round($self->shape_length);
+    print "\n";
+}
 
 1;
