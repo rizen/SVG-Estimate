@@ -1,3 +1,6 @@
+1.0102 2016-08-22
+ * No significant changes in this release
+
 1.0101 2016-08-22
  * Added summarize option to dump out copious debugging output
  * Fixed a bug in overestimating moveto travel lenghs in paths.
