@@ -284,6 +284,10 @@ sub sum {
                 ##Handle transforms on an element
                 if (exists $params{transform}) {
                     $self->push_transform($params{transform});
+                    if ($self->summarize) {
+                        print "transform stack: ". join(' ', @{ $self->transform_stack });
+                        print "\n";
+                    }
                 }
                 $params{transformer} = $self->transformer;
                 my $shape = $class->new(%params);
@@ -307,6 +311,10 @@ sub sum {
                 if (exists $element->{'-transform'}) {
                     $self->push_transform($element->{'-transform'});
                     $has_transform = 1;
+                    if ($self->summarize) {
+                        print "transform stack: ". join(' ', @{ $self->transform_stack });
+                        print "\n";
+                    }
                 }
             }
         }
