@@ -1,3 +1,6 @@
+1.0104 2016-09-04
+ * Document the required versions of Image::SVG::{Path,Transform}
+
 1.0103 2016-09-02
  * Add summarizing of the transformation stack
 
