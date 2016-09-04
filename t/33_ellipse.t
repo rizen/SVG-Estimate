@@ -6,7 +6,7 @@ use lib 'lib', '../lib';
 use_ok 'SVG::Estimate::Ellipse';
 
 my $transform = Image::SVG::Transform->new();
-$transform->extract_transforms('scale(2) translate(100,100)');
+$transform->extract_transforms('translate(100,100) scale(2)');
 my $ellipse = SVG::Estimate::Ellipse->new(
     cx          => 3,
     cy          => 3,
