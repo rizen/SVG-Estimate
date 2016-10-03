@@ -15,7 +15,9 @@ my $circle = SVG::Estimate::Circle->new(
 );
 
 is_deeply $circle->draw_start, [3,2], 'circle draw start';
+is_deeply $circle->draw_end,   [3,2], '... draw end';
 cmp_ok $circle->round($circle->shape_length),  '==', 6.283, '... circumerence';
+cmp_ok $circle->round($circle->travel_length),  '==', 3.606, '... travel length';
 
 is $circle->min_x, 1, 'min_x';
 is $circle->max_x, 3, 'max_x';

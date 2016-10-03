@@ -16,6 +16,7 @@ my $ellipse = SVG::Estimate::Ellipse->new(
 );
 
 is_deeply $ellipse->draw_start, [13,3], 'ellipse start point, dead east';
+is_deeply $ellipse->draw_end, [13,3], '... end point, dead east';
 cmp_ok $ellipse->round($ellipse->shape_length),  '==', 48.442, 'ellipse circumerence';
 
 is $ellipse->min_x, -7, 'min_x';

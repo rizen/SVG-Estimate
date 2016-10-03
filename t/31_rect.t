@@ -4,6 +4,7 @@ use Image::SVG::Transform;
 use lib 'lib', '../lib';
 
 use_ok 'SVG::Estimate::Rect';
+##Translate a rectangle
 my $transform = Image::SVG::Transform->new();
 $transform->extract_transforms('translate (10,-5)');
 my $rect = SVG::Estimate::Rect->new(
@@ -36,6 +37,24 @@ is $rect->min_x, 10, '... min_x';
 is $rect->max_x, 953, '... max_x';
 is $rect->min_y, 305, '... min_y';
 is $rect->max_y, 1046, '... max_y';
+
+##Flip the rectangle around and check for sanity on the translated coordinates
+$transform = Image::SVG::Transform->new();
+$transform->extract_transforms('rotate(180 7 7)');
+$rect = SVG::Estimate::Rect->new(
+    start_point => [7,7],
+    x           => 5,
+    y           => 5,
+    width       => 4,
+    height      => 4,
+    transformer => $transform,
+);
+isa_ok $rect, 'SVG::Estimate::Rect';
+
+is $rect->x, 5, 'Checking translated x';
+is $rect->y, 5, '... y';
+is $rect->width, 4, '... width';
+is $rect->height, 4, '... height';
 
 done_testing();
 
