@@ -45,7 +45,7 @@ cmp_ok $affinity_box_in->shape_count, '==', 1, 'affinity_box_in - shape count';
 
 my $furniture = SVG::Estimate->new( file_path => $t.'/var/furniture.svg' );
 $furniture->estimate;
-cmp_ok $furniture->round($furniture->length), '>', 44945, 'furniture - length';
+cmp_ok $furniture->round($furniture->length), '==', 44755.084, 'furniture - length';
 cmp_ok $furniture->shape_count, '==', 563, 'furniture - shape count';
 
 done_testing();

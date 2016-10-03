@@ -36,5 +36,6 @@ my $path2 = SVG::Estimate::Path->new(
 );
 cmp_ok $path2->round($path2->shape_length),  '==', 1.414, 'two moves, simple path length';
 cmp_ok $path2->round($path2->travel_length), '==', 2.828, '... path travel length';
+is_deeply $path2->draw_end, [3, 3], 'checking end point of a path';
 
 done_testing();

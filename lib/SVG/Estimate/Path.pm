@@ -104,6 +104,7 @@ sub BUILDARGS {
         }
         push @commands, $command;
     }
+    $args->{draw_end} = $cursor;
 
     $args->{commands}      = \@commands;
     return $args;
