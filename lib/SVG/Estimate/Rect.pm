@@ -55,18 +55,22 @@ Float representing the height of the box.
 
 has x => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has y => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has width => (
     is => 'ro',
+    required => 1,
 );
 
 has height => (
     is => 'ro',
+    required => 1,
 );
 
 sub BUILDARGS {
@@ -85,7 +89,8 @@ sub BUILDARGS {
     }
     $args->{draw_start}   = $origin;
     $args->{draw_end}     = $origin;
-    $args->{shape_length} = ($args->{width} + $args->{height}) * 2;
+    my $disabled = $args->{width} == 0 || $args->{height} == 0;
+    $args->{shape_length} = $disabled ? 0 : ($args->{width} + $args->{height}) * 2;
     $args->{min_x}        = $origin->[0];
     $args->{min_y}        = $origin->[1];
     $args->{max_x}        = $opposite->[0];

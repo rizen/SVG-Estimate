@@ -56,18 +56,22 @@ Float representing the y end point.
 
 has x1 => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has y1 => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has x2 => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has y2 => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 sub BUILDARGS {

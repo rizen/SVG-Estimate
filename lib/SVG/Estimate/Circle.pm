@@ -52,14 +52,17 @@ Float representing the radius.
 
 has cx => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has cy => (
     is => 'ro',
+    default => sub { 0 },
 );
 
 has r => (
     is => 'ro',
+    required => 1,
 );
 
 sub BUILDARGS {
