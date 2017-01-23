@@ -3,6 +3,7 @@ package SVG::Estimate::Rect;
 use Moo;
 
 extends 'SVG::Estimate::Shape';
+with 'SVG::Estimate::Role::ArgsWithUnits';
 
 =head1 NAME
 
@@ -96,6 +97,10 @@ sub BUILDARGS {
     $args->{max_x}        = $opposite->[0];
     $args->{max_y}        = $opposite->[1];
     return $args;
+}
+
+sub args_with_units {
+    return qw/width height/;
 }
 
 1;

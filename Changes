@@ -1,3 +1,6 @@
+1.0107 2017-01-23
+ * Prevent SVG lengths from having units, for now.
+
 1.0106 2016-10-03
  * Update default and required parameters for SVG shapes
 

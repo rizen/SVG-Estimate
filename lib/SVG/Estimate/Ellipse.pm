@@ -5,6 +5,7 @@ use Math::Trig qw/pi/;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::MakePolygon';
+with 'SVG::Estimate::Role::ArgsWithUnits';
 
 =head1 NAME
 
@@ -105,6 +106,10 @@ sub BUILDARGS {
     $args->{max_x}        = $args->{cx} + $args->{rx};
     $args->{max_y}        = $args->{cy} + $args->{ry};
     return $args;
+}
+
+sub args_with_units {
+    return qw/rx ry/;
 }
 
 sub this_point {

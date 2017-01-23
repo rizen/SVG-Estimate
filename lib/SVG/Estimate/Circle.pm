@@ -5,6 +5,7 @@ use Math::Trig qw/pi/;
 
 extends 'SVG::Estimate::Shape';
 with 'SVG::Estimate::Role::MakePolygon';
+with 'SVG::Estimate::Role::ArgsWithUnits';
 
 =head1 NAME
 
@@ -64,6 +65,10 @@ has r => (
     is => 'ro',
     required => 1,
 );
+
+sub args_with_units {
+    return qw/r/;
+}
 
 sub BUILDARGS {
     my ($class, @args) = @_;
