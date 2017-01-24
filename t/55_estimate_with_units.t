@@ -10,5 +10,11 @@ dies_ok {
     $onesquare->estimate;
 } 'estimate dies when an SVG element has a % sign in it';
 
+use_ok 'SVG::Estimate';
+dies_ok {
+    my $onesquare = SVG::Estimate->new( file_path => $t.'/var/onesquare_with_units_transform.svg' );
+    $onesquare->estimate;
+} 'estimate dies when an SVG element has a % sign in it';
+
 done_testing();
 
