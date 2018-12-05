@@ -78,6 +78,9 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
+    foreach my $arg (qw(x1 x2 y1 y2)) {
+        $args->{$arg} //= 0;
+    }
     return $args unless exists $args->{transformer};
     my $point1 = $args->{transformer}->transform([$args->{x1}, $args->{y1}]);
     my $point2 = $args->{transformer}->transform([$args->{x2}, $args->{y2}]);

@@ -78,6 +78,8 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
+    $args->{x} //= 0;
+    $args->{y} //= 0;
     my $origin   = [ $args->{x}, $args->{y} ];
     my $opposite = [ $args->{x} + $args->{width}, $args->{y} + $args->{height} ];
     if ($args->{transformer}->has_transforms) {

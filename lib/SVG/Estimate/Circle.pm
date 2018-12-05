@@ -74,6 +74,8 @@ sub BUILDARGS {
     my ($class, @args) = @_;
     ##Upgrade to hashref
     my $args = @args % 2 ? $args[0] : { @args };
+    $args->{cx} //= 0;
+    $args->{cy} //= 0;
     my $center   = [ $args->{cx}, $args->{cy} ];
     if ($args->{transformer}->has_transforms) {
         ##Approximate the circle with a polygon
