@@ -30,9 +30,9 @@ This class extends L<SVG::Estimate::Polyline>.
 around _get_pairs => sub {
     my $orig = shift;
     my $self = shift;
-    my @points = $self->$orig(@_);
-    push @points, $points[0];
-    return @points
+    my @pairs = $self->$orig(@_);
+    push @pairs, $pairs[0];
+    return @pairs
 };
 
 1;
