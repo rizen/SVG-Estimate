@@ -121,10 +121,10 @@ sub this_point {
 
 sub _this_point {
     shift;
-    my ($t, $s, $c1, $p) = @_;
+    my ($t, $s, $c, $p) = @_;
     return ((1 - $t)**2 * $s)
-         + (2*(1 - $t)*$t*$c1)
-         + ($p**2 * $p)
+         + (2*(1 - $t)*$t*$c)
+         + ($t**2 * $p)
     ;
 }
 
