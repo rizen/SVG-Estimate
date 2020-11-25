@@ -96,6 +96,9 @@ sub BUILDARGS {
             $args->{max_y}      = $command->max_y;
             $args->{draw_start} = $command->end_point;
         }
+        elsif ($subpath->{type} eq 'moveto') {
+            $first = $command;  ##Save for the next close, if it comes
+        }
         $args->{shape_length}  += $command->shape_length;
         $args->{internal_travel_length} += $command->travel_length;
         $args->{min_x} = $command->min_x if $command->min_x < $args->{min_x};
