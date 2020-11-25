@@ -76,7 +76,7 @@ sub BUILDARGS {
     $args->{min_y} = min $args->{start_point}->[1], $args->{control}->[1], $args->{point}->[1];
     $args->{max_y} = max $args->{start_point}->[1], $args->{control}->[1], $args->{point}->[1];
 
-    $args->{shape_length}  = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 5, 0);
+    $args->{shape_length}  = $class->segment_length($args, 0, 1, $start, $end, 1e-4, 7, 0);
     $args->{travel_length} = 0;
 
     return $args;
