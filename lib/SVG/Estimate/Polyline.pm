@@ -132,6 +132,8 @@ sub BUILDARGS {
 
 sub _get_pairs {
     my ($class, $string) = @_;
+    $string =~ s/^\s+//;
+    $string =~ s/\s+$//;
     my @points = split $split_re, $string;
     my @pairs = pairs @points;
     return @pairs;

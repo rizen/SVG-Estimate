@@ -53,5 +53,10 @@ $move_arc->estimate;
 cmp_ok $move_arc->round($move_arc->length), '==', 237.835, 'move_arc - length';
 cmp_ok $move_arc->shape_count, '==', 1, 'move_arc - shape count';
 
+my $polyline = SVG::Estimate->new( file_path => $t.'/var/polyline_whitespace.svg' );
+$polyline->estimate;
+cmp_ok $polyline->round($polyline->shape_length), '==', 2, 'Parsing a polyline with embedded whitespace in the points element';
+cmp_ok $polyline->shape_count, '==', 1, 'polyline whitespace - shape count';
+
 done_testing();
 

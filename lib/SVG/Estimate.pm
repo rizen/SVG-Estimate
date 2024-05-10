@@ -225,7 +225,7 @@ sub read_svg {
     my $self = shift;
     my $xml = read_file($self->file_path);
     my $doc = XML::LibXML->load_xml(string => $xml, load_ext_dtd => 0);
-    my $hash = xml2hash($doc, order => 1); 
+    my $hash = xml2hash($doc, order => 1);
     return $hash;
 }
 

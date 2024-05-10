@@ -1,3 +1,6 @@
+1.02 2024-05-10
+ * Fix a bug with whitespace inside of text nodes in the SVG.
+
 1.0115 2021-05-11
  * Version bump to re-upload to PAUSE
 
